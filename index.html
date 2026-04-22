@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memòria de Projecte: TCIII - Escultura</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #e0e0e0;
+            --paper-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #333333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .paper {
+            background-color: var(--paper-color);
+            width: 100%;
+            max-width: 800px;
+            padding: 80px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            min-height: 1000px;
+            position: relative;
+        }
+
+        /* Estètica de capçalera professional */
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+        }
+
+        h1 { font-size: 24px; text-transform: uppercase; margin: 0; }
+        h2 { font-size: 18px; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 40px; }
+        
+        p { text-align: justify; margin-bottom: 20px; }
+
+        .metadata {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        /* Seccions */
+        section { margin-bottom: 60px; }
+
+        /* Botó final d'informe */
+        .box-analisis {
+            background-color: #f9f9f9;
+            border: 1px dashed #999;
+            padding: 30px;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .btn-pdf {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: background 0.3s;
+        }
+
+        .btn-pdf:hover { background-color: #333; }
+
+        @media (max-width: 600px) {
+            .paper { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="paper">
+        <header>
+            <div class="metadata">TCIII - ESCULTURA | CURS 2025-2026 | ALBA PÉREZ VALLS</div>
+            <h1>MEMÒRIA DE PROJECTE: ANÀLISI I CREACIÓ</h1>
+        </header>
+
+        <section id="introduccio">
+            <h2>1. INTRODUCCIÓ</h2>
+            <p>Escriu aquí la teva introducció. Explica el punt de partida del teu projecte d'escultura, els objectius principals i la motivació darrere de la teva recerca artística.</p>
+        </section>
+
+        <section id="marc-teoric">
+            <h2>2. MARC TEÒRIC</h2>
+            <p>Aquí pots desenvolupar els conceptes que fonamenten la teva obra. Quines teories, corrents artístics o conceptes filosòfics donen suport a la teva pràctica escultòrica?</p>
+        </section>
+
+        <section id="referents">
+            <h2>3. REFERENTS</h2>
+            <p>Enumera i explica els artistes, obres o moviments que t'han servit d'inspiració. Pots descriure com la seva estètica o mètode ha influït en el teu procés.</p>
+        </section>
+
+        <section id="metodologia">
+            <h2>4. METODOLOGIA I PROCÉS CREATIU</h2>
+            <p>Explica el "com". Des dels primers esbossos fins a les proves de materials. Descriu les tècniques utilitzades i com vas anar prenent decisions durant la creació.</p>
+        </section>
+
+        <section id="obra-final">
+            <h2>5. OBRA FINAL</h2>
+            <p>Presentació de l'escultura acabada. Descriu el resultat visual, les dimensions, els materials definitius i el significat que adquireix un cop completada.</p>
+        </section>
+
+        <section id="conclusions">
+            <h2>6. CONCLUSIONS</h2>
+            <p>Reflexió final sobre el procés. Què has après? S'han complert els teus objectius inicials? Quines noves línies d'investigació se t'han obert?</p>
+        </section>
+
+        <section id="referencies">
+            <h2>7. REFERÈNCIES</h2>
+            <p>Llistat de llibres, articles, webs i altres fonts consultades durant la realització del projecte.</p>
+        </section>
+
+        <div class="box-analisis">
+            <p><strong>[SISTEMA DE CONTROL DE LECTURA ACTIU]</strong></p>
+            <p>S'ha detectat la teva interacció amb el document. Pots descarregar el registre de la teva sessió de lectura prement el botó.</p>
+            <button class="btn-pdf" onclick="generarInformeInteraccio()">Generar Informe de Lectura</button>
+        </div>
+    </div>
+
+    <script>
+        // Lògica per registrar la interacció
+        const horaInici = Date.now();
+        let seccionsVistes = new Set();
+
+        // Detectar quines seccions es llegeixen en fer scroll
+        window.onscroll = function() {
+            const seccions = ['introduccio', 'marc-teoric', 'referents', 'metodologia', 'obra-final', 'conclusions', 'referencies'];
+            seccions.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top >= 0 && rect.top <= window.innerHeight / 2) {
+                        seccionsVistes.add(id.toUpperCase().replace('-', ' '));
+                    }
+                }
+            });
+        };
+
+        function generarInformeInteraccio() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const tempsTotal = Math.floor((Date.now() - horaInici) / 1000);
+            const dataActual = new Date().toLocaleString();
+
+            // Disseny estil "Vigilància" com el que teníem a l'IA
+            doc.setFont("courier", "bold");
+            doc.setFontSize(14);
+            doc.text("REGISTRE D'INTERACCIO AMB LA MEMORIA", 15, 25);
+            
+            doc.setFontSize(10);
+            doc.setFont("courier", "normal");
+            doc.text("---------------------------------------------------", 15, 35);
+            doc.text(`USUARI: Visitant Extern`, 15, 45);
+            doc.text(`DATA: ${dataActual}`, 15, 55);
+            doc.text(`TEMPS TOTAL D'EXPOSICIO: ${tempsTotal} segons`, 15, 65);
+            doc.text(`UBICACIO: Visor Web GitHub Pages`, 15, 75);
+            doc.text("---------------------------------------------------", 15, 85);
+
+            doc.setFont("courier", "bold");
+            doc.text("SECCIONS ANALITZADES DURANT LA LECTURA:", 15, 100);
+            
+            doc.setFont("courier", "normal");
+            let y = 110;
+            if (seccionsVistes.size === 0) {
+                doc.text("- No s'ha detectat scroll profund.", 15, y);
+            } else {
+                seccionsVistes.forEach(seccio => {
+                    doc.text(`- ${seccio}`, 15, y);
+                    y += 10;
+                });
+            }
+
+            doc.text("---------------------------------------------------", 15, y + 10);
+            doc.text("ESTAT: LECTURA VERIFICADA", 15, y + 20);
+
+            doc.save("informe_lectura_alba_perez.pdf");
+        }
+    </script>
+</body>
+</html>
