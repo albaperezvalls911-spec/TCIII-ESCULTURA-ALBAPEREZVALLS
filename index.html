@@ -1,172 +1,761 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alba Pérez Valls | Parlar per la terra</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0; 
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #1a1a1a;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOTA L'OLL — Memòria Artística</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f0ece4;
+    --red: #c0392b;
+    --grey: #888;
+    --light-grey: #2a2a2a;
+  }
 
-        .infinite-paper {
-            background-color: #ffffff;
-            width: 95%;
-            max-width: 1600px;
-            margin: 40px auto;
-            padding: 100px 80px;
-            box-sizing: border-box;
-            min-height: 100vh;
-            box-shadow: 0 0 40px rgba(0,0,0,0.1);
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        header { margin-bottom: 120px; border-bottom: 1px solid #000; padding-bottom: 20px; }
-        .project-title { font-size: 56px; font-weight: bold; text-transform: uppercase; letter-spacing: -2px; margin: 0; }
-        .author-line { font-size: 14px; text-transform: uppercase; letter-spacing: 4px; color: #555; margin-top: 10px; }
+  html { scroll-behavior: smooth; }
 
-        section { margin-bottom: 150px; }
-        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 5px; color: #000; margin-bottom: 30px; font-weight: bold; }
-        p { font-size: 20px; line-height: 1.6; font-weight: 400; margin-bottom: 30px; text-align: justify; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    cursor: crosshair;
+  }
 
-        footer { margin-top: 100px; padding-top: 30px; border-top: 1px solid #eee; }
-        .tracking-panel { padding: 30px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #000; background: #f9f9f9; }
-        .btn-download { background: #000; color: #fff; border: none; padding: 15px 30px; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
-    </style>
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* SCANLINE */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* HEADER */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(240,236,228,0.1);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--red); }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  nav a {
+    color: var(--grey);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--white); }
+
+  /* TIMER BADGE */
+  #timer-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 0.25rem 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 20%, rgba(192,57,43,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(192,57,43,0.04) 0%, transparent 60%);
+  }
+
+  .eye-container {
+    position: absolute;
+    top: 50%;
+    right: 6%;
+    transform: translateY(-50%);
+    width: min(38vw, 380px);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .eye-svg { width: 100%; height: 100%; animation: eye-rotate 20s linear infinite; }
+
+  @keyframes eye-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .eye-center {
+    position: absolute;
+    width: 38%;
+    height: 38%;
+    border-radius: 50%;
+    background: var(--red);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .eye-pupil {
+    position: absolute;
+    width: 16%;
+    height: 16%;
+    border-radius: 50%;
+    background: var(--black);
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.85; }
+  }
+
+  .hero-text { position: relative; z-index: 2; max-width: 55%; }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .line2 {
+    display: block;
+    -webkit-text-stroke: 1px var(--white);
+    color: transparent;
+  }
+
+  .hero-desc {
+    font-size: 0.8rem;
+    color: var(--grey);
+    max-width: 380px;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .scroll-hint {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--grey);
+    animation: scroll-line 2s ease-in-out infinite;
+  }
+
+  @keyframes scroll-line {
+    0%, 100% { width: 40px; }
+    50% { width: 70px; }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-style: italic;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--red), transparent);
+    margin: 0 0 3rem 0;
+  }
+
+  p {
+    color: #ccc;
+    margin-bottom: 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  /* QUOTE BLOCK */
+  blockquote {
+    border-left: 2px solid var(--red);
+    padding: 1rem 1.5rem;
+    margin: 2.5rem 0;
+    background: rgba(192,57,43,0.05);
+  }
+
+  blockquote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--white);
+    margin: 0 0 0.5rem;
+  }
+
+  blockquote cite {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    text-transform: uppercase;
+  }
+
+  /* GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .card {
+    border: 1px solid rgba(240,236,228,0.1);
+    padding: 1.5rem;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .card:hover { border-color: var(--red); }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(192,57,43,0.2);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .card h3 {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .card p {
+    font-size: 0.75rem;
+    color: var(--grey);
+    margin: 0;
+  }
+
+  /* TIMELINE */
+  .timeline { margin: 2rem 0; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 80px 1px 1fr;
+    gap: 0 1.5rem;
+    margin-bottom: 2rem;
+    align-items: start;
+  }
+
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--red);
+    text-align: right;
+    padding-top: 0.2rem;
+  }
+
+  .tl-line {
+    background: rgba(240,236,228,0.15);
+    position: relative;
+  }
+
+  .tl-line::before {
+    content: '';
+    position: absolute;
+    top: 0.4rem;
+    left: -3px;
+    width: 7px;
+    height: 7px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+
+  .tl-content h4 {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+
+  .tl-content p {
+    font-size: 0.75rem;
+    color: var(--grey);
+    margin: 0;
+  }
+
+  /* IMAGE GRID */
+  .img-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.5rem;
+    margin: 2.5rem 0;
+  }
+
+  .img-placeholder {
+    background: var(--light-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(192,57,43,0.05) 0%, transparent 50%);
+  }
+
+  .img-placeholder.tall { grid-row: span 2; aspect-ratio: 0.65; }
+  .img-placeholder.wide { aspect-ratio: 2.2; }
+  .img-placeholder.sq { aspect-ratio: 1.1; }
+
+  .img-inner { text-align: center; line-height: 2; }
+  .img-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; color: var(--red); opacity: 0.4; }
+
+  /* REFLECTION BOX */
+  .reflection-box {
+    background: rgba(240,236,228,0.03);
+    border: 1px solid rgba(240,236,228,0.08);
+    padding: 2rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .reflection-box::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: var(--red);
+    opacity: 0.1;
+    position: absolute;
+    top: -1rem;
+    left: 1rem;
+    line-height: 1;
+  }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0; }
+
+  .tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(240,236,228,0.2);
+    padding: 0.25rem 0.6rem;
+    color: var(--grey);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(240,236,228,0.1);
+    padding: 4rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-val {
+    font-size: 0.8rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-sub {
+    font-size: 0.7rem;
+    color: var(--grey);
+  }
+
+  /* ACTIVITY BUTTON */
+  #activity-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+    border: 1px solid var(--red);
+    color: var(--white);
+    padding: 1rem 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  #activity-btn:hover {
+    background: var(--red);
+  }
+
+  #activity-btn .btn-icon { font-size: 1.2rem; }
+
+  #print-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: transparent;
+    border: 1px solid rgba(240,236,228,0.2);
+    color: var(--grey);
+    padding: 1rem 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    justify-content: center;
+  }
+
+  #print-btn:hover {
+    border-color: var(--white);
+    color: var(--white);
+  }
+
+  .copyright {
+    font-size: 0.65rem;
+    color: rgba(136,136,136,0.5);
+    letter-spacing: 0.1em;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  /* SECTION TRACKER INDICATOR */
+  .tracker-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 500;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--grey);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .dot.active {
+    background: var(--red);
+    border-color: var(--red);
+  }
+
+  /* READING PROGRESS */
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--red);
+    z-index: 10000;
+    transition: width 0.1s;
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    header { padding: 0.75rem 1rem; }
+    nav a:not(.nav-timer) { display: none; }
+    .hero { padding: 0 1rem 3rem; }
+    .hero-text { max-width: 100%; }
+    h1 { font-size: clamp(3rem, 15vw, 5rem); }
+    .eye-container {
+      position: relative;
+      top: auto; right: auto;
+      transform: none;
+      width: 60%;
+      margin: 2rem auto 0;
+    }
+    .hero { flex-direction: column-reverse; min-height: auto; padding-top: 6rem; }
+    section { padding: 3rem 1rem; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .img-grid { grid-template-columns: 1fr; }
+    .img-placeholder.tall { grid-row: span 1; aspect-ratio: 1.5; }
+    .tracker-dots { display: none; }
+  }
+
+  @media print {
+    header, .tracker-dots, #progress-bar, #activity-btn, #print-btn, footer .btn-row { display: none; }
+    body { background: white; color: black; }
+    .hero-bg, body::before, body::after { display: none; }
+  }
+</style>
 </head>
 <body>
 
-    <div class="infinite-paper">
-        <header>
-            <h1 class="project-title">Parlar per la terra</h1>
-            <div class="author-line">Memòria de Projecte | Alba Pérez Valls</div>
-        </header>
+<div id="progress-bar"></div>
 
-        <section id="INTRODUCCIO">
-            <h2>01 / Introducció</h2>
-            <p>El projecte "Parlar per la terra" explora la connexió tàctil entre la matèria i el territori...</p>
-        </section>
+<!-- HEADER -->
+<header>
+  <a href="#hero" class="logo">SOTA <span>L'</span>OLL</a>
+  <nav>
+    <a href="#introduccio">Introducció</a>
+    <a href="#marc-conceptual">Marc</a>
+    <a href="#obra">Obra</a>
+    <a href="#reflexio">Reflexió</a>
+    <a href="#bibliografia">Refs.</a>
+    <span id="timer-badge">⬤ 00:00:00</span>
+  </nav>
+</header>
 
-        <section id="MARC TEORIC">
-            <h2>02 / Marc Teòric</h2>
-            <p>La llengua com a fenomen físic, polític i territorial, entesa com una pràctica col·lectiva de resistència...</p>
-        </section>
+<!-- NAV DOTS -->
+<div class="tracker-dots" id="tracker-dots">
+  <div class="dot active" data-target="hero" title="Portada"></div>
+  <div class="dot" data-target="introduccio" title="Introducció"></div>
+  <div class="dot" data-target="marc-conceptual" title="Marc Conceptual"></div>
+  <div class="dot" data-target="obra" title="Obra Artística"></div>
+  <div class="dot" data-target="reflexio" title="Reflexió"></div>
+  <div class="dot" data-target="bibliografia" title="Bibliografia"></div>
+</div>
 
-        <section id="METODOLOGIA">
-            <h2>03 / Metodologia</h2>
-            <p>Procés d'extracció de fang i anàlisi de l'oralitat en contextos domèstics...</p>
-        </section>
+<!-- HERO -->
+<section class="hero" id="hero" data-section="Portada">
+  <div class="hero-bg"></div>
 
-        <footer>
-            <div class="tracking-panel">
-                <div>
-                    <span style="font-family: monospace; font-size: 12px; font-weight: bold;">[ ANALISI CONDUCTUAL DEL LECTOR ]</span><br>
-                    <span style="font-size: 14px;">El sistema ha registrat el teu recorregut visual i temps d'exposició.</span>
-                </div>
-                <button class="btn-download" onclick="generarInformeTecnic()">Baixar Informe Final (.pdf)</button>
-            </div>
-        </footer>
+  <div class="eye-container">
+    <svg class="eye-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" stroke="rgba(192,57,43,0.3)" stroke-width="0.5" stroke-dasharray="4 6"/>
+      <circle cx="100" cy="100" r="75" stroke="rgba(240,236,228,0.08)" stroke-width="0.5"/>
+      <circle cx="100" cy="100" r="55" stroke="rgba(192,57,43,0.15)" stroke-width="0.5" stroke-dasharray="2 4"/>
+      <!-- tick marks -->
+      <g stroke="rgba(240,236,228,0.3)" stroke-width="0.8">
+        <line x1="100" y1="5" x2="100" y2="18"/>
+        <line x1="100" y1="182" x2="100" y2="195"/>
+        <line x1="5" y1="100" x2="18" y2="100"/>
+        <line x1="182" y1="100" x2="195" y2="100"/>
+        <line x1="29.3" y1="29.3" x2="38.6" y2="38.6"/>
+        <line x1="161.4" y1="161.4" x2="170.7" y2="170.7"/>
+        <line x1="170.7" y1="29.3" x2="161.4" y2="38.6"/>
+        <line x1="38.6" y1="161.4" x2="29.3" y2="170.7"/>
+      </g>
+      <!-- crosshair -->
+      <g stroke="rgba(192,57,43,0.5)" stroke-width="0.6">
+        <line x1="100" y1="55" x2="100" y2="75"/>
+        <line x1="100" y1="125" x2="100" y2="145"/>
+        <line x1="55" y1="100" x2="75" y2="100"/>
+        <line x1="125" y1="100" x2="145" y2="100"/>
+      </g>
+    </svg>
+    <div class="eye-center"></div>
+    <div class="eye-pupil"></div>
+  </div>
+
+  <div class="hero-text">
+    <p class="eyebrow">Memòria Artística · 2024–2025</p>
+    <h1>SOTA<br><span class="line2">L'OLL</span></h1>
+    <p class="hero-desc">Un treball d'investigació artística sobre la vigilància institucional, el panòptic contemporani i la construcció del subjecte vigilat.</p>
+    <div class="scroll-hint"><span class="scroll-line"></span> Desplaça't per llegir</div>
+  </div>
+</section>
+
+<!-- INTRODUCCIÓ -->
+<section id="introduccio" data-section="Introducció">
+  <p class="section-label">01 — Introducció</p>
+  <h2>Viure dins la mirada</h2>
+  <div class="section-divider"></div>
+
+  <p>Aquest treball neix de la voluntat d'explorar artísticament el fenomen de la vigilància institucional contemporània: un sistema invisible però omnipresent que estructura les nostres experiències quotidianes dins de l'escola, l'hospital, la presó i l'espai públic.</p>
+
+  <p>La institució, entesa des d'una perspectiva foucaultiana, no és tan sols un edifici o una organització, sinó un dispositiu de poder que produeix subjectes normalitzats. Ser observat és, en si mateix, un acte de producció identitària.</p>
+
+  <blockquote>
+    <p>El poder disciplinari [...] s'exerceix tornant-se invisible; en canvi, imposa als qui sotmet un principi de visibilitat obligatòria.</p>
+    <cite>— Michel Foucault, Vigilar i Castigar (1975)</cite>
+  </blockquote>
+
+  <p>A través d'una pràctica artística que combina la instal·lació, la fotografia documental i la intervenció en l'espai, aquest projecte qüestiona qui té el dret de mirar, qui és vist i quines conseqüències té aquesta asimetria sobre la llibertat individual.</p>
+
+  <div class="tags">
+    <span class="tag">Vigilància</span>
+    <span class="tag">Biopolítica</span>
+    <span class="tag">Panòptic</span>
+    <span class="tag">Control Social</span>
+    <span class="tag">Institucions</span>
+    <span class="tag">Art Polític</span>
+  </div>
+</section>
+
+<!-- MARC CONCEPTUAL -->
+<section id="marc-conceptual" data-section="Marc Conceptual">
+  <p class="section-label">02 — Marc Conceptual</p>
+  <h2>El panòptic i els seus descendents</h2>
+  <div class="section-divider"></div>
+
+  <p>Jeremy Bentham va concebre el Panòptic el 1791 com una arquitectura carcerària on un sol guarda invisible podia observar tots els presos. Foucault va transformar aquesta imatge en una metàfora del poder modern: el control no s'exerceix per la força sinó per la internalització de la mirada.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-num">01</div>
+      <h3>El Panòptic</h3>
+      <p>Bentham i Foucault. L'arquitectura com a dispositiu de vigilància. La torre central i les cel·les perimetrals com a model del poder modern.</p>
     </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <h3>Biopolítica</h3>
+      <p>El govern dels cossos. L'escola, la clínica i la presó com a espais de producció de subjectes dòcils i útils per a l'ordre social.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <h3>Dataveillance</h3>
+      <p>La vigilància digital del segle XXI. Del CCTV a les cookies. El panòptic algorítmic i l'economia de l'atenció com a noves formes de control.</p>
+    </div>
+    <div class="card">
+      <div class="card-num">04</div>
+      <h3>Controvigilància</h3>
+      <p>El sousveillance com a resposta. La càmera com a eina d'empoderament. Pràctiques artístiques de resistència i visibilitat inversa.</p>
+    </div>
+  </div>
 
-    <script>
-        // --- LOGICA DE RASTREIG ---
-        const dadesTemps = { "INTRODUCCIO": 0, "MARC TEORIC": 0, "METODOLOGIA": 0 };
-        let seccioActual = "INTRODUCCIO";
-        let zoomDetectat = false;
-        let textSeleccionat = false;
+  <h3 style="font-family:'Playfair Display',serif;font-style:italic;margin:2rem 0 1rem;font-size:1.2rem;">Cronologia del Control</h3>
 
-        // Cronòmetre: suma 1 segon a la secció que està en pantalla
-        setInterval(() => {
-            const seccions = Object.keys(dadesTemps);
-            seccions.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
-                        dadesTemps[id]++;
-                    }
-                }
-            });
-        }, 1000);
-
-        // Detectar si l'usuari fa zoom (canvi de tamany de finestra)
-        window.addEventListener('resize', () => { zoomDetectat = true; });
-        // Detectar si selecciona text
-        document.addEventListener('selectionchange', () => { 
-            if(window.getSelection().toString().length > 5) textSeleccionat = true; 
-        });
-
-        // --- GENERACIÓ DEL PDF ESTIL "PERSONA_1_1325" ---
-        function generarInformeTecnic() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const ara = new Date();
-            const tempsTotal = Object.values(dadesTemps).reduce((a, b) => a + b, 0);
-
-            // Font Courier (Impremta / Màquina)
-            doc.setFont("courier", "bold");
-            doc.setFontSize(16);
-            doc.text("REGISTRE DE SEGUIMENT CONDUCTUAL - MEMÒRIA", 20, 20);
-            
-            doc.setFontSize(10);
-            doc.text("---------------------------------------------------------", 20, 28);
-            
-            // Capçalera estil fitxa
-            const capçalera = [
-                ["REFERÈNCIA", `ID-${ara.getHours()}${ara.getMinutes()}-ALBA`],
-                ["UBICACIÓ", "Terminal Web GitHub Pages"],
-                ["CRONOLOGIA", ara.toLocaleString()],
-                ["TEMPS TOTAL", `${tempsTotal} segons`]
-            ];
-
-            let y = 35;
-            capçalera.forEach(linia => {
-                doc.text(`"${linia[0]}", "${linia[1]}"`, 20, y);
-                y += 7;
-            });
-
-            doc.text("---------------------------------------------------------", 20, y);
-            y += 10;
-
-            // Gràfica de temps (Visualització de dades)
-            doc.setFont("courier", "bold");
-            doc.text("ANÀLISI PER APARTATS (DISTRIBUCIÓ TEMPORAL):", 20, y);
-            y += 10;
-            doc.setFont("courier", "normal");
-
-            Object.entries(dadesTemps).forEach(([nom, segons]) => {
-                const barres = "█".repeat(Math.min(segons, 20)); // Gràfica de barres
-                doc.text(`${nom.padEnd(15)} | ${barres} (${segons}s)`, 20, y);
-                y += 8;
-            });
-
-            y += 10;
-            doc.setFont("courier", "bold");
-            doc.text("OBSERVACIONS TÈCNIQUES DEL SUBJECTE:", 20, y);
-            y += 10;
-            doc.setFont("courier", "normal");
-            
-            const obs = [
-                `* INTERACCIÓ AMB EL TEXT: ${textSeleccionat ? "S'ha detectat selecció i còpia de fragments." : "Lectura passiva, sense selecció de text."}`,
-                `* MANIPULACIÓ VISUAL (ZOOM): ${zoomDetectat ? "L'usuari ha realitzat ajustos d'escala/zoom." : "No s'han detectat canvis d'escala."}`,
-                `* ACTIVITAT: El subjecte ha centrat l'atenció principalment a ${Object.keys(dadesTemps).reduce((a, b) => dadesTemps[a] > dadesTemps[b] ? a : b)}.`
-            ];
-
-            obs.forEach(o => {
-                const textLlarg = doc.splitTextToSize(o, 170);
-                doc.text(textLlarg, 20, y);
-                y += (textLlarg.length * 5) + 2;
-            });
-
-            doc.text("---------------------------------------------------------", 20, y + 5);
-            doc.text("ESTAT: DOCUMENT DE RECERCA FINALITZAT", 20, y + 15);
-
-            doc.save(`informe_conductual_alba.pdf`);
-        }
-    </script>
-</body>
-</html>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-year">1791</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <h4>Panòptic de Bentham</h4>
+        <p>Proposta arquitectònica d'una presó circular amb torre de vigilància central.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">1975</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <h4>Vigilar i Castigar</h4>
+        <p>Foucault publica la genealogia del poder disciplinari modern a través de la història de la presó.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">1984</div>
+      <div class="tl-line"></div>
+      <div class="tl-content">
+        <h4>CCTV massiu</h4>
+        <p>Desplegament de càmeres de seguretat a l'espai públic. El Regne Unit en serà el pioner global.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
