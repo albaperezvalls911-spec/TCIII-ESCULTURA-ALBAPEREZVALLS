@@ -10,16 +10,14 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0; 
-            /* Prioritat a Helvetica */
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #1a1a1a;
         }
 
-        /* Paper ample i horitzontal */
         .infinite-paper {
             background-color: #ffffff;
-            width: 95%; /* Ocupa gairebé tota l'amplada de la pantalla */
-            max-width: 1600px; /* Límit per pantalles molt grans */
+            width: 95%;
+            max-width: 1600px;
             margin: 40px auto;
             padding: 100px 80px;
             box-sizing: border-box;
@@ -27,99 +25,17 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
-        header {
-            margin-bottom: 120px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 20px;
-        }
+        header { margin-bottom: 120px; border-bottom: 1px solid #000; padding-bottom: 20px; }
+        .project-title { font-size: 56px; font-weight: bold; text-transform: uppercase; letter-spacing: -2px; margin: 0; }
+        .author-line { font-size: 14px; text-transform: uppercase; letter-spacing: 4px; color: #555; margin-top: 10px; }
 
-        .project-title {
-            font-size: 56px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin: 0;
-        }
+        section { margin-bottom: 150px; }
+        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 5px; color: #000; margin-bottom: 30px; font-weight: bold; }
+        p { font-size: 20px; line-height: 1.6; font-weight: 400; margin-bottom: 30px; text-align: justify; }
 
-        .author-line {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #555;
-            margin-top: 10px;
-        }
-
-        /* Disposició de contingut en columnes si vols (opcional) */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Dues columnes per aprofitar l'espai horitzontal */
-            gap: 60px;
-            align-items: start;
-        }
-
-        section {
-            margin-bottom: 150px;
-        }
-
-        h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            color: #000;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        p {
-            font-size: 20px; /* Lletra una mica més gran per a pantalles amples */
-            line-height: 1.6;
-            font-weight: 400;
-            margin-bottom: 30px;
-            text-align: justify;
-        }
-
-        .foto-container {
-            margin: 40px 0;
-            width: 100%;
-        }
-
-        .foto-container img {
-            width: 100%;
-            height: auto;
-            filter: grayscale(20%); /* Un toc artístic */
-        }
-
-        footer {
-            margin-top: 100px;
-            padding-top: 30px;
-            border-top: 1px solid #eee;
-        }
-
-        .tracking-panel {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #000;
-        }
-
-        .btn-download {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        /* Ajust per a mòbils */
-        @media (max-width: 1024px) {
-            .content-grid { grid-template-columns: 1fr; }
-            .infinite-paper { width: 100%; margin: 0; padding: 40px 20px; }
-            .project-title { font-size: 38px; }
-        }
+        footer { margin-top: 100px; padding-top: 30px; border-top: 1px solid #eee; }
+        .tracking-panel { padding: 30px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #000; background: #f9f9f9; }
+        .btn-download { background: #000; color: #fff; border: none; padding: 15px 30px; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -130,47 +46,126 @@
             <div class="author-line">Memòria de Projecte | Alba Pérez Valls</div>
         </header>
 
-        <section id="introduccio">
+        <section id="INTRODUCCIO">
             <h2>01 / Introducció</h2>
-            <div class="content-grid">
-                <div>
-                    <p>El projecte "Parlar per la terra" explora la connexió tàctil entre la matèria i el territori. Aquesta memòria documenta el procés de recerca sobre l'escultura orgànica i la seva relació amb l'entorn geològic.</p>
-                </div>
-                <div class="foto-container">
-                    <img src="foto_intro.jpg" alt="Imatge introductoria">
-                </div>
-            </div>
+            <p>El projecte "Parlar per la terra" explora la connexió tàctil entre la matèria i el territori...</p>
         </section>
 
-        <section id="marc-teoric">
+        <section id="MARC TEORIC">
             <h2>02 / Marc Teòric</h2>
-            <p>Aquí pots escriure el teu text de marc teòric. En aquest format ample, el text respira molt més i pots jugar a posar imatges al costat dels paràgrafs per fer-ho més visual.</p>
+            <p>La llengua com a fenomen físic, polític i territorial, entesa com una pràctica col·lectiva de resistència...</p>
+        </section>
+
+        <section id="METODOLOGIA">
+            <h2>03 / Metodologia</h2>
+            <p>Procés d'extracció de fang i anàlisi de l'oralitat en contextos domèstics...</p>
         </section>
 
         <footer>
             <div class="tracking-panel">
                 <div>
-                    <span style="font-size: 11px; font-weight: bold;">SYSTEM ANALYSIS: ACTIVE SESSION</span><br>
-                    <span style="font-size: 13px;">S'està processant la interacció conductual del lector.</span>
+                    <span style="font-family: monospace; font-size: 12px; font-weight: bold;">[ ANALISI CONDUCTUAL DEL LECTOR ]</span><br>
+                    <span style="font-size: 14px;">El sistema ha registrat el teu recorregut visual i temps d'exposició.</span>
                 </div>
-                <button class="btn-download" onclick="exportPDF()">Generar Certificat de Lectura</button>
+                <button class="btn-download" onclick="generarInformeTecnic()">Baixar Informe Final (.pdf)</button>
             </div>
         </footer>
     </div>
 
     <script>
-        const start = Date.now();
-        function exportPDF() {
+        // --- LOGICA DE RASTREIG ---
+        const dadesTemps = { "INTRODUCCIO": 0, "MARC TEORIC": 0, "METODOLOGIA": 0 };
+        let seccioActual = "INTRODUCCIO";
+        let zoomDetectat = false;
+        let textSeleccionat = false;
+
+        // Cronòmetre: suma 1 segon a la secció que està en pantalla
+        setInterval(() => {
+            const seccions = Object.keys(dadesTemps);
+            seccions.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+                        dadesTemps[id]++;
+                    }
+                }
+            });
+        }, 1000);
+
+        // Detectar si l'usuari fa zoom (canvi de tamany de finestra)
+        window.addEventListener('resize', () => { zoomDetectat = true; });
+        // Detectar si selecciona text
+        document.addEventListener('selectionchange', () => { 
+            if(window.getSelection().toString().length > 5) textSeleccionat = true; 
+        });
+
+        // --- GENERACIÓ DEL PDF ESTIL "PERSONA_1_1325" ---
+        function generarInformeTecnic() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('l', 'mm', 'a4'); // 'l' de landscape (horitzontal)
-            const segons = Math.floor((Date.now() - start) / 1000);
+            const doc = new jsPDF();
+            const ara = new Date();
+            const tempsTotal = Object.values(dadesTemps).reduce((a, b) => a + b, 0);
+
+            // Font Courier (Impremta / Màquina)
+            doc.setFont("courier", "bold");
+            doc.setFontSize(16);
+            doc.text("REGISTRE DE SEGUIMENT CONDUCTUAL - MEMÒRIA", 20, 20);
             
-            doc.setFont("helvetica", "bold");
-            doc.text("REGISTRE D'INTERACCIÓ ARTÍSTICA", 20, 20);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Projecte: Parlar per la terra`, 20, 40);
-            doc.text(`Temps de lectura detectat: ${segons} segons`, 20, 50);
-            doc.save("registre-lectura-alba.pdf");
+            doc.setFontSize(10);
+            doc.text("---------------------------------------------------------", 20, 28);
+            
+            // Capçalera estil fitxa
+            const capçalera = [
+                ["REFERÈNCIA", `ID-${ara.getHours()}${ara.getMinutes()}-ALBA`],
+                ["UBICACIÓ", "Terminal Web GitHub Pages"],
+                ["CRONOLOGIA", ara.toLocaleString()],
+                ["TEMPS TOTAL", `${tempsTotal} segons`]
+            ];
+
+            let y = 35;
+            capçalera.forEach(linia => {
+                doc.text(`"${linia[0]}", "${linia[1]}"`, 20, y);
+                y += 7;
+            });
+
+            doc.text("---------------------------------------------------------", 20, y);
+            y += 10;
+
+            // Gràfica de temps (Visualització de dades)
+            doc.setFont("courier", "bold");
+            doc.text("ANÀLISI PER APARTATS (DISTRIBUCIÓ TEMPORAL):", 20, y);
+            y += 10;
+            doc.setFont("courier", "normal");
+
+            Object.entries(dadesTemps).forEach(([nom, segons]) => {
+                const barres = "█".repeat(Math.min(segons, 20)); // Gràfica de barres
+                doc.text(`${nom.padEnd(15)} | ${barres} (${segons}s)`, 20, y);
+                y += 8;
+            });
+
+            y += 10;
+            doc.setFont("courier", "bold");
+            doc.text("OBSERVACIONS TÈCNIQUES DEL SUBJECTE:", 20, y);
+            y += 10;
+            doc.setFont("courier", "normal");
+            
+            const obs = [
+                `* INTERACCIÓ AMB EL TEXT: ${textSeleccionat ? "S'ha detectat selecció i còpia de fragments." : "Lectura passiva, sense selecció de text."}`,
+                `* MANIPULACIÓ VISUAL (ZOOM): ${zoomDetectat ? "L'usuari ha realitzat ajustos d'escala/zoom." : "No s'han detectat canvis d'escala."}`,
+                `* ACTIVITAT: El subjecte ha centrat l'atenció principalment a ${Object.keys(dadesTemps).reduce((a, b) => dadesTemps[a] > dadesTemps[b] ? a : b)}.`
+            ];
+
+            obs.forEach(o => {
+                const textLlarg = doc.splitTextToSize(o, 170);
+                doc.text(textLlarg, 20, y);
+                y += (textLlarg.length * 5) + 2;
+            });
+
+            doc.text("---------------------------------------------------------", 20, y + 5);
+            doc.text("ESTAT: DOCUMENT DE RECERCA FINALITZAT", 20, y + 15);
+
+            doc.save(`informe_conductual_alba.pdf`);
         }
     </script>
 </body>
