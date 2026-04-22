@@ -9,114 +9,116 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Fons de la pantalla gris suau */
-            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #f0f0f0; 
+            /* Prioritat a Helvetica */
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #1a1a1a;
         }
 
-        /* El "Paper en blanc" continu */
+        /* Paper ample i horitzontal */
         .infinite-paper {
             background-color: #ffffff;
-            width: 100%;
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 120px 60px;
+            width: 95%; /* Ocupa gairebé tota l'amplada de la pantalla */
+            max-width: 1600px; /* Límit per pantalles molt grans */
+            margin: 40px auto;
+            padding: 100px 80px;
             box-sizing: border-box;
             min-height: 100vh;
-            box-shadow: 0 0 50px rgba(0,0,0,0.05);
+            box-shadow: 0 0 40px rgba(0,0,0,0.1);
         }
 
         header {
-            margin-bottom: 150px;
-            text-align: left;
+            margin-bottom: 120px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 20px;
         }
 
         .project-title {
-            font-size: 48px;
-            font-weight: 200;
+            font-size: 56px;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
             margin: 0;
         }
 
         .author-line {
-            font-size: 13px;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #888;
-            margin-top: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
+            letter-spacing: 4px;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Disposició de contingut en columnes si vols (opcional) */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Dues columnes per aprofitar l'espai horitzontal */
+            gap: 60px;
+            align-items: start;
         }
 
         section {
-            margin-bottom: 120px;
+            margin-bottom: 150px;
         }
 
         h2 {
-            font-size: 11px;
+            font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            color: #999;
-            margin-bottom: 40px;
+            letter-spacing: 5px;
+            color: #000;
+            margin-bottom: 30px;
+            font-weight: bold;
         }
 
         p {
-            font-size: 18px;
-            line-height: 1.8;
-            font-weight: 300;
+            font-size: 20px; /* Lletra una mica més gran per a pantalles amples */
+            line-height: 1.6;
+            font-weight: 400;
             margin-bottom: 30px;
             text-align: justify;
         }
 
-        /* Estil per a les FOTOS */
         .foto-container {
-            margin: 60px -20px; /* Surt una mica dels marges per donar aire */
-            text-align: center;
+            margin: 40px 0;
+            width: 100%;
         }
 
         .foto-container img {
             width: 100%;
             height: auto;
-            display: block;
-        }
-
-        .peu-foto {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 15px;
-            font-style: italic;
+            filter: grayscale(20%); /* Un toc artístic */
         }
 
         footer {
-            margin-top: 200px;
-            padding-top: 50px;
+            margin-top: 100px;
+            padding-top: 30px;
             border-top: 1px solid #eee;
         }
 
         .tracking-panel {
-            background: #fdfdfd;
-            border: 1px solid #eee;
-            padding: 30px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid #000;
         }
 
         .btn-download {
             background: #000;
             color: #fff;
             border: none;
-            padding: 12px 25px;
-            font-size: 10px;
+            padding: 15px 30px;
+            font-size: 12px;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 2px;
             cursor: pointer;
         }
 
-        @media (max-width: 600px) {
-            .infinite-paper { padding: 60px 25px; }
-            .project-title { font-size: 32px; }
+        /* Ajust per a mòbils */
+        @media (max-width: 1024px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .infinite-paper { width: 100%; margin: 0; padding: 40px 20px; }
+            .project-title { font-size: 38px; }
         }
     </style>
 </head>
@@ -125,41 +127,33 @@
     <div class="infinite-paper">
         <header>
             <h1 class="project-title">Parlar per la terra</h1>
-            <div class="author-line">Memòria de projecte | Alba Pérez Valls</div>
+            <div class="author-line">Memòria de Projecte | Alba Pérez Valls</div>
         </header>
 
         <section id="introduccio">
             <h2>01 / Introducció</h2>
-            <p>El projecte "Parlar per la terra" explora la connexió tàctil entre la matèria i el territori...</p>
-            
-            <div class="foto-container">
-                <img src="foto1.jpg" alt="Descripció de la imatge">
-                <div class="peu-foto">Figura 1: Detall del procés d'extracció de fang.</div>
+            <div class="content-grid">
+                <div>
+                    <p>El projecte "Parlar per la terra" explora la connexió tàctil entre la matèria i el territori. Aquesta memòria documenta el procés de recerca sobre l'escultura orgànica i la seva relació amb l'entorn geològic.</p>
+                </div>
+                <div class="foto-container">
+                    <img src="foto_intro.jpg" alt="Imatge introductoria">
+                </div>
             </div>
         </section>
 
         <section id="marc-teoric">
             <h2>02 / Marc Teòric</h2>
-            <p>La recerca es fonamenta en la idea de l'art com a diàleg geològic...</p>
-        </section>
-
-        <section id="metodologia">
-            <h2>03 / Procés Creatiu</h2>
-            <p>La metodologia seguida ha estat una immersió directa en el paisatge...</p>
-            
-            <div class="foto-container">
-                <img src="foto2.jpg" alt="Procés de modelat">
-                <div class="peu-foto">Figura 2: Evolució de les formes orgàniques a l'estudi.</div>
-            </div>
+            <p>Aquí pots escriure el teu text de marc teòric. En aquest format ample, el text respira molt més i pots jugar a posar imatges al costat dels paràgrafs per fer-ho més visual.</p>
         </section>
 
         <footer>
             <div class="tracking-panel">
                 <div>
-                    <span style="font-size: 10px; letter-spacing: 1px; color: #888;">REGISTRE CONDUCTUAL</span><br>
-                    <strong>SESSIO DE LECTURA ACTIVA</strong>
+                    <span style="font-size: 11px; font-weight: bold;">SYSTEM ANALYSIS: ACTIVE SESSION</span><br>
+                    <span style="font-size: 13px;">S'està processant la interacció conductual del lector.</span>
                 </div>
-                <button class="btn-download" onclick="exportPDF()">Baixar Registre</button>
+                <button class="btn-download" onclick="exportPDF()">Generar Certificat de Lectura</button>
             </div>
         </footer>
     </div>
@@ -168,15 +162,14 @@
         const start = Date.now();
         function exportPDF() {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            const doc = new jsPDF('l', 'mm', 'a4'); // 'l' de landscape (horitzontal)
             const segons = Math.floor((Date.now() - start) / 1000);
             
             doc.setFont("helvetica", "bold");
             doc.text("REGISTRE D'INTERACCIÓ ARTÍSTICA", 20, 20);
             doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.text(`Projecte: Parlar per la terra`, 20, 35);
-            doc.text(`Temps d'exposició a la memòria: ${segons} segons`, 20, 42);
+            doc.text(`Projecte: Parlar per la terra`, 20, 40);
+            doc.text(`Temps de lectura detectat: ${segons} segons`, 20, 50);
             doc.save("registre-lectura-alba.pdf");
         }
     </script>
