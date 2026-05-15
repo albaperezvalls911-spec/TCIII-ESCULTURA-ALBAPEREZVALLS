@@ -637,8 +637,21 @@ tickerEl.innerHTML = tItems + tItems;
 
 /* ── INTRO ── */
 const introImg = C.imatges.introImatge
-  ? `<img src="${C.imatges.introImatge}" class="intro-img" alt="Imatge introducció">`
+  ? `<img src="${C.imatges.introImatge}" class="intro-img" alt="Imatge introducció" style="width: 100%; max-width: 450px; height: auto; object-fit: contain; margin: 30px 0; border: 1px solid #eee; display: block;">`
   : '';
+document.getElementById('intro').innerHTML = `
+  <div class="section-label">${C.intro.label}</div>
+  <div class="intro-grid">
+    <div>
+      <h2 class="intro-heading">${C.intro.titol}</h2>
+      ${introImg}
+    </div>
+    <div class="intro-text">
+      <p>${C.intro.p1}</p>
+      <blockquote>${C.intro.cita}</blockquote>
+      <p>${C.intro.p2}</p>
+    </div>
+  </div>`;
 document.getElementById('intro').innerHTML = `
   <div class="section-label">${C.intro.label}</div>
   <div class="intro-grid">
