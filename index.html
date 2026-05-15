@@ -3,39 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Subjecte 094 — Projecte Artístic</title>
+<title>Subjecte 094</title>
 
-<!-- ============================================================
-  CONTINGUT EDITABLE
-  Tot el text de la web és aquí. Edita els valors entre cometes.
-  No toquis res fora d'aquest bloc <script> per canviar textos.
-============================================================ -->
 <script>
-const CONTINGUT = {
+/* ════════════════════════════════════════════════════════════════
+   ██████╗  ██████╗ ███╗  ██╗███████╗██╗ ██████╗
+   ██╔════╝ ██╔══██╗████╗ ██║██╔════╝██║██╔════╝
+   ██║      ██║  ██║██╔██╗██║█████╗  ██║██║  ███╗
+   ██║      ██║  ██║██║╚████║██╔══╝  ██║██║   ██║
+   ╚██████╗ ██████╔╝██║ ╚███║██║     ██║╚██████╔╝
+    ╚═════╝ ╚═════╝ ╚═╝  ╚══╝╚═╝     ╚═╝ ╚═════╝
+   Tot el que pots editar és aquí. No toquis res més avall.
+════════════════════════════════════════════════════════════════ */
 
-  // ── NAV ──────────────────────────────────────────────────────
+const CONFIG = {
+
+  /* ── COLORS ────────────────────────────────────────────────────
+     Pots escriure: noms CSS ("white", "black", "red"),
+     hex ("#ff0000"), rgb ("rgb(255,0,0)") o hsl ("hsl(0,100%,50%)")  */
+  colors: {
+    fons:          "#f5f4f0",   // color de fons general
+    text:          "#0a0a0a",   // color del text principal
+    accent:        "#0a0a0a",   // color d'accent (vermell per defecte)
+    gris:          "#888888",   // color del text secundari/gris
+    grisClar:      "#d8d6d0",   // línies i separadors
+    fonsFosc:      "#d8d6d0",   // fons de les seccions fosques
+    targetes:      "#111111",   // fons de les targetes fosques
+    targeteHover:  "#1a1a1a",   // fons de la targeta quan passes el ratolí
+    textFosc:      "#aaaaaa",   // text sobre fons fosc
+  },
+
+  /* ── TIPOGRAFIA ────────────────────────────────────────────────
+     fontTitols: font dels títols (Helvetica, Georgia, "Times New Roman"...)
+     fontCos:    font del cos del text (Courier New, Arial, Verdana...)
+     Pots posar qualsevol font del sistema o de Google Fonts si la carregues */
+  tipografia: {
+    fontTitols:    "Helvetica, Arial, sans-serif",
+    fontCos:       "'Courier New', Courier, monospace",
+
+    // Mides (pots posar px, em, rem, vw...)
+    midaBase:      "14px",      // mida base del cos
+    midaNav:       "11px",      // text de la navegació
+    midaHero:      "clamp(52px, 8vw, 110px)",  // títol principal
+    midaSubtitol:  "12px",      // subtítol / abstract
+    midaH2:        "clamp(28px, 3.5vw, 48px)", // títols de secció
+    midaH3:        "22px",      // títols de subsecció (procés)
+    midaTargeta:   "18px",      // títols de les targetes
+    midaConclusions: "20px",    // text de conclusions
+    midaEtiqueta:  "10px",      // etiquetes petites (REF, NUM...)
+    midaCita:      "12px",      // mida de les cites en cursiva
+    midaInforme:   "11px",      // text dels informes a les targetes
+
+    // Pesos
+    pesNormal:     "400",
+    pesNegreta:    "700",
+  },
+
+  /* ── ESPAIAT ───────────────────────────────────────────────────
+     Marges i paddings de les seccions principals */
+  espaiat: {
+    seccio:        "100px 40px",   // padding de cada secció
+    nav:           "18px 40px",    // padding del nav
+    targeta:       "40px 32px",    // padding de les targetes del marc teòric
+    heroPadding:   "120px 40px 60px", // padding del hero
+  },
+
+  /* ── IMATGES ───────────────────────────────────────────────────
+     Posa la ruta de la imatge entre cometes, o "" per no mostrar-la.
+     Si la web és local, posa la ruta relativa (ex: "img/foto.jpg").
+     Si és remota, posa la URL completa (ex: "https://...").           */
+  imatges: {
+    // Imatge de fons del hero (deixa "" per fons de color sol)
+    heroFons: "",
+
+    // Imatge de la secció d'introducció (costat dret, deixa "" per no mostrar)
+    introImatge: "",
+
+    // Imatges del procés (captures de pantalla del codi)
+    captures: [
+      {
+        src:   "/mnt/user-data/uploads/Captura_de_pantalla__193_.png",
+        label: "main.py · 17/03/2026 · 12:55",
+      },
+      {
+        src:   "/mnt/user-data/uploads/Captura_de_pantalla__200_.png",
+        label: "main.py · 29/04/2026 · 10:25",
+      },
+      // Afegeix més captures aquí si vols:
+      // { src: "ruta/imatge.jpg", label: "descripció" },
+    ],
+
+    // Imatge de fons de la secció de conclusions (deixa "" per no mostrar)
+    conclusionsFons: "",
+  },
+
+  /* ── NAVEGACIÓ ───────────────────────────────────────────────── */
   nav: {
-    id: "ALBA PÉREZ VALLS / TC-III / 2026",
+    id: "SUBJECTE-094 / TC-III / 2026",
     links: [
-      { text: "Introducció",  href: "#intro"     },
-      { text: "Marc Teòric",  href: "#marc"      },
-      { text: "Procés",       href: "#proces"    },
-      { text: "Obra Final",   href: "#obra"      },
-      { text: "Referents",    href: "#referents" },
-    ]
+      { text: "Introducció",  href: "#intro"      },
+      { text: "Marc Teòric",  href: "#marc"       },
+      { text: "Procés",       href: "#proces"     },
+      { text: "Obra Final",   href: "#obra"       },
+      { text: "Referents",    href: "#referents"  },
+    ],
   },
 
-  // ── HERO ─────────────────────────────────────────────────────
+  /* ── HERO ──────────────────────────────────────────────────────
+     \n dins el títol = salt de línia                              */
   hero: {
-    ref:      " UNIVERSITAT DE BARCELONA, BELLES ARTS · MEMÒRIA TC-III",
-    titol:    "L'alteritat del jo, sota el pes de la mirada",       // \n = salt de línia
-    abstract: "El projecte vol explorar la tensió entre la vivència personal i el seu registre institucional, qüestionant com la vigilancia invisible i el processament de dades construeixen una identitat que sovint substitueix o condiciona la una visió pròpia. L’obra posa en evidencia la vulnerabilitat de l’individu davant de la mirada externa, que monitoritza sense el seu consentiment, transformant la seva conducta quotidiana en un arxiu.",
-    keywords: ["Institució", "Vigilància", "Control", "Vivència", "Arxiu"],
-    scrollHint: "desplaça per descobrir",
+    ref:       "REF-094 · VIGILAR I CASTIGAR · MEMÒRIA TC-III",
+    titol:     "Conflicte\nentre vivència\ni arxiu",
+    subtitol:  "Instal·lació artística · Tracking en temps real · Python + IA · 2026",
+    abstract:  "Explorar la tensió entre la vivència personal i el seu registre institucional, qüestionant com la vigilància invisible i el processament de dades construeixen una identitat que sovint substitueix o condiciona la pròpia visió. L'obra posa en evidència la vulnerabilitat de l'individu davant la mirada de la institució.",
+    keywords:  ["Institució", "Vigilància", "Identitat", "Arxiu", "Poder"],
+    scrollHint:"desplaça per descobrir",
   },
 
-  // ── TICKER ───────────────────────────────────────────────────
-  // {text, accent: true/false}  — accent = color vermell
+  /* ── TICKER (barra de text animada) ───────────────────────────
+     accent: true = text en color d'accent, false = text en gris  */
   ticker: [
     { text: "SISTEMA ACTIU",                    accent: true  },
     { text: "ANALISI CONDUCTUAL EN TEMPS REAL", accent: false },
@@ -47,62 +133,61 @@ const CONTINGUT = {
     { text: "DADES EN PROCESSAMENT",            accent: false },
   ],
 
-  // ── INTRODUCCIÓ ──────────────────────────────────────────────
+  /* ── INTRODUCCIÓ ───────────────────────────────────────────── */
   intro: {
-    label:   "01 — Introducció",
-    titol:   "Com em sento havent sigut un objecte d'estudi sense saber-ho?",
-    p1:      "Aquest projecte neix de la sensació que vaig tenir en trobar uns informes avaluatius de quan feia p3 i p4. Papers que parlaven de mi amb una seguretat absoluta, descrivint com era, com em comportava, què sabia fer o fins a quin punt era perfeccionista, d’una etapa de la meva vida que jo ni tan sols recordo. Em va incomodar adonar-me que existeix una versió de mi mateixa construïda des de fora, escrita per algú desconegut, i que aquesta versió és molt més concreta que els meus propis records. Jo no recordo qui era amb tres o quatre anys, però aquells informes sí. I això em fa preguntar fins a quin punt el meu passat em pertany realment, o si acaba sent propietat del registre, de l’arxiu, de la mirada de l’altre.",
-    p2:      "Davant d’això apareix també una certa desconfiança cap a aquesta mirada adulta que observa, analitza i classifica. Una mirada que aparentment és objectiva, però que inevitablement també està plena d’idees, prejudicis i expectatives sobre com un nen ha de ser. Em sorprèn pensar que el meu comportament quotidià podia convertir-se en un document administratiu, en observacions escrites fredament, sense que jo en fos conscient. D’altra banda, vaig pensar que era una invasió de la intimitat brutal, ja que el meu comportament era public, classificable i avaluable en un informe administratiu, sense jo saber-ho; era quasi com un objecte d’un estudi científic.",
-    p3:      "Aquest projecte parteix, doncs, d’aquesta incomoditat. De la sensació d’haver estat observada i definida abans fins i tot de tenir consciència de mi mateixa. I de la necessitat d’entendre què passa quan la memòria pròpia desapareix, però en canvi en queden rastres escrits que continuen parlant per tu.",
-
+    label:  "01 — Introducció",
+    titol:  "Com em sento havent sigut un objecte d'estudi sense saber-ho?",
+    p1:     "Fa uns dies em vaig trobar amb uns informes avaluatius de quan feia P3 i P4. En comptes d'avaluació per assignatures, hi havia una anàlisi sobre si parlava bé, fins a quin número sabia comptar, si era massa o poc perfeccionista.",
+    cita:   "Jo no recordo el meu passat, quan tenia 3 o 4 anys, en canvi, em trobo amb informes que descriuen com era o qui era. Qui és el propietari del meu passat? Jo que no el recordo, o l'informe que descriu amb detalls tots els meus comportaments?",
+    p2:     "Hi ha la paradoxa de creure un desconegut, de tenir una visió externa de la pròpia identitat. La mirada de l'adult cap al nen, on aquesta tampoc és lliure de prejudicis. Era com ser un objecte d'estudi científic, el comportament era públic, classificable i avaluable en un informe administratiu, sense jo saber-ho.",
   },
 
-  // ── MARC TEÒRIC ──────────────────────────────────────────────
+  /* ── MARC TEÒRIC ───────────────────────────────────────────── */
   marc: {
     label: "02 — Marc Teòric i Conceptual",
     conceptes: [
       {
-        num:    "CONCEPTE 01",
-        titol:  "El Panòptic i la Disciplina",
-        autor:  "Michel Foucault · 1975",
-        text:   "El poder modern funciona millor quan les persones interioritzen la vigilància. Institucions com escoles, presons i hospitals es converteixen en espais de control subtil: no es castiga el cos, es disciplina la ment i la conducta.",
+        num:   "CONCEPTE 01",
+        titol: "El Panòptic i la Disciplina",
+        autor: "Michel Foucault · 1975",
+        text:  "El poder modern funciona millor quan les persones interioritzen la vigilància. Institucions com escoles, presons i hospitals es converteixen en espais de control subtil: no es castiga el cos, es disciplina la ment i la conducta.",
       },
       {
-        num:    "CONCEPTE 02",
-        titol:  "Societats de Control",
-        autor:  "Gilles Deleuze · 1990",
-        text:   "El pas de la societat de \"tancament\" (la bata a l'escola) a la societat de \"control\" (el tracking de dades i algoritmes). El control ja no opera des de l'exterior, sinó que es converteix en part del propi subjecte.",
+        num:   "CONCEPTE 02",
+        titol: "Societats de Control",
+        autor: "Gilles Deleuze · 1990",
+        text:  'El pas de la societat de "tancament" (la bata a l\'escola) a la societat de "control" (el tracking de dades i algoritmes). El control ja no opera des de l\'exterior, sinó que es converteix en part del propi subjecte.',
       },
       {
-        num:    "CONCEPTE 03",
-        titol:  "Psicopolítica",
-        autor:  "Byung-Chul Han · 2014",
-        text:   "Les dades digitals s'utilitzen per predir i controlar la conducta humana de forma invisible. El subjecte cedeix voluntàriament les seves dades, sense percebre que s'autosomete a un sistema de control permanent.",
+        num:   "CONCEPTE 03",
+        titol: "Psicopolítica",
+        autor: "Byung-Chul Han · 2014",
+        text:  "Les dades digitals s'utilitzen per predir i controlar la conducta humana de forma invisible. El subjecte cedeix voluntàriament les seves dades, sense percebre que s'autosomete a un sistema de control permanent.",
       },
       {
-        num:    "CONCEPTE 04",
-        titol:  "L'Escola com a Classificació",
-        autor:  "Ivan Illich · Deschooling Society",
-        text:   "L'escola ha monopolitzat la idea d'educació. L'aprenentatge queda lligat a la institució i fora d'aquesta ja no s'entén. L'aprenentatge queda reduït a un procés administratiu i mesurable.",
+        num:   "CONCEPTE 04",
+        titol: "L'Escola com a Classificació",
+        autor: "Ivan Illich · Deschooling Society",
+        text:  "L'escola ha monopolitzat la idea d'educació. L'aprenentatge queda lligat a la institució i fora d'aquesta ja no s'entén. L'aprenentatge queda reduït a un procés administratiu i mesurable.",
       },
       {
-        num:    "CONCEPTE 05",
-        titol:  "El Registre com a Tecnologia de Poder",
-        autor:  "Foucault · L'expedient escolar",
-        text:   "L'avaluació escolar combina observació, comparació i arxiu. L'examen produeix documents que acumulen informació sobre els individus. L'expedient es converteix en arxiu de conducta que permet mesurar, classificar i intervenir.",
+        num:   "CONCEPTE 05",
+        titol: "El Registre com a Tecnologia de Poder",
+        autor: "Foucault · L'expedient escolar",
+        text:  "L'avaluació escolar combina observació, comparació i arxiu. L'examen produeix documents que acumulen informació sobre els individus. L'expedient es converteix en arxiu de conducta que permet mesurar, classificar i intervenir.",
       },
       {
-        num:    "CONCEPTE 06",
-        titol:  "Colonització de la Memòria",
-        autor:  "Paradoxa de l'autoritat institucional",
-        text:   "L'arxiu substitueix la memòria pròpia quan aquesta és incompleta o absent. El record personal és fràgil i volàtil; el registre institucional és rígid i permanent. El llenguatge de la dada crea un \"altre jo\".",
+        num:   "CONCEPTE 06",
+        titol: "Colonització de la Memòria",
+        autor: "Paradoxa de l'autoritat institucional",
+        text:  'L\'arxiu substitueix la memòria pròpia quan aquesta és incompleta o absent. El record personal és fràgil i volàtil; el registre institucional és rígid i permanent. El llenguatge de la dada crea un "altre jo".',
       },
     ],
-    cita:       "\"Les institucions modernes produeixen coneixement a través de la vigilància i l'observació constant.\"",
-    citaAutor:  "Michel Foucault · Vigilar i Castigar, 1975",
+    cita:      '"Les institucions modernes produeixen coneixement a través de la vigilància i l\'observació constant."',
+    citaAutor: "Michel Foucault · Vigilar i Castigar, 1975",
   },
 
-  // ── PROCÉS ───────────────────────────────────────────────────
+  /* ── PROCÉS ─────────────────────────────────────────────────── */
   proces: {
     label: "03 — Procés de Treball",
     passos: [
@@ -111,7 +196,7 @@ const CONTINGUT = {
         num:   "01",
         titol: "Punt de partida: els informes de P3 i P4",
         p1:    "La descoberta dels informes avaluatius d'infància va generar la pregunta central del projecte: com es construeix la identitat quan el record propi és absent però el registre institucional és complet i autoritzat?",
-        p2:    "Des d'un principi vaig tenir clar que l'objectiu era que l'espectador sentís aquesta \"traïció\", el fet d'haver estat vigilat sense saber-ho. Posar sobre la taula el que ja donem per fet i no pensem.",
+        p2:    'Des d\'un principi vaig tenir clar que l\'objectiu era que l\'espectador sentís aquesta "traïció", el fet d\'haver estat vigilat sense saber-ho. Posar sobre la taula el que ja donem per fet i no pensem.',
       },
       {
         id:    "step2",
@@ -119,8 +204,8 @@ const CONTINGUT = {
         titol: "Creació del sistema de tracking en Python",
         p1:    "Vaig decidir crear un sistema de vigilància a partir de la programació d'un sistema de tracking en Python. Personalment, mai havia estat dins d'aquest àmbit, de manera que gran part del procés va ser d'experimentació i investigació.",
         p2:    "El sistema utilitza OpenCV per capturar vídeo en temps real, detecta i segueix persones amb YOLO v8, i registra coordenades de moviment, temps d'exposició i nombre de pauses.",
+        // Les captures apareixen aquí automàticament
       },
-      // Les captures de pantalla apareixen aquí automàticament (entre step2 i step3)
       {
         id:    "step3",
         num:   "03",
@@ -143,13 +228,11 @@ const CONTINGUT = {
         p2:    "No hi ha cap objecte escultòric central; l'obra és la confrontació entre la persona i el seu rastre digital. El tiquet imprès és el residu d'una conducta que el subjecte creia privada i que la institució ha convertit en arxiu.",
       },
     ],
-    captures: [
-      { src: "/mnt/user-data/uploads/Captura_de_pantalla__193_.png", label: "main.py · 17/03/2026 · 12:55" },
-      { src: "/mnt/user-data/uploads/Captura_de_pantalla__200_.png", label: "main.py · 29/04/2026 · 10:25" },
-    ],
   },
 
-  // ── OBRA FINAL · INFORMES ────────────────────────────────────
+  /* ── OBRA FINAL — INFORMES ──────────────────────────────────── 
+     Per afegir un informe nou, copia un bloc { } i canvia els valors.
+     imatge: posa la ruta d'una imatge per mostrar-la dins el modal, o "" */
   obra: {
     label: "04 — Obra Final · Informes Conductuals",
     intro: "Els informes generats pel sistema constitueixen l'obra en si mateixa. Cada document és el rastre digital d'un comportament que el subjecte creia privat. Fes clic en cada informe per llegir-lo.",
@@ -163,6 +246,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Jersei de punt gris clar · Collaret amb penjoll fosc",
         informe:    "El subjecte es mostra en una posició de primer pla, mantenint el contacte visual amb la càmera. L'expressió facial és seriosa i neutra, sense signes d'activitat motriu significativa més enllà de petits moviments espasmòdics a la regió ocular. L'actitud és observadora, suggerint una autoavaluació o la preparació per a una intervenció verbal.",
+        imatge:     "",   // ex: "/mnt/user-data/uploads/foto.jpg"
       },
       {
         ref:        "REF-1637-P2",
@@ -173,6 +257,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Dessuadora gris clar amb caputxa",
         informe:    "Localitzada en el pla de fons, asseguda en una taula exterior. Manté una postura relaxada, interactuant activament amb el grup. El seu llenguatge corporal és obert i receptiu, amb moviments de mans que acompanyen la comunicació verbal, la qual cosa indica una actitud participativa i socialment integrada en l'entorn.",
+        imatge:     "",
       },
       {
         ref:        "REF-1637-P3",
@@ -183,6 +268,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Samarreta de ratlles horitzontals blanques i blaves (tipus mariner)",
         informe:    "Asseguda d'esquena a la càmera. La seva posició és estàtica però manté la inclinació del tronc cap als seus interlocutors, fet que denota una atenció focalitzada en la conversa. No es detecten moviments bruscos, mantenint una actitud de contenció i escolta activa dins del grup.",
+        imatge:     "",
       },
       {
         ref:        "REF-1637-P4",
@@ -193,6 +279,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Brusa de to fosc",
         informe:    "Situada al fons, entre la persona 3 i la persona 5. La seva actitud és de reserva; es manté en una postura retraïda, amb moviments mínims i una atenció dispersa o enfocada en el seu propi espai, mostrant una menor participació dinàmica en la interacció grupal general.",
+        imatge:     "",
       },
       {
         ref:        "REF-1637-P5",
@@ -203,6 +290,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Jaqueta o dessuadora negra",
         informe:    "Assegut a l'extrem dret del grup. Presenta una actitud d'escolta, sovint amb la mirada baixa o centrada en els objectes de la taula. Els seus moviments són pausats i controlats, mostrant un perfil més introspectiu en comparació amb la resta dels membres.",
+        imatge:     "",
       },
       {
         ref:        "REF-1637-P6",
@@ -213,6 +301,7 @@ const CONTINGUT = {
         temps:      "91 segons",
         descripcio: "Camisa o samarreta de color negre de màniga curta",
         informe:    "S'incorpora a la seqüència tardanament i s'asseu a la taula. Demostra una actitud extravertida i dominant, iniciant la interacció amb gesticulació àmplia amb la mà dreta. Els moviments són resolutius i segurs, indicant un rol actiu o d'iniciador en la dinàmica de la conversa.",
+        imatge:     "",
       },
       {
         ref:        "REF-0918-P1",
@@ -222,12 +311,13 @@ const CONTINGUT = {
         ubicacio:   "Carrer de Pau Gargallo, 4",
         temps:      "81 segons",
         descripcio: "Dona jove · Cabells arrissats recollits en monyo alt · Dessuadora gris clar",
-        informe:    "El subjecte es troba en un espai interior (semblant a un dormitori o estudi) en una posició asseguda. Està sostenint una guitarra acústica, la qual manipula contínuament amb les mans, tocant les cordes de manera rítmica i repetitiva. El seu camp visual està fixat en el cos de l'instrument o en un dispositiu mòbil situat en un suport a la seva dreta, seguint una partitura o tutorial. Es mostra concentrada i serena. El seu llenguatge corporal és de recolliment; manté el cap inclinat cap avall amb una postura lleugerament encorbada, pròpia d'una activitat que requereix atenció minuciosa i pràctica tècnica. No es detecten signes d'ansietat o distracció.",
+        informe:    "El subjecte es troba en un espai interior (semblant a un dormitori o estudi) en una posició asseguda. Està sostenint una guitarra acústica, la qual manipula contínuament amb les mans, tocant les cordes de manera rítmica i repetitiva. El seu camp visual està fixat en el cos de l'instrument o en un dispositiu mòbil situat en un suport a la seva dreta. Es mostra concentrada i serena. El seu llenguatge corporal és de recolliment; manté el cap inclinat cap avall amb una postura lleugerament encorbada, pròpia d'una activitat que requereix atenció minuciosa i pràctica tècnica.",
+        imatge:     "",
       },
     ],
   },
 
-  // ── REFERENTS ────────────────────────────────────────────────
+  /* ── REFERENTS ──────────────────────────────────────────────── */
   referents: {
     label: "05 — Referents Artístics",
     llista: [
@@ -252,163 +342,221 @@ const CONTINGUT = {
     ],
   },
 
-  // ── CONCLUSIONS ──────────────────────────────────────────────
+  /* ── CONCLUSIONS ────────────────────────────────────────────── */
   conclusions: {
     label: "06 — Conclusions",
-    p1:   "La sala blanca és un espai de poder on la informació substitueix l'experiència estètica tradicional.",
-    p2:   "La sorpresa i la incomoditat del visitant en reconèixer-se en l'informe validen la tesi inicial: som subjectes monitoritzats permanentment.",
-    p3:   "La tecnologia no s'ha utilitzat com a eina decorativa, sinó com a eina de denúncia, forçant la màquina a parlar i a fer pública la seva mirada constant.",
-    ref:  "REFERÈNCIA: SUBJECTE-094 · TC-III · 2026 · CARRER DE PAU GARGALLO, 4",
+    p1:    "La sala blanca és un espai de poder on la informació substitueix l'experiència estètica tradicional.",
+    p2:    "La sorpresa i la incomoditat del visitant en reconèixer-se en l'informe validen la tesi inicial: som subjectes monitoritzats permanentment.",
+    p3:    "La tecnologia no s'ha utilitzat com a eina decorativa, sinó com a eina de denúncia, forçant la màquina a parlar i a fer pública la seva mirada constant.",
+    ref:   "REFERÈNCIA: SUBJECTE-094 · TC-III · 2026 · CARRER DE PAU GARGALLO, 4",
   },
 
-  // ── FOOTER ───────────────────────────────────────────────────
+  /* ── FOOTER ─────────────────────────────────────────────────── */
   footer: {
     esquerra: "© 2026 — Projecte TC-III · Memòria de Treball",
     dreta:    "Sistema de vigilància actiu · Python 3.x + OpenCV + Gemini Flash-Lite",
   },
 
-}; // fi de CONTINGUT — no editis res a partir d'aquí
+}; /* fi de CONFIG */
+/* ════════════════════════════════════════════════════════════════
+   A partir d'aquí no cal editar res.
+════════════════════════════════════════════════════════════════ */
 </script>
 
-<!-- ============================================================
-  ESTILS — no cal editar per canviar textos
-============================================================ -->
-<style>
-  :root {
-    --white: #f5f4f0;
-    --black: #0a0a0a;
-    --grey: #888;
-    --light-grey: #d8d6d0;
-    --accent: #c8001a;
-    --mono: 'Courier New', Courier, monospace;
-    --sans: Helvetica, Arial, sans-serif;
-  }
+<style id="dynamic-styles">
+  /* Les variables CSS s'injecten per JavaScript a partir de CONFIG */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { background: var(--white); color: var(--black); font-family: var(--mono); font-size: 14px; line-height: 1.6; overflow-x: hidden; }
 
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid transparent; transition: border-color 0.3s, background 0.3s; }
-  nav.scrolled { background: var(--white); border-color: var(--light-grey); }
-  .nav-id { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--grey); }
+  body {
+    background: var(--fons);
+    color: var(--text);
+    font-family: var(--fontCos);
+    font-size: var(--midaBase);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--nav);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s, background .3s;
+  }
+  nav.scrolled { background: var(--fons); border-color: var(--grisClar); }
+  .nav-id { font-family: var(--fontCos); font-size: var(--midaNav); letter-spacing: .08em; color: var(--gris); }
   .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a { font-family: var(--sans); font-weight: 700; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--black); text-decoration: none; transition: color 0.2s; }
+  .nav-links a {
+    font-family: var(--fontTitols); font-weight: var(--pesNegreta);
+    font-size: var(--midaNav); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text); text-decoration: none; transition: color .2s;
+  }
   .nav-links a:hover { color: var(--accent); }
 
-  .hero { min-height: 100vh; display: grid; grid-template-rows: 1fr auto; padding: 120px 40px 60px; }
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: grid; grid-template-rows: 1fr auto;
+    padding: var(--heroPadding);
+    background: var(--fons);
+  }
+  .hero.amb-fons {
+    background-size: cover; background-position: center;
+    background-blend-mode: multiply;
+  }
   .hero-content { display: flex; flex-direction: column; justify-content: center; max-width: 900px; }
-  .hero-ref { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
-  .hero-title { font-family: var(--sans); font-size: clamp(52px, 8vw, 110px); font-weight: 700; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.9s 0.4s forwards; }
-  .hero-title em { font-style: normal; font-family: var(--mono); font-size: 0.38em; display: block; color: var(--grey); letter-spacing: 0.1em; margin-top: 12px; line-height: 1.4; }
-  .hero-abstract { max-width: 520px; font-size: 15px; line-height: 1.75; color: #333; opacity: 0; animation: fadeUp 0.9s 0.6s forwards; border-left: 1px solid var(--accent); padding-left: 24px; }
-  .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
-  .hero-keywords { font-family: var(--mono); font-size: 10px; color: var(--grey); letter-spacing: 0.1em; display: flex; gap: 24px; }
-  .hero-keywords span { border: 1px solid var(--light-grey); padding: 4px 10px; }
-  .scroll-hint { font-family: var(--mono); font-size: 10px; color: var(--grey); writing-mode: vertical-rl; letter-spacing: 0.15em; }
+  .hero-ref {
+    font-family: var(--fontCos); font-size: var(--midaNav); color: var(--accent);
+    letter-spacing: .15em; margin-bottom: 48px;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+  }
+  .hero-title {
+    font-family: var(--fontTitols); font-size: var(--midaHero);
+    font-weight: var(--pesNegreta); line-height: .95; letter-spacing: -.03em;
+    margin-bottom: 40px; opacity: 0; animation: fadeUp .9s .4s forwards;
+  }
+  .hero-title em {
+    font-style: normal; font-family: var(--fontCos); font-size: .38em;
+    display: block; color: var(--gris); letter-spacing: .1em; margin-top: 12px; line-height: 1.4;
+  }
+  .hero-abstract {
+    max-width: 520px; font-size: var(--midaSubtitol); line-height: 1.75;
+    opacity: 0; animation: fadeUp .9s .6s forwards;
+    border-left: 1px solid var(--accent); padding-left: 24px;
+  }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    opacity: 0; animation: fadeUp .8s .9s forwards;
+  }
+  .hero-keywords { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; display: flex; gap: 24px; }
+  .hero-keywords span { border: 1px solid var(--grisClar); padding: 4px 10px; }
+  .scroll-hint { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); writing-mode: vertical-rl; letter-spacing: .15em; }
 
-  .ticker { border-top: 1px solid var(--light-grey); border-bottom: 1px solid var(--light-grey); overflow: hidden; white-space: nowrap; padding: 12px 0; }
+  /* TICKER */
+  .ticker { border-top: 1px solid var(--grisClar); border-bottom: 1px solid var(--grisClar); overflow: hidden; white-space: nowrap; padding: 12px 0; }
   .ticker-inner { display: inline-flex; gap: 60px; animation: ticker 28s linear infinite; }
-  .ticker-inner span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--grey); text-transform: uppercase; }
-  .ticker-inner span.accent { color: var(--accent); }
+  .ticker-inner span { font-family: var(--fontCos); font-size: var(--midaEtiqueta); letter-spacing: .12em; color: var(--gris); text-transform: uppercase; }
+  .ticker-inner span.ac { color: var(--accent); }
 
-  section { padding: 100px 40px; }
-  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 60px; display: flex; align-items: center; gap: 16px; }
-  .section-label::after { content: ''; display: block; height: 1px; width: 60px; background: var(--light-grey); }
+  /* SECCIONS */
+  section { padding: var(--seccio); }
+  .section-label {
+    font-family: var(--fontCos); font-size: var(--midaEtiqueta); letter-spacing: .2em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 60px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after { content: ''; height: 1px; width: 60px; background: var(--grisClar); }
 
+  /* INTRO */
   .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .intro-heading { font-family: var(--sans); font-size: clamp(28px, 3.5vw, 48px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
-  .intro-text { font-size: 15px; line-height: 1.8; color: #333; }
+  .intro-heading { font-family: var(--fontTitols); font-size: var(--midaH2); font-weight: var(--pesNegreta); line-height: 1.1; letter-spacing: -.02em; }
+  .intro-text { font-size: var(--midaSubtitol); line-height: 1.8; }
   .intro-text p + p { margin-top: 20px; }
-  .intro-text blockquote { font-family: var(--mono); font-style: italic; font-size: 12px; color: var(--grey); border-left: 2px solid var(--accent); padding: 16px 20px; margin: 28px 0; line-height: 1.7; }
+  .intro-text blockquote {
+    font-family: var(--fontCos); font-style: italic; font-size: var(--midaCita);
+    color: var(--gris); border-left: 2px solid var(--accent);
+    padding: 16px 20px; margin: 28px 0; line-height: 1.7;
+  }
+  .intro-img { width: 100%; max-height: 420px; object-fit: cover; display: block; }
 
-  .theory-section { background: var(--black); color: var(--white); }
+  /* MARC TEÒRIC */
+  .theory-section { background: var(--fonsFosc); color: var(--fons); }
   .theory-section .section-label { color: var(--accent); }
   .theory-section .section-label::after { background: #333; }
   .theory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
-  .theory-card { background: #111; padding: 40px 32px; transition: background 0.2s; cursor: default; }
-  .theory-card:hover { background: #1a1a1a; }
-  .theory-card-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 20px; }
-  .theory-card-title { font-family: var(--sans); font-size: 18px; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
-  .theory-card-author { font-family: var(--mono); font-size: 10px; color: var(--grey); letter-spacing: 0.1em; margin-bottom: 20px; }
-  .theory-card-text { font-size: 13px; color: #aaa; line-height: 1.7; }
+  .theory-card { background: var(--targetes); padding: var(--targeta); transition: background .2s; cursor: default; }
+  .theory-card:hover { background: var(--targeteHover); }
+  .theory-card-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .15em; margin-bottom: 20px; }
+  .theory-card-title { font-family: var(--fontTitols); font-size: var(--midaTargeta); font-weight: var(--pesNegreta); margin-bottom: 16px; line-height: 1.3; }
+  .theory-card-author { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; margin-bottom: 20px; }
+  .theory-card-text { font-size: 13px; color: var(--textFosc); line-height: 1.7; }
   .panoptic-quote { border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 60px 0; margin-top: 60px; text-align: center; }
-  .panoptic-quote p { font-family: var(--mono); font-style: italic; font-size: 13px; color: var(--grey); letter-spacing: 0.08em; line-height: 2; max-width: 700px; margin: 0 auto 12px; }
-  .panoptic-quote cite { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; }
+  .panoptic-quote p { font-family: var(--fontCos); font-style: italic; font-size: 13px; color: var(--gris); letter-spacing: .08em; line-height: 2; max-width: 700px; margin: 0 auto 12px; }
+  .panoptic-quote cite { font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .2em; text-transform: uppercase; }
 
+  /* PROCÉS */
   .process-steps { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; margin-top: 20px; }
   .process-nav { position: sticky; top: 120px; height: fit-content; }
-  .process-step-link { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--grey); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--light-grey); transition: color 0.2s, padding-left 0.2s; }
-  .process-step-link:hover, .process-step-link.active { color: var(--black); padding-left: 12px; }
+  .process-step-link { display: block; font-family: var(--fontCos); font-size: 11px; letter-spacing: .1em; color: var(--gris); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--grisClar); transition: color .2s, padding-left .2s; }
+  .process-step-link:hover, .process-step-link.active { color: var(--text); padding-left: 12px; }
   .process-entries { display: flex; flex-direction: column; gap: 60px; }
-  .process-entry { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+  .process-entry { opacity: 0; transform: translateY(20px); transition: opacity .6s, transform .6s; }
   .process-entry.visible { opacity: 1; transform: translateY(0); }
   .process-entry-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 20px; }
-  .process-entry-num { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.15em; }
-  .process-entry-title { font-family: var(--sans); font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
-  .process-entry-body { font-size: 14px; line-height: 1.85; color: #333; max-width: 560px; }
+  .process-entry-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .15em; }
+  .process-entry-title { font-family: var(--fontTitols); font-size: var(--midaH3); font-weight: var(--pesNegreta); letter-spacing: -.01em; }
+  .process-entry-body { font-size: var(--midaBase); line-height: 1.85; max-width: 560px; }
   .process-entry-body p + p { margin-top: 16px; }
-
-  .screenshots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 40px; }
+  .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3px; margin-top: 40px; }
   .screenshot-item { position: relative; overflow: hidden; background: #111; aspect-ratio: 16/10; }
-  .screenshot-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); transition: filter 0.4s, transform 0.4s; }
+  .screenshot-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); transition: filter .4s, transform .4s; }
   .screenshot-item:hover img { filter: grayscale(0%); transform: scale(1.03); }
-  .screenshot-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.7)); padding: 20px 16px 12px; font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.6); letter-spacing: 0.12em; text-transform: uppercase; }
+  .screenshot-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,.7)); padding: 20px 16px 12px; font-family: var(--fontCos); font-size: 9px; color: rgba(255,255,255,.6); letter-spacing: .12em; text-transform: uppercase; }
 
-  .obra-section { background: #0a0a0a; color: var(--white); padding: 100px 40px; }
+  /* OBRA FINAL */
+  .obra-section { background: var(--fonsFosc); color: var(--fons); }
   .obra-section .section-label { color: var(--accent); }
   .obra-section .section-label::after { background: #333; }
-  .obra-intro { max-width: 640px; font-size: 16px; line-height: 1.8; color: #bbb; margin-bottom: 80px; }
+  .obra-intro { max-width: 640px; font-size: 16px; line-height: 1.8; color: var(--textFosc); margin-bottom: 80px; }
   .informes-header { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 1px; }
-  .informes-header div { font-family: var(--mono); font-size: 9px; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; padding: 8px 16px; background: #111; }
+  .informes-header div { font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .15em; text-transform: uppercase; padding: 8px 16px; background: var(--targetes); }
   .informes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
-  .informe-card { background: #111; padding: 28px 24px; cursor: pointer; transition: background 0.25s; position: relative; overflow: hidden; }
-  .informe-card:hover { background: #1c1c1c; }
-  .informe-card-ref { font-family: var(--mono); font-size: 9px; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 12px; }
-  .informe-card-id { font-family: var(--sans); font-size: 28px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; line-height: 1; }
-  .informe-card-sub { font-family: var(--mono); font-size: 9px; color: var(--grey); margin-bottom: 16px; letter-spacing: 0.05em; }
-  .informe-card-excerpt { font-size: 11px; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .informe-card-arrow { position: absolute; bottom: 20px; right: 20px; font-size: 18px; color: #333; transition: color 0.2s, transform 0.2s; }
-  .informe-card:hover .informe-card-arrow { color: var(--accent); transform: translate(3px, -3px); }
+  .informe-card { background: var(--targetes); padding: 28px 24px; cursor: pointer; transition: background .25s; position: relative; overflow: hidden; }
+  .informe-card:hover { background: var(--targeteHover); }
+  .informe-card-ref { font-family: var(--fontCos); font-size: 9px; color: var(--accent); letter-spacing: .15em; margin-bottom: 12px; }
+  .informe-card-id { font-family: var(--fontTitols); font-size: 28px; font-weight: var(--pesNegreta); letter-spacing: -.03em; margin-bottom: 8px; line-height: 1; }
+  .informe-card-sub { font-family: var(--fontCos); font-size: 9px; color: var(--gris); margin-bottom: 16px; letter-spacing: .05em; }
+  .informe-card-excerpt { font-size: var(--midaInforme); color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .informe-card-arrow { position: absolute; bottom: 20px; right: 20px; font-size: 18px; color: #333; transition: color .2s, transform .2s; }
+  .informe-card:hover .informe-card-arrow { color: var(--accent); transform: translate(3px,-3px); }
 
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; padding: 40px; }
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 1000; align-items: center; justify-content: center; padding: 40px; }
   .modal-overlay.open { display: flex; }
-  .modal-box { background: #0f0f0f; border: 1px solid #222; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; padding: 48px; animation: fadeIn 0.25s ease; }
-  .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--grey); font-size: 22px; cursor: pointer; font-family: var(--mono); margin-bottom: 20px; transition: color 0.2s; }
-  .modal-close:hover { color: var(--white); }
-  .modal-ref { font-family: var(--mono); font-size: 9px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 6px; }
-  .modal-meta { font-family: var(--mono); font-size: 9px; color: var(--grey); letter-spacing: 0.12em; margin-bottom: 4px; }
-  .modal-title { font-family: var(--sans); font-size: 32px; font-weight: 700; letter-spacing: -0.02em; color: var(--white); margin-bottom: 6px; margin-top: 20px; line-height: 1; }
-  .modal-subtitle { font-family: var(--mono); font-size: 10px; color: #555; margin-bottom: 32px; letter-spacing: 0.08em; }
-  .modal-body { font-size: 13px; line-height: 1.9; color: #aaa; border-top: 1px solid #1f1f1f; padding-top: 28px; }
-  .modal-body strong { display: block; font-family: var(--mono); font-size: 9px; color: var(--grey); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; margin-top: 24px; font-weight: normal; }
-
-  .referents-list { margin-top: 20px; }
-  .referent-item { border-top: 1px solid var(--light-grey); padding: 28px 0; display: grid; grid-template-columns: 80px 1fr 1fr; gap: 40px; align-items: start; cursor: default; transition: padding-left 0.2s; }
-  .referent-item:hover { padding-left: 16px; }
-  .referent-item:last-child { border-bottom: 1px solid var(--light-grey); }
-  .referent-num { font-family: var(--mono); font-size: 10px; color: var(--grey); letter-spacing: 0.12em; }
-  .referent-name { font-family: var(--sans); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .referent-work { font-family: var(--mono); font-size: 11px; color: var(--grey); letter-spacing: 0.06em; }
-  .referent-desc { font-size: 13px; color: #555; line-height: 1.7; }
-
-  .conclusions-section { background: var(--white); border-top: 1px solid var(--light-grey); }
-  .conclusions-body { max-width: 680px; margin: 0 auto; text-align: center; }
-  .conclusions-body p { font-family: var(--sans); font-size: 20px; font-weight: 700; line-height: 1.6; letter-spacing: -0.01em; margin-bottom: 24px; }
-  .conclusions-body em { font-family: var(--mono); font-style: normal; font-size: 12px; color: var(--grey); letter-spacing: 0.1em; display: block; margin-top: 40px; }
-
-  footer { border-top: 1px solid var(--light-grey); padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; background: var(--white); }
-  footer p { font-family: var(--mono); font-size: 10px; color: var(--grey); letter-spacing: 0.1em; }
-
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+  .modal-box { background: #0f0f0f; border: 1px solid #222; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; padding: 48px; animation: fadeIn .25s ease; }
+  .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--gris); font-size: 22px; cursor: pointer; font-family: var(--fontCos); margin-bottom: 20px; transition: color .2s; }
+  .modal-close:hover { color: white; }
+  .modal-ref { font-family: var(--fontCos); font-size: 9px; color: var(--accent); letter-spacing: .2em; margin-bottom: 6px; }
+  .modal-meta { font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .12em; margin-bottom: 4px; }
+  .modal-title { font-family: var(--fontTitols); font-size: 32px; font-weight: var(--pesNegreta); letter-spacing: -.02em; color: white; margin-bottom: 6px; margin-top: 20px; line-height: 1; }
+  .modal-subtitle { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: #555; margin-bottom: 24px; letter-spacing: .08em; }
+  .modal-imatge { width: 100%; max-height: 280px; object-fit: cover; display: block; margin-bottom: 28px; filter: grayscale(20%); }
+  .modal-body { font-size: 13px; line-height: 1.9; color: var(--textFosc); border-top: 1px solid #1f1f1f; padding-top: 28px; }
+  .modal-body strong { display: block; font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 12px; margin-top: 24px; font-weight: normal; }
   .modal-box::-webkit-scrollbar { width: 4px; }
   .modal-box::-webkit-scrollbar-track { background: #111; }
   .modal-box::-webkit-scrollbar-thumb { background: #333; }
+
+  /* REFERENTS */
+  .referents-list { margin-top: 20px; }
+  .referent-item { border-top: 1px solid var(--grisClar); padding: 28px 0; display: grid; grid-template-columns: 80px 1fr 1fr; gap: 40px; align-items: start; cursor: default; transition: padding-left .2s; }
+  .referent-item:hover { padding-left: 16px; }
+  .referent-item:last-child { border-bottom: 1px solid var(--grisClar); }
+  .referent-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .12em; }
+  .referent-name { font-family: var(--fontTitols); font-size: 16px; font-weight: var(--pesNegreta); margin-bottom: 4px; }
+  .referent-work { font-family: var(--fontCos); font-size: 11px; color: var(--gris); letter-spacing: .06em; }
+  .referent-desc { font-size: 13px; line-height: 1.7; }
+
+  /* CONCLUSIONS */
+  .conclusions-section { border-top: 1px solid var(--grisClar); }
+  .conclusions-section.amb-fons { background-size: cover; background-position: center; }
+  .conclusions-body { max-width: 680px; margin: 0 auto; text-align: center; }
+  .conclusions-body p { font-family: var(--fontTitols); font-size: var(--midaConclusions); font-weight: var(--pesNegreta); line-height: 1.6; letter-spacing: -.01em; margin-bottom: 24px; }
+  .conclusions-body em { font-family: var(--fontCos); font-style: normal; font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; display: block; margin-top: 40px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--grisClar); padding: var(--nav); display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; }
+
+  /* ANIMACIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
 
-<!-- Estructura HTML mínima — el contingut es genera automàticament -->
 <nav id="nav"></nav>
 <section class="hero" id="hero">
   <div class="hero-content"></div>
@@ -422,26 +570,56 @@ const CONTINGUT = {
 <section id="referents" class="referents-section"></section>
 <section id="conclusions" class="conclusions-section"></section>
 <footer id="footer"></footer>
-<div id="modals-container"></div>
+<div id="modals"></div>
 
-<!-- ============================================================
-  RENDER — no cal editar
-============================================================ -->
 <script>
-const C = CONTINGUT;
+/* ── Aplicar variables CSS a partir de CONFIG ── */
+const C = CONFIG;
+const root = document.documentElement;
 
-// NAV
+// Colors
+Object.entries(C.colors).forEach(([k, v]) => root.style.setProperty(`--${k}`, v));
+
+// Tipografia
+root.style.setProperty('--fontTitols',    C.tipografia.fontTitols);
+root.style.setProperty('--fontCos',       C.tipografia.fontCos);
+root.style.setProperty('--midaBase',      C.tipografia.midaBase);
+root.style.setProperty('--midaNav',       C.tipografia.midaNav);
+root.style.setProperty('--midaHero',      C.tipografia.midaHero);
+root.style.setProperty('--midaSubtitol',  C.tipografia.midaSubtitol);
+root.style.setProperty('--midaH2',        C.tipografia.midaH2);
+root.style.setProperty('--midaH3',        C.tipografia.midaH3);
+root.style.setProperty('--midaTargeta',   C.tipografia.midaTargeta);
+root.style.setProperty('--midaConclusions', C.tipografia.midaConclusions);
+root.style.setProperty('--midaEtiqueta',  C.tipografia.midaEtiqueta);
+root.style.setProperty('--midaCita',      C.tipografia.midaCita);
+root.style.setProperty('--midaInforme',   C.tipografia.midaInforme);
+root.style.setProperty('--pesNormal',     C.tipografia.pesNormal);
+root.style.setProperty('--pesNegreta',    C.tipografia.pesNegreta);
+
+// Espaiat
+root.style.setProperty('--seccio',        C.espaiat.seccio);
+root.style.setProperty('--nav',           C.espaiat.nav);
+root.style.setProperty('--targeta',       C.espaiat.targeta);
+root.style.setProperty('--heroPadding',   C.espaiat.heroPadding);
+
+/* ── NAV ── */
 document.getElementById('nav').innerHTML = `
   <span class="nav-id">${C.nav.id}</span>
   <ul class="nav-links">
     ${C.nav.links.map(l => `<li><a href="${l.href}">${l.text}</a></li>`).join('')}
   </ul>`;
 
-// HERO
+/* ── HERO ── */
+const hero = document.getElementById('hero');
+if (C.imatges.heroFons) {
+  hero.classList.add('amb-fons');
+  hero.style.backgroundImage = `url('${C.imatges.heroFons}')`;
+}
 document.querySelector('.hero-content').innerHTML = `
   <div class="hero-ref">${C.hero.ref}</div>
   <h1 class="hero-title">
-    ${C.hero.titol.replace(/\n/g, '<br>')}
+    ${C.hero.titol.replace(/\n/g,'<br>')}
     <em>${C.hero.subtitol}</em>
   </h1>
   <p class="hero-abstract">${C.hero.abstract}</p>`;
@@ -451,17 +629,20 @@ document.querySelector('.hero-bottom').innerHTML = `
   </div>
   <div class="scroll-hint">${C.hero.scrollHint}</div>`;
 
-// TICKER
-const tickerItems = C.ticker.map(t =>
-  `<span class="${t.accent ? 'accent' : ''}">${t.text}</span>`).join('');
+/* ── TICKER ── */
+const tItems = C.ticker.map(t => `<span class="${t.accent?'ac':''}">${t.text}</span>`).join('');
 const tickerEl = document.getElementById('ticker-inner');
-tickerEl.innerHTML = tickerItems + tickerItems;
+tickerEl.innerHTML = tItems + tItems;
 
-// INTRO
+/* ── INTRO ── */
+const introImg = C.imatges.introImatge
+  ? `<img src="${C.imatges.introImatge}" class="intro-img" alt="Imatge introducció">`
+  : '';
 document.getElementById('intro').innerHTML = `
   <div class="section-label">${C.intro.label}</div>
   <div class="intro-grid">
-    <div><h2 class="intro-heading">${C.intro.titol}</h2></div>
+    <div><h2 class="intro-heading">${C.intro.titol}</h2>
+    ${introImg}</div>
     <div class="intro-text">
       <p>${C.intro.p1}</p>
       <blockquote>${C.intro.cita}</blockquote>
@@ -469,7 +650,7 @@ document.getElementById('intro').innerHTML = `
     </div>
   </div>`;
 
-// MARC TEÒRIC
+/* ── MARC TEÒRIC ── */
 document.getElementById('marc').innerHTML = `
   <div class="section-label">${C.marc.label}</div>
   <div class="theory-grid">
@@ -486,13 +667,23 @@ document.getElementById('marc').innerHTML = `
     <cite>${C.marc.citaAutor}</cite>
   </div>`;
 
-// PROCÉS
+/* ── PROCÉS ── */
 const navLinks = C.proces.passos.map((p, i) =>
-  `<a href="#${p.id}" class="process-step-link${i === 0 ? ' active' : ''}">${p.num} · ${p.titol}</a>`
+  `<a href="#${p.id}" class="process-step-link${i===0?' active':''}">${p.num} · ${p.titol}</a>`
 ).join('');
 
+const capturesHTML = C.imatges.captures.length ? `
+  <div class="screenshots-grid">
+    ${C.imatges.captures.map(c => `
+      <div class="screenshot-item">
+        <img src="${c.src}" alt="${c.label}"
+          onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
+        <div class="screenshot-label">${c.label}</div>
+      </div>`).join('')}
+  </div>` : '';
+
 const entries = C.proces.passos.map(p => {
-  const entry = `
+  const html = `
     <div class="process-entry" id="${p.id}">
       <div class="process-entry-header">
         <span class="process-entry-num">${p.num}</span>
@@ -503,19 +694,7 @@ const entries = C.proces.passos.map(p => {
         ${p.p2 ? `<p>${p.p2}</p>` : ''}
       </div>
     </div>`;
-  if (p.id === 'step2') {
-    const caps = `
-      <div class="screenshots-grid">
-        ${C.proces.captures.map(c => `
-          <div class="screenshot-item">
-            <img src="${c.src}" alt="${c.label}"
-              onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-            <div class="screenshot-label">${c.label}</div>
-          </div>`).join('')}
-      </div>`;
-    return entry + caps;
-  }
-  return entry;
+  return p.id === 'step2' ? html + capturesHTML : html;
 }).join('');
 
 document.getElementById('proces').innerHTML = `
@@ -525,7 +704,7 @@ document.getElementById('proces').innerHTML = `
     <div class="process-entries">${entries}</div>
   </div>`;
 
-// OBRA FINAL
+/* ── OBRA FINAL ── */
 const informesHTML = C.obra.informes.map((inf, i) => `
   <div class="informe-card" onclick="openModal(${i})">
     <div class="informe-card-ref">${inf.ref}</div>
@@ -549,17 +728,17 @@ document.getElementById('obra').innerHTML = `
   </div>
   <div class="informes-grid">${informesHTML}</div>`;
 
-// MODALS
-document.getElementById('modals-container').innerHTML = C.obra.informes.map((inf, i) => `
+/* ── MODALS ── */
+document.getElementById('modals').innerHTML = C.obra.informes.map((inf, i) => `
   <div class="modal-overlay" id="modal-${i}" onclick="closeModal(event,${i})">
     <div class="modal-box">
-      <button class="modal-close"
-        onclick="document.getElementById('modal-${i}').classList.remove('open')">✕</button>
+      <button class="modal-close" onclick="document.getElementById('modal-${i}').classList.remove('open')">✕</button>
       <div class="modal-ref">${inf.ref} · REGISTRE DE SEGUIMENT I ANÀLISI CONDUCTUAL</div>
       <div class="modal-meta">UBICACIÓ: ${inf.ubicacio}</div>
       <div class="modal-meta">CRONOLOGIA: ${inf.data} · TEMPS OBS. ${inf.temps}</div>
       <div class="modal-title">${inf.id}</div>
       <div class="modal-subtitle">${inf.genere} · ${inf.descripcio}</div>
+      ${inf.imatge ? `<img src="${inf.imatge}" class="modal-imatge" alt="Imatge ${inf.id}" onerror="this.style.display='none'">` : ''}
       <div class="modal-body">
         <strong>Informe conductual</strong>
         ${inf.informe}
@@ -567,7 +746,7 @@ document.getElementById('modals-container').innerHTML = C.obra.informes.map((inf
     </div>
   </div>`).join('');
 
-// REFERENTS
+/* ── REFERENTS ── */
 document.getElementById('referents').innerHTML = `
   <div class="section-label">${C.referents.label}</div>
   <div class="referents-list">
@@ -582,8 +761,13 @@ document.getElementById('referents').innerHTML = `
       </div>`).join('')}
   </div>`;
 
-// CONCLUSIONS
-document.getElementById('conclusions').innerHTML = `
+/* ── CONCLUSIONS ── */
+const concl = document.getElementById('conclusions');
+if (C.imatges.conclusionsFons) {
+  concl.classList.add('amb-fons');
+  concl.style.backgroundImage = `url('${C.imatges.conclusionsFons}')`;
+}
+concl.innerHTML = `
   <div class="section-label">${C.conclusions.label}</div>
   <div class="conclusions-body">
     <p>${C.conclusions.p1}</p>
@@ -592,24 +776,22 @@ document.getElementById('conclusions').innerHTML = `
     <em>${C.conclusions.ref}</em>
   </div>`;
 
-// FOOTER
+/* ── FOOTER ── */
 document.getElementById('footer').innerHTML = `
   <p>${C.footer.esquerra}</p>
   <p>${C.footer.dreta}</p>`;
 
-// INTERACCIONS
+/* ── INTERACCIONS ── */
 window.addEventListener('scroll', () => {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-const observer = new IntersectionObserver(
-  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+const revealObs = new IntersectionObserver(
+  es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
   { threshold: 0.1 }
 );
-document.querySelectorAll('.process-entry').forEach(el => observer.observe(el));
-
-const processObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
+const activeObs = new IntersectionObserver(es => {
+  es.forEach(e => {
     if (e.isIntersecting) {
       document.querySelectorAll('.process-step-link').forEach(l => l.classList.remove('active'));
       const a = document.querySelector(`.process-step-link[href="#${e.target.id}"]`);
@@ -617,7 +799,11 @@ const processObs = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.5 });
-document.querySelectorAll('.process-entry[id]').forEach(el => processObs.observe(el));
+
+document.querySelectorAll('.process-entry').forEach(el => {
+  revealObs.observe(el);
+  if (el.id) activeObs.observe(el);
+});
 
 function openModal(i) {
   document.getElementById(`modal-${i}`).classList.add('open');
