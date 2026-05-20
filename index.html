@@ -1,834 +1,1490 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Subjecte 094</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sota la Mirada — Alba Pérez Valls</title>
+<style>
+/* ═══════════════════════════════════════
+   VARIABLES — edita aquí per canviar colors i mides
+═══════════════════════════════════════ */
+:root {
+  --bg:       #ffffff;
+  --ink:      #0f0f0f;
+  --mid:      #444444;
+  --soft:     #d0d0d0;   /* línies divisòries — gris clar uniforme */
+  --cream:    #e0e0e0;
 
-<script>
-/* ════════════════════════════════════════════════════════════════
-   ██████╗  ██████╗ ███╗  ██╗███████╗██╗ ██████╗
-   ██╔════╝ ██╔══██╗████╗ ██║██╔════╝██║██╔════╝
-   ██║      ██║  ██║██╔██╗██║█████╗  ██║██║  ███╗
-   ██║      ██║  ██║██║╚████║██╔══╝  ██║██║   ██║
-   ╚██████╗ ██████╔╝██║ ╚███║██║     ██║╚██████╔╝
-    ╚═════╝ ╚═════╝ ╚═╝  ╚══╝╚═╝     ╚═╝ ╚═════╝
-   Tot el que pots editar és aquí. No toquis res més avall.
-════════════════════════════════════════════════════════════════ */
+  --font-h: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-b: 'Courier New', Courier, monospace;
 
-const CONFIG = {
+  --pad:  clamp(1.8rem, 5vw, 4rem);
+  --max:  1100px;
+  --col:  680px;
+}
 
-  /* ── COLORS ────────────────────────────────────────────────────
-     Pots escriure: noms CSS ("white", "black", "red"),
-     hex ("#ff0000"), rgb ("rgb(255,0,0)") o hsl ("hsl(0,100%,50%)")  */
-  colors: {
-    fons:          "#f5f4f0",   // color de fons general
-    text:          "#0a0a0a",   // color del text principal
-    accent:        "#0a0a0a",   // color d'accent (vermell per defecte)
-    gris:          "#888888",   // color del text secundari/gris
-    grisClar:      "#d8d6d0",   // línies i separadors
-    fonsFosc:      "#d8d6d0",   // fons de les seccions fosques
-    targetes:      "#d8d6d0",   // fons de les targetes fosques
-    targeteHover:  "#1a1a1a",   // fons de la targeta quan passes el ratolí
-    textFosc:      "#0a0a0a",   // text sobre fons fosc
-  },
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);color:var(--ink);background:var(--bg);line-height:1.85;overflow-x:hidden}
 
-  /* ── TIPOGRAFIA ────────────────────────────────────────────────
-     fontTitols: font dels títols (Helvetica, Georgia, "Times New Roman"...)
-     fontCos:    font del cos del text (Courier New, Arial, Verdana...)
-     Pots posar qualsevol font del sistema o de Google Fonts si la carregues */
-  tipografia: {
-    fontTitols:    "Helvetica, Arial, sans-serif",
-    fontCos:       "'Courier New', Courier, monospace",
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:1.1rem var(--pad);
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--soft);
+}
+.nav-brand{font-family:var(--font-b);font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-right:auto;opacity:.65;white-space:nowrap}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--font-b);font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink);opacity:.6;transition:opacity .2s;white-space:nowrap}
+.nav-links a:hover{opacity:1}
 
-    // Mides (pots posar px, em, rem, vw...)
-    midaBase:      "14px",      // mida base del cos
-    midaNav:       "11px",      // text de la navegació
-    midaHero:      "clamp(52px, 8vw, 110px)",  // títol principal
-    midaSubtitol:  "12px",      // subtítol / abstract
-    midaH2:        "clamp(28px, 3.5vw, 48px)", // títols de secció
-    midaH3:        "22px",      // títols de subsecció (procés)
-    midaTargeta:   "18px",      // títols de les targetes
-    midaConclusions: "20px",    // text de conclusions
-    midaEtiqueta:  "10px",      // etiquetes petites (REF, NUM...)
-    midaCita:      "12px",      // mida de les cites en cursiva
-    midaInforme:   "11px",      // text dels informes a les targetes
+/* ═══════════════════════════════════════
+   PORTADA
+═══════════════════════════════════════ */
+#portada{
+  min-height:100vh;
+  position:relative;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  /* Espai generós: el títol comença cap a la meitat i hi ha lloc per respirar */
+  padding:0 var(--pad) 5.5rem;
+  background:var(--bg);
+  overflow:hidden;
+}
 
-    // Pesos
-    pesNormal:     "400",
-    pesNegreta:    "700",
-  },
+/* Canvas ull — ocupa tota la portada, centre a la dreta per JS */
+#eye-canvas{
+  position:absolute;
+  top:0; left:0;
+  width:100%;height:100%;
+  opacity:.48;
+  pointer-events:none;
+  z-index:0;
+}
 
-  /* ── ESPAIAT ───────────────────────────────────────────────────
-     Marges i paddings de les seccions principals */
-  espaiat: {
-    seccio:        "100px 40px",   // padding de cada secció
-    nav:           "18px 40px",    // padding del nav
-    targeta:       "40px 32px",    // padding de les targetes del marc teòric
-    heroPadding:   "120px 40px 60px", // padding del hero
-  },
+.hero-meta-top{
+  position:absolute;
+  /* Espai = nav + marge generós */
+  top:calc(1.1rem + 44px + 2rem);
+  left:var(--pad);
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  opacity:.65;line-height:2;z-index:1;
+}
 
-  /* ── IMATGES ───────────────────────────────────────────────────
-     Posa la ruta de la imatge entre cometes, o "" per no mostrar-la.
-     Si la web és local, posa la ruta relativa (ex: "img/foto.jpg").
-     Si és remota, posa la URL completa (ex: "https://...").           */
-  imatges: {
-    // Imatge de fons del hero (deixa "" per fons de color sol)
-    heroFons: "",
+.hero-title-wrap{
+  position:relative;z-index:1;
+  /* L'espai entre meta-top i el títol = aproximadament mig títol */
+  padding-top:clamp(8rem, 22vh, 16rem);
+}
 
-    // Imatge de la secció d'introducció (costat dret, deixa "" per no mostrar)
-    introImatge: "https://github.com/albaperezvalls911-spec/imatges/raw/refs/heads/main/imatge-1",
+.hero-title{
+  font-family:var(--font-h);
+  font-size:clamp(2.4rem, 12vw, 10rem);
+  font-weight:700;
+  line-height:.93;
+  letter-spacing:-.025em;
+  position:relative;z-index:1;
+  margin-bottom:2rem;
+  white-space:nowrap;
+  display:block;
+}
 
-    // Imatges del procés (captures de pantalla del codi)
-    captures: [
-      {
-        src:   "/mnt/user-data/uploads/Captura_de_pantalla__193_.png",
-        label: "main.py · 17/03/2026 · 12:55",
-      },
-      {
-        src:   "/mnt/user-data/uploads/Captura_de_pantalla__200_.png",
-        label: "main.py · 29/04/2026 · 10:25",
-      },
-      // Afegeix més captures aquí si vols:
-      // { src: "ruta/imatge.jpg", label: "descripció" },
-    ],
+/* Les dues línies de la portada: igual longitud, de marge a marge */
+.hero-top-rule{
+  width:100%;
+  height:1px;
+  background:var(--soft);
+  margin-bottom:2rem;
+  position:relative;z-index:1;
+}
+.hero-bottom{
+  display:grid;grid-template-columns:1fr 1fr;gap:3rem;
+  position:relative;z-index:1;
+  border-top:1px solid var(--soft);padding-top:2rem;
+  /* Amplada màxima = tota la pantalla menys els pads */
+  width:100%;
+}
+.hero-sub{font-family:var(--font-b);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;opacity:.88;margin-bottom:.6rem}
+.hero-abstract{font-size:.85rem;line-height:1.9;text-align:justify;opacity:.88;max-width:480px}
+.hero-kw{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.78;margin-top:1rem}
+.hero-index{display:flex;flex-direction:column;gap:.5rem;padding-top:.2rem}
+.hero-index a{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink);opacity:.75;transition:opacity .2s;display:flex;align-items:center;gap:.6rem}
+.hero-index a::before{content:attr(data-n);font-size:.55rem;opacity:.8;color:var(--ink)}
+.hero-index a:hover{opacity:1}
+.scroll-hint{position:absolute;bottom:2rem;right:var(--pad);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;display:flex;align-items:center;gap:.5rem;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 
-    // Imatge de fons de la secció de conclusions (deixa "" per no mostrar)
-    conclusionsFons: "",
-  },
+/* ─── Captions i textos petits generals ─── */
+.s-num{font-family:var(--font-b);font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--ink);flex-shrink:0;padding-top:.1rem}
+.img-wrap figcaption,.img-side-cap,.img-cap-text{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-top:.6rem}
+.gi-count{font-size:.6rem;letter-spacing:.12em;opacity:.7;font-family:var(--font-b)}
+.gi-desc p{font-size:.88rem;opacity:.75;margin:0}
+.gi-scroll-bar{max-width:var(--max);margin:2.5rem auto 0;padding:0 var(--pad);display:flex;align-items:center;gap:1rem;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.6;color:var(--ink)}
+.gi-scroll-bar::before{content:'';display:block;width:40px;height:1px;background:currentColor;flex-shrink:0}
+.ref-cat{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.55;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--soft)}
+.offset-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.65;padding-top:.2rem;line-height:1.6;font-weight:700}
+.flux-label{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;opacity:.72;font-weight:700}
+.flux-hint{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.45;margin-top:2rem;text-align:center}
+.intro-infancia-label{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;opacity:.65;display:block;margin-bottom:1.5rem;font-weight:700}
+.pull-quote cite{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;opacity:.6}
+.modal-lbl{font-weight:700;font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;padding-top:.15rem;opacity:.6}
+.modal-doc-title{font-family:var(--font-b);font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:.8rem;margin-bottom:2.5rem}
+.thanks-bar p{font-family:var(--font-b);font-size:.78rem;font-weight:700;letter-spacing:.08em;opacity:.55;max-width:none;text-align:center}
 
-  /* ── NAVEGACIÓ ───────────────────────────────────────────────── */
-  nav: {
-    id: "ALBA PÉREZ VALLS / TC-III / 2026",
-    links: [
-      { text: "Introducció",  href: "#intro"      },
-      { text: "Marc Teòric",  href: "#marc"       },
-      { text: "Procés",       href: "#proces"     },
-      { text: "Obra Final",   href: "#obra"       },
-      { text: "Referents",    href: "#referents"  },
-    ],
-  },
+/* ═══════════════════════════════════════
+   SECCIONS
+═══════════════════════════════════════ */
+.section{max-width:var(--max);margin:0 auto;padding:7rem var(--pad);border-top:1px solid var(--soft)}
+.s-head{display:flex;align-items:baseline;gap:1.2rem;margin-bottom:4rem}
+.s-num{font-family:var(--font-b);font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--ink);flex-shrink:0;padding-top:.1rem}
+.s-title{font-family:var(--font-b);font-size:.82rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
 
-  /* ── HERO ──────────────────────────────────────────────────────
-     \n dins el títol = salt de línia                              */
-  hero: {
-    ref:       "UNIVERSITAT DE BARCELONA · BELLES ARTS · MEMÒRIA TC-III",
-    titol:     "L'alteritat del jo, sota la mirada",
-    subtitol:  "Instal·lació artistica amb tracking en temps real",
-    abstract:  "El projecte vol explorar la tensió entre la vivència personal i el seu registre institucional, qüestionant com la vigilancia invisible i el processament de dades construeixen una identitat que sovint substitueix o condiciona la una visió pròpia. L’obra posa en evidencia la vulnerabilitat de l’individu davant de la mirada externa, que monitoritza sense el seu consentiment, transformant la seva conducta quotidiana en un arxiu.",
-    keywords:  ["Institució", "Vigilància", "Identitat", "Arxiu", "Vivència"],
-    scrollHint:"desplaça per descobrir",
-  },
+p{font-size:.95rem;line-height:1.9;margin-bottom:1.35rem;text-align:justify}
+em{font-style:italic}
 
-  /* ── TICKER (barra de text animada) ───────────────────────────
-     accent: true = text en color d'accent, false = text en gris  */
-  ticker: [
-    { text: "SISTEMA ACTIU",                    accent: true  },
-    { text: "ANALISI CONDUCTUAL EN TEMPS REAL", accent: false },
-    { text: "SUBJECTE IDENTIFICAT",             accent: false },
-    { text: "REG: 22/04/2026 · 16:38:51",       accent: true  },
-    { text: "CARRER DE PAU GARGALLO, 4",        accent: false },
-    { text: "TEMPS D'OBSERVACIÓ: 91s",          accent: false },
-    { text: "INFORME GENERAT",                  accent: true  },
-    { text: "DADES EN PROCESSAMENT",            accent: false },
-  ],
+/* ─── LAYOUTS ─── */
+.col-text{max-width:var(--col);margin-left:auto;margin-right:auto}
 
-  /* ── INTRODUCCIÓ ───────────────────────────────────────────── */
-  intro: {
-    label:  "01 — Introducció",
-    titol:  "Com em sento havent sigut un objecte d'estudi sense saber-ho?",
-    p1:     "Aquest projecte neix de la sensació que vaig tenir en trobar uns informes avaluatius de quan feia p3 i p4. Papers que parlaven de mi amb una seguretat absoluta, descrivint com era, com em comportava, què sabia fer o fins a quin punt era perfeccionista, d’una etapa de la meva vida que jo ni tan sols recordo. Em va incomodar adonar-me que existeix una versió de mi mateixa construïda des de fora, escrita per algú desconegut, i que aquesta versió és molt més concreta que els meus propis records. Jo no recordo qui era amb tres o quatre anys, però aquells informes sí. I això em fa preguntar fins a quin punt el meu passat em pertany realment, o si acaba sent propietat del registre, de l’arxiu, de la mirada de l’altre.",
-    cita:   "Jo no recordo el meu passat, quan tenia 3 o 4 anys, en canvi, em trobo amb informes que descriuen com era o qui era. Qui és el propietari del meu passat? Jo que no el recordo, o l'informe que descriu amb detalls tots els meus comportaments?",
-    p2:     "Davant d’això apareix també una certa desconfiança cap a aquesta mirada adulta que observa, analitza i classifica. Una mirada que aparentment és objectiva, però que inevitablement també està plena d’idees, prejudicis i expectatives sobre com un nen ha de ser. Em sorprèn pensar que el meu comportament quotidià podia convertir-se en un document administratiu, en observacions escrites fredament, sense que jo en fos conscient. D’altra banda, vaig pensar que era una invasió de la intimitat brutal, ja que el meu comportament era public, classificable i avaluable en un informe administratiu, sense jo saber-ho; era quasi com un objecte d’un estudi científic.",
-    p3:     "Aquest projecte parteix, doncs, d’aquesta incomoditat. De la sensació d’haver estat observada i definida abans fins i tot de tenir consciència de mi mateixa. I de la necessitat d’entendre què passa quan la memòria pròpia desapareix, però en canvi en queden rastres escrits que continuen parlant per tu."
-  },
+/* Introducció: text en columna estrella + informe gran al costat dret
+   Estil referència: text estret a l'esquerra, imatge gran i prominent a la dreta */
+.float-img-wrap{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:5rem;align-items:start;
+  max-width:var(--max);margin:0 auto 3rem;
+}
+.float-img-wrap p{margin-bottom:.9rem}
 
-  /* ── MARC TEÒRIC ───────────────────────────────────────────── */
-  marc: {
-    label: "02 — Marc Teòric i Conceptual",
-    conceptes: [
-      {
-        num:   "CONCEPTE 01",
-        titol: "El Panòptic i la Disciplina",
-        autor: "Michel Foucault · 1975",
-        text:  "El poder modern funciona millor quan les persones interioritzen la vigilància. Institucions com escoles, presons i hospitals es converteixen en espais de control subtil: no es castiga el cos, es disciplina la ment i la conducta.",
-      },
-      {
-        num:   "CONCEPTE 02",
-        titol: "Societats de Control",
-        autor: "Gilles Deleuze · 1990",
-        text:  'El pas de la societat de "tancament" (la bata a l\'escola) a la societat de "control" (el tracking de dades i algoritmes). El control ja no opera des de l\'exterior, sinó que es converteix en part del propi subjecte.',
-      },
-      {
-        num:   "CONCEPTE 03",
-        titol: "Psicopolítica",
-        autor: "Byung-Chul Han · 2014",
-        text:  "Les dades digitals s'utilitzen per predir i controlar la conducta humana de forma invisible. El subjecte cedeix voluntàriament les seves dades, sense percebre que s'autosomete a un sistema de control permanent.",
-      },
-      {
-        num:   "CONCEPTE 04",
-        titol: "L'Escola com a Classificació",
-        autor: "Ivan Illich · Deschooling Society",
-        text:  "L'escola ha monopolitzat la idea d'educació. L'aprenentatge queda lligat a la institució i fora d'aquesta ja no s'entén. L'aprenentatge queda reduït a un procés administratiu i mesurable.",
-      },
-      {
-        num:   "CONCEPTE 05",
-        titol: "El Registre com a Tecnologia de Poder",
-        autor: "Foucault · L'expedient escolar",
-        text:  "L'avaluació escolar combina observació, comparació i arxiu. L'examen produeix documents que acumulen informació sobre els individus. L'expedient es converteix en arxiu de conducta que permet mesurar, classificar i intervenir.",
-      },
-      {
-        num:   "CONCEPTE 06",
-        titol: "Colonització de la Memòria",
-        autor: "Paradoxa de l'autoritat institucional",
-        text:  'L\'arxiu substitueix la memòria pròpia quan aquesta és incompleta o absent. El record personal és fràgil i volàtil; el registre institucional és rígid i permanent. El llenguatge de la dada crea un "altre jo".',
-      },
-    ],
-    cita:      '"Les institucions modernes produeixen coneixement a través de la vigilància i l\'observació constant."',
-    citaAutor: "Michel Foucault · Vigilar i Castigar, 1975",
-  },
+/* row-text-img per a marc teòric — text a l'esquerra, imatge a la dreta */
+.row-text-img{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-bottom:3rem;max-width:var(--max)}
 
-  /* ── PROCÉS ─────────────────────────────────────────────────── */
-  proces: {
-    label: "03 — Procés de Treball",
-    passos: [
-      {
-        id:    "step1",
-        num:   "01",
-        titol: "Punt de partida: els informes de P3 i P4",
-        p1:    "La descoberta dels informes avaluatius d'infància va generar la pregunta central del projecte: com es construeix la identitat quan el record propi és absent però el registre institucional és complet i autoritzat?",
-        p2:    'Des d\'un principi vaig tenir clar que l\'objectiu era que l\'espectador sentís aquesta "traïció", el fet d\'haver estat vigilat sense saber-ho. Posar sobre la taula el que ja donem per fet i no pensem.',
-      },
-      {
-        id:    "step2",
-        num:   "02",
-        titol: "Creació del sistema de tracking en Python",
-        p1:    "Vaig decidir crear un sistema de vigilància a partir de la programació d'un sistema de tracking en Python. Personalment, mai havia estat dins d'aquest àmbit, de manera que gran part del procés va ser d'experimentació i investigació.",
-        p2:    "El sistema utilitza OpenCV per capturar vídeo en temps real, detecta i segueix persones amb YOLO v8, i registra coordenades de moviment, temps d'exposició i nombre de pauses.",
-        // Les captures apareixen aquí automàticament
-      },
-      {
-        id:    "step3",
-        num:   "03",
-        titol: "Primera prova: taula de prompts específics",
-        p1:    "En un principi vaig crear un motor de text que traduïa les dades captades i convertia les coordenades de Python en un llenguatge administratiu: temps del subjecte dins del camp de visió, número de pauses, psicomotricitat reactiva i postura gestual.",
-        p2:    "Tot i així, els informes semblaven poc específics. La taula pre-establerta de conceptes (Trànsit Fluid, Trànsit Pausat, Latència Alta, Psicomotricitat Reactiva, Postura Neutra) limitava la variabilitat dels informes generats.",
-      },
-      {
-        id:    "step4",
-        num:   "04",
-        titol: "Integració de IA: Gemini Flash-Lite",
-        p1:    "Vaig decidir no involucrar cap mena d'opinió ni referència psicològica i vaig desenvolupar un sistema que, utilitzant la IA (Gemini 3.1 flash-lite), descrivia tots els comportaments físics de cada usuari sense necessitat d'una taula pre-establerta.",
-        p2:    "D'aquesta manera, el rang de contingut dels informes es tornava molt més variable i autèntic, mimetitzant la burocràcia institucional de manera inquietant.",
-      },
-      {
-        id:    "step5",
-        num:   "05",
-        titol: "Instal·lació final: la sala blanca",
-        p1:    "Mentre els visitants esperen per entrar, el sistema els processa individualment. Un cop a l'interior de la sala, es troben amb una paret que exhibeix informes de tots els visitants. Cada informe correspon a un d'ells.",
-        p2:    "No hi ha cap objecte escultòric central; l'obra és la confrontació entre la persona i el seu rastre digital. El tiquet imprès és el residu d'una conducta que el subjecte creia privada i que la institució ha convertit en arxiu.",
-      },
-    ],
-  },
+.img-wrap{position:relative;overflow:hidden;cursor:pointer}
+.img-wrap img{width:100%;display:block;transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.img-wrap:hover img{transform:scale(1.02)}
+.img-wrap figcaption{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-top:.55rem}
 
-  /* ── OBRA FINAL — INFORMES ──────────────────────────────────── 
-     Per afegir un informe nou, copia un bloc { } i canvia els valors.
-     imatge: posa la ruta d'una imatge per mostrar-la dins el modal, o "" */
-  obra: {
-    label: "04 — Obra Final · Informes Conductuals",
-    intro: "Els informes generats pel sistema constitueixen l'obra en si mateixa. Cada document és el rastre digital d'un comportament que el subjecte creia privat. Fes clic en cada informe per llegir-lo.",
-    informes: [
-      {
-        ref:        "REF-1637-P1",
-        id:         "P1",
-        genere:     "Subjecte femení",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Jersei de punt gris clar · Collaret amb penjoll fosc",
-        informe:    "El subjecte es mostra en una posició de primer pla, mantenint el contacte visual amb la càmera. L'expressió facial és seriosa i neutra, sense signes d'activitat motriu significativa més enllà de petits moviments espasmòdics a la regió ocular. L'actitud és observadora, suggerint una autoavaluació o la preparació per a una intervenció verbal.",
-        imatge:     "",   // ex: "/mnt/user-data/uploads/foto.jpg"
-      },
-      {
-        ref:        "REF-1637-P2",
-        id:         "P2",
-        genere:     "Subjecte femení",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Dessuadora gris clar amb caputxa",
-        informe:    "Localitzada en el pla de fons, asseguda en una taula exterior. Manté una postura relaxada, interactuant activament amb el grup. El seu llenguatge corporal és obert i receptiu, amb moviments de mans que acompanyen la comunicació verbal, la qual cosa indica una actitud participativa i socialment integrada en l'entorn.",
-        imatge:     "",
-      },
-      {
-        ref:        "REF-1637-P3",
-        id:         "P3",
-        genere:     "Subjecte femení",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Samarreta de ratlles horitzontals blanques i blaves (tipus mariner)",
-        informe:    "Asseguda d'esquena a la càmera. La seva posició és estàtica però manté la inclinació del tronc cap als seus interlocutors, fet que denota una atenció focalitzada en la conversa. No es detecten moviments bruscos, mantenint una actitud de contenció i escolta activa dins del grup.",
-        imatge:     "",
-      },
-      {
-        ref:        "REF-1637-P4",
-        id:         "P4",
-        genere:     "Subjecte femení",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Brusa de to fosc",
-        informe:    "Situada al fons, entre la persona 3 i la persona 5. La seva actitud és de reserva; es manté en una postura retraïda, amb moviments mínims i una atenció dispersa o enfocada en el seu propi espai, mostrant una menor participació dinàmica en la interacció grupal general.",
-        imatge:     "",
-      },
-      {
-        ref:        "REF-1637-P5",
-        id:         "P5",
-        genere:     "Subjecte masculí",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Jaqueta o dessuadora negra",
-        informe:    "Assegut a l'extrem dret del grup. Presenta una actitud d'escolta, sovint amb la mirada baixa o centrada en els objectes de la taula. Els seus moviments són pausats i controlats, mostrant un perfil més introspectiu en comparació amb la resta dels membres.",
-        imatge:     "",
-      },
-      {
-        ref:        "REF-1637-P6",
-        id:         "P6",
-        genere:     "Subjecte masculí",
-        data:       "22/04/2026 · 16:38:51",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "91 segons",
-        descripcio: "Camisa o samarreta de color negre de màniga curta",
-        informe:    "S'incorpora a la seqüència tardanament i s'asseu a la taula. Demostra una actitud extravertida i dominant, iniciant la interacció amb gesticulació àmplia amb la mà dreta. Els moviments són resolutius i segurs, indicant un rol actiu o d'iniciador en la dinàmica de la conversa.",
-        imatge:     "",
-      },
-      {
-        ref:        "REF-0918-P1",
-        id:         "P1 · β",
-        genere:     "Subjecte femení",
-        data:       "18/04/2026 · 09:20:21",
-        ubicacio:   "Carrer de Pau Gargallo, 4",
-        temps:      "81 segons",
-        descripcio: "Dona jove · Cabells arrissats recollits en monyo alt · Dessuadora gris clar",
-        informe:    "El subjecte es troba en un espai interior (semblant a un dormitori o estudi) en una posició asseguda. Està sostenint una guitarra acústica, la qual manipula contínuament amb les mans, tocant les cordes de manera rítmica i repetitiva. El seu camp visual està fixat en el cos de l'instrument o en un dispositiu mòbil situat en un suport a la seva dreta. Es mostra concentrada i serena. El seu llenguatge corporal és de recolliment; manté el cap inclinat cap avall amb una postura lleugerament encorbada, pròpia d'una activitat que requereix atenció minuciosa i pràctica tècnica.",
-        imatge:     "",
-      },
-    ],
-  },
+.img-col{max-width:var(--col);margin:3.5rem auto}
+/* Duo d'imatges: amplada total de la secció per impacte visual */
+.img-duo{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:4rem 0;max-width:var(--max)}
 
-  /* ── REFERENTS ──────────────────────────────────────────────── */
-  referents: {
-    label: "05 — Referents Artístics",
-    llista: [
-      {
-        num:  "01",
-        nom:  "Dora García",
-        obra: "Performance delegada · Protocols invisibles",
-        desc: "La seva pràctica entorn de la performance delegada i l'estudi del comportament humà sota protocols invisibles. L'observació com a acte artístic que implica el subjecte sense el seu coneixement.",
-      },
-      {
-        num:  "02",
-        nom:  "Trevor Paglen",
-        obra: "Visió de les màquines · IA i realitat",
-        desc: "Investigació sobre la visió de les màquines i com els algoritmes d'intel·ligència artificial interpreten la realitat humana. La càmera no és neutral; cada sistema de visió porta incorporada una ideologia.",
-      },
-      {
-        num:  "03",
-        nom:  "Hans Haacke",
-        obra: "Sistemes · Estructures de poder",
-        desc: "Ús de sistemes i enquestes per revelar les estructures de poder dins el món de l'art. L'obra com a dispositiu que posa en evidència les xarxes de control i influència que normalment romanen invisibles.",
-      },
-    ],
-  },
+/* Intro infancia: text i foto de la classe, proporció 40/60 en favor foto */
+.intro-infancia{
+  max-width:var(--max);margin:4rem auto 0;
+  display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start;
+}
+.intro-infancia-label{
+  font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink);display:block;margin-bottom:1.2rem;font-weight:700;
+}
 
-  /* ── CONCLUSIONS ────────────────────────────────────────────── */
-  conclusions: {
-    label: "06 — Conclusions",
-    p1:    "La sala blanca és un espai de poder on la informació substitueix l'experiència estètica tradicional.",
-    p2:    "La sorpresa i la incomoditat del visitant en reconèixer-se en l'informe validen la tesi inicial: som subjectes monitoritzats permanentment.",
-    p3:    "La tecnologia no s'ha utilitzat com a eina decorativa, sinó com a eina de denúncia, forçant la màquina a parlar i a fer pública la seva mirada constant.",
-    ref:   "REFERÈNCIA: SUBJECTE-094 · TC-III · 2026 · CARRER DE PAU GARGALLO, 4",
-  },
+/* ─── Marc teòric — layouts específics ─── */
+/* Introducció: dues columnes iguals amb mes espai */
+.marc-intro{
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;
+  max-width:var(--max);margin:0 auto 3rem;
+}
+.marc-intro p{margin-bottom:1rem;font-size:.93rem}
+.marc-col-label{
+  font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  opacity:.45;display:block;margin-bottom:.9rem;
+}
+/* Cita amb molt espai als costats */
+.pull-quote{
+  max-width:540px;margin:5rem auto;
+  padding-left:1.6rem;border-left:1.5px solid var(--ink);
+}
+.pull-quote p{font-size:.95rem;font-style:italic;text-align:left;margin-bottom:.5rem}
+.pull-quote cite{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#555;display:block;margin-top:.6rem}
 
-  /* ── FOOTER ─────────────────────────────────────────────────── */
-  footer: {
-    esquerra: "© 2026 — Projecte TC-III · Memòria de Treball",
-    dreta:    "Sistema de vigilància actiu · Python 3.x + OpenCV + Gemini Flash-Lite",
-  },
+/* Dues columnes marc - mes espai */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:var(--max);margin:0 auto 3rem}
+.two-col p{margin-bottom:.9rem;font-size:.93rem}
 
-}; /* fi de CONFIG */
-/* ════════════════════════════════════════════════════════════════
-   A partir d'aquí no cal editar res.
-════════════════════════════════════════════════════════════════ */
-</script>
+/* Dora García */
+.marc-dora{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:5rem;
+  align-items:start;max-width:var(--max);margin:4rem auto;
+}
+.marc-dora-img img{width:100%;display:block;cursor:pointer;transition:transform .4s}
+.marc-dora-img img:hover{transform:scale(1.015)}
+.marc-dora-text p{margin-bottom:.9rem}
 
-<style id="dynamic-styles">
-  /* Les variables CSS s'injecten per JavaScript a partir de CONFIG */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+/* ─── Brannon Dorsey — layout asimètric animat ─── */
+.dorsey-layout{
+  max-width:var(--max);margin:4rem auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;
+}
+.dorsey-text p{font-size:.93rem;margin-bottom:.9rem}
+.dorsey-images{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:1rem;
+  position:relative;
+}
+/* La primera imatge ocupa les dues files de la columna esquerra (apilada gran) */
+.dorsey-img-a{
+  grid-column:1;grid-row:1;
+  transform:translateY(0);
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+/* La segona imatge desplaçada cap avall, com a la referència */
+.dorsey-img-b{
+  grid-column:2;grid-row:1;
+  transform:translateY(3rem);
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94) .1s;
+}
+.dorsey-img-a.anim-in{transform:translateY(0)}
+.dorsey-img-b.anim-in{transform:translateY(3rem)}
+/* Quan la secció entra al viewport s'animen */
+.dorsey-images.revealed .dorsey-img-a{transform:translateY(-1.5rem)}
+.dorsey-images.revealed .dorsey-img-b{transform:translateY(1.5rem)}
+.dorsey-images .img-wrap img{width:100%;display:block;cursor:pointer;transition:transform .4s}
+.dorsey-images .img-wrap img:hover{transform:scale(1.03)}
+.dorsey-cap{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-top:.8rem;grid-column:1/-1}
 
-  body {
-    background: var(--fons);
-    color: var(--text);
-    font-family: var(--fontCos);
-    font-size: var(--midaBase);
-    line-height: 1.65;
-    overflow-x: hidden;
-  }
+/* ─── Galeria: sense border-top visible ─── */
+#galeria-informes{
+  border-top:none;  /* sense línia entre blanc i gris */
+  padding:7rem 0 5rem;
+  overflow:hidden;
+  background:#e8e8e8;
+}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: var(--nav);
-    border-bottom: 1px solid transparent;
-    transition: border-color .3s, background .3s;
-  }
-  nav.scrolled { background: var(--fons); border-color: var(--grisClar); }
-  .nav-id { font-family: var(--fontCos); font-size: var(--midaNav); letter-spacing: .08em; color: var(--gris); }
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-  .nav-links a {
-    font-family: var(--fontTitols); font-weight: var(--pesNegreta);
-    font-size: var(--midaNav); letter-spacing: .12em; text-transform: uppercase;
-    color: var(--text); text-decoration: none; transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
+/* Duo vertical */
+.img-duo-vert{display:flex;flex-direction:column;gap:1rem}
+.img-duo-vert .img-wrap img{width:100%;display:block;cursor:pointer;transition:transform .4s}
+.img-duo-vert .img-wrap img:hover{transform:scale(1.015)}
+   - cita en columna centrada i compacta
+   - text en dues columnes equilibrades
+   - bloc offset amb etiqueta lateral prominent
+   - Dora García: foto esquerra 55%, text dreta 45%  */
+.pull-quote{max-width:var(--col);margin:4rem auto;padding-left:1.8rem;border-left:1.5px solid var(--ink)}
+.pull-quote p{font-size:.95rem;font-style:italic;text-align:left;margin-bottom:.5rem}
+.pull-quote cite{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#555}
+/* Dues columnes — text equilibrat a les dues bandes */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:var(--max);margin:0 auto 1.35rem}
+.two-col p{margin-bottom:.9rem;font-size:.92rem}
+/* Offset: etiqueta lateral fina + bloc de text ample */
+.offset{max-width:var(--max);margin:0 auto 3rem;display:grid;grid-template-columns:140px 1fr;gap:3rem;padding-left:0}
+.offset-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink);padding-top:.25rem;line-height:1.7;font-weight:700}
+/* Dora García: imatge gran esquerra (55%) + text dreta (45%) */
+.img-text-row{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:start;max-width:var(--max);margin:3rem auto}
+.img-text-row .img-side-cap{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:#555;margin-top:.55rem}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh; display: grid; grid-template-rows: 1fr auto;
-    padding: var(--heroPadding);
-    background: var(--fons);
-  }
-  .hero.amb-fons {
-    background-size: cover; background-position: center;
-    background-blend-mode: multiply;
-  }
-  .hero-content { display: flex; flex-direction: column; justify-content: center; max-width: 900px; }
-  .hero-ref {
-    font-family: var(--fontCos); font-size: var(--midaNav); color: var(--accent);
-    letter-spacing: .15em; margin-bottom: 48px;
-    opacity: 0; animation: fadeUp .8s .2s forwards;
-  }
-  .hero-title {
-    font-family: var(--fontTitols); font-size: var(--midaHero);
-    font-weight: var(--pesNegreta); line-height: .95; letter-spacing: -.03em;
-    margin-bottom: 40px; opacity: 0; animation: fadeUp .9s .4s forwards;
-  }
-  .hero-title em {
-    font-style: normal; font-family: var(--fontCos); font-size: .38em;
-    display: block; color: var(--gris); letter-spacing: .1em; margin-top: 12px; line-height: 1.4;
-  }
-  .hero-abstract {
-    max-width: 520px; font-size: var(--midaSubtitol); line-height: 1.75;
-    opacity: 0; animation: fadeUp .9s .6s forwards;
-    border-left: 1px solid var(--accent); padding-left: 24px;
-  }
-  .hero-bottom {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    opacity: 0; animation: fadeUp .8s .9s forwards;
-  }
-  .hero-keywords { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; display: flex; gap: 24px; }
-  .hero-keywords span { border: 1px solid var(--grisClar); padding: 4px 10px; }
-  .scroll-hint { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); writing-mode: vertical-rl; letter-spacing: .15em; }
+/* ═══════════════════════════════════════
+   ESQUEMA DEL FLUX (Desenvolupament) — al final de la secció
+═══════════════════════════════════════ */
+#flux-diagram{
+  max-width:800px;margin:5rem auto 0;
+  position:relative;
+}
+.flux-label-top{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.55;font-weight:700;text-align:center;margin-bottom:2.5rem;
+}
+.flux-nodes{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:0;position:relative;
+}
+.flux-nodes::before{
+  content:'';position:absolute;top:40px;left:40px;right:40px;
+  height:1px;background:linear-gradient(90deg,transparent,var(--ink) 20%,var(--ink) 80%,transparent);
+  z-index:0;
+}
+.flux-node{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  cursor:pointer;transition:transform .3s;
+}
+.flux-node:hover{transform:translateY(-8px)}
+.flux-box{
+  width:80px;height:80px;
+  border:1px solid var(--soft);
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.8rem;
+  transition:border-color .25s,box-shadow .25s;
+}
+.flux-node:hover .flux-box{
+  border-color:var(--ink);
+  box-shadow:0 8px 24px rgba(0,0,0,.1);
+}
+.flux-box svg{width:38px;height:38px;opacity:.75}
+.flux-label{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;text-align:center;opacity:.6;font-weight:700}
+.flux-arrow{
+  flex:1;display:flex;align-items:flex-start;justify-content:center;
+  padding-top:38px;font-size:.65rem;opacity:.4;z-index:1;position:relative;
+  pointer-events:none;letter-spacing:.05em;
+}
+/* Tooltip translúcid i modern */
+.flux-tooltip{
+  position:absolute;
+  bottom:calc(100% + 14px);
+  left:50%;transform:translateX(-50%) translateY(6px);
+  /* vidre translúcid clar */
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  color:var(--ink);
+  border:1px solid rgba(0,0,0,.09);
+  box-shadow:0 12px 40px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);
+  font-size:.74rem;line-height:1.75;
+  padding:1rem 1.2rem;width:230px;
+  opacity:0;
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;z-index:20;text-align:left;
+  white-space:normal;border-radius:4px;
+}
+.flux-tooltip.open{
+  opacity:1;transform:translateX(-50%) translateY(0);
+  pointer-events:auto;
+}
+.flux-tooltip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:7px solid transparent;border-top-color:rgba(255,255,255,0.82);
+}
+.flux-progress-line{
+  position:absolute;top:40px;left:40px;
+  height:1px;background:var(--ink);
+  width:0%;transition:width 1s ease;
+  z-index:0;
+}
+.flux-hint{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;opacity:.3;margin-top:2rem;text-align:center}
 
-  /* TICKER */
-  .ticker { border-top: 1px solid var(--grisClar); border-bottom: 1px solid var(--grisClar); overflow: hidden; white-space: nowrap; padding: 12px 0; }
-  .ticker-inner { display: inline-flex; gap: 60px; animation: ticker 28s linear infinite; }
-  .ticker-inner span { font-family: var(--fontCos); font-size: var(--midaEtiqueta); letter-spacing: .12em; color: var(--gris); text-transform: uppercase; }
-  .ticker-inner span.ac { color: var(--accent); }
+/* ═══════════════════════════════════════
+   GALERIA INFORMES
+═══════════════════════════════════════ */
+#galeria-informes{
+  border-top:1px solid var(--soft);
+  padding:7rem 0 5rem;
+  overflow:hidden;
+  background:#e8e8e8;  /* gris neutre — no beix */
+}
+.gi-head{
+  max-width:var(--max);margin:0 auto 1.5rem;
+  padding:0 var(--pad);
+  display:flex;align-items:baseline;justify-content:space-between;
+}
+.gi-head-left{display:flex;align-items:baseline;gap:1.2rem}
+.gi-count{font-size:.6rem;letter-spacing:.12em;opacity:.35;font-family:var(--font-b)}
+.gi-desc{max-width:var(--max);margin:0 auto 3rem;padding:0 var(--pad);display:grid;grid-template-columns:var(--col) 1fr;gap:4rem}
+.gi-desc p{font-size:.88rem;opacity:.55;margin:0}
 
-  /* SECCIONS */
-  section { padding: var(--seccio); }
-  .section-label {
-    font-family: var(--fontCos); font-size: var(--midaEtiqueta); letter-spacing: .2em;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 60px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::after { content: ''; height: 1px; width: 60px; background: var(--grisClar); }
+.gi-strip{
+  display:flex;gap:1.2rem;overflow-x:auto;
+  padding:0 var(--pad) 2rem;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;cursor:grab;
+}
+.gi-strip:active{cursor:grabbing}
+.gi-strip::-webkit-scrollbar{height:2px}
+.gi-strip::-webkit-scrollbar-thumb{background:var(--soft)}
 
-  /* INTRO */
-  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-  .intro-heading { font-family: var(--fontTitols); font-size: var(--midaH2); font-weight: var(--pesNegreta); line-height: 1.1; letter-spacing: -.02em; }
-  .intro-text { font-size: var(--midaSubtitol); line-height: 1.8; }
-  .intro-text p + p { margin-top: 20px; }
-  .intro-text blockquote {
-    font-family: var(--fontCos); font-style: italic; font-size: var(--midaCita);
-    color: var(--gris); border-left: 2px solid var(--accent);
-    padding: 16px 20px; margin: 28px 0; line-height: 1.7;
-  }
-  .intro-img { width: 100%; max-height: 420px; object-fit: cover; display: block; }
+.gi-card{
+  flex-shrink:0;width:clamp(200px,22vw,300px);
+  scroll-snap-align:start;cursor:pointer;position:relative;
+  background:transparent;
+}
+/* Sense border ni fons: les imatges floten sobre el gris de la galeria */
+.gi-card img{width:100%;display:block;background:#d8d8d8;border:none;transition:box-shadow .3s,transform .3s}
+.gi-card:hover img{box-shadow:0 20px 50px rgba(0,0,0,.18);transform:translateY(-4px)}
+.gi-card-n{position:absolute;top:.6rem;left:.7rem;font-size:.55rem;letter-spacing:.12em;color:var(--mid);background:rgba(255,255,255,.85);padding:.1rem .4rem;font-family:var(--font-b)}
+.gi-scroll-bar{max-width:var(--max);margin:2.5rem auto 0;padding:0 var(--pad);display:flex;align-items:center;gap:1rem;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;opacity:.25}
+.gi-scroll-bar::before{content:'';display:block;width:40px;height:1px;background:currentColor;flex-shrink:0}
 
-  /* MARC TEÒRIC */
-  .theory-section { background: var(--fonsFosc); color: var(--fons); }
-  .theory-section .section-label { color: var(--accent); }
-  .theory-section .section-label::after { background: #333; }
-  .theory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
-  .theory-card { background: var(--targetes); padding: var(--targeta); transition: background .2s; cursor: default; }
-  .theory-card:hover { background: var(--targeteHover); }
-  .theory-card-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .15em; margin-bottom: 20px; }
-  .theory-card-title { font-family: var(--fontTitols); font-size: var(--midaTargeta); font-weight: var(--pesNegreta); margin-bottom: 16px; line-height: 1.3; }
-  .theory-card-author { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; margin-bottom: 20px; }
-  .theory-card-text { font-size: 13px; color: var(--textFosc); line-height: 1.7; }
-  .panoptic-quote { border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 60px 0; margin-top: 60px; text-align: center; }
-  .panoptic-quote p { font-family: var(--fontCos); font-style: italic; font-size: 13px; color: var(--gris); letter-spacing: .08em; line-height: 2; max-width: 700px; margin: 0 auto 12px; }
-  .panoptic-quote cite { font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .2em; text-transform: uppercase; }
+/* ═══════════════════════════════════════
+   PLACEHOLDERS
+═══════════════════════════════════════ */
+.ph-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin:3rem auto;max-width:var(--col)}
+.ph{aspect-ratio:3/4;border:1px dashed var(--soft);display:flex;align-items:center;justify-content:center;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid)}
+.txt-ph{border:1px dashed var(--soft);padding:2rem;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);max-width:var(--col);margin:2rem auto}
 
-  /* PROCÉS */
-  .process-steps { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; margin-top: 20px; }
-  .process-nav { position: sticky; top: 120px; height: fit-content; }
-  .process-step-link { display: block; font-family: var(--fontCos); font-size: 11px; letter-spacing: .1em; color: var(--gris); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--grisClar); transition: color .2s, padding-left .2s; }
-  .process-step-link:hover, .process-step-link.active { color: var(--text); padding-left: 12px; }
-  .process-entries { display: flex; flex-direction: column; gap: 60px; }
-  .process-entry { opacity: 0; transform: translateY(20px); transition: opacity .6s, transform .6s; }
-  .process-entry.visible { opacity: 1; transform: translateY(0); }
-  .process-entry-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 20px; }
-  .process-entry-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--accent); letter-spacing: .15em; }
-  .process-entry-title { font-family: var(--fontTitols); font-size: var(--midaH3); font-weight: var(--pesNegreta); letter-spacing: -.01em; }
-  .process-entry-body { font-size: var(--midaBase); line-height: 1.85; max-width: 560px; }
-  .process-entry-body p + p { margin-top: 16px; }
-  .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3px; margin-top: 40px; }
-  .screenshot-item { position: relative; overflow: hidden; background: #111; aspect-ratio: 16/10; }
-  .screenshot-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); transition: filter .4s, transform .4s; }
-  .screenshot-item:hover img { filter: grayscale(0%); transform: scale(1.03); }
-  .screenshot-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,.7)); padding: 20px 16px 12px; font-family: var(--fontCos); font-size: 9px; color: rgba(255,255,255,.6); letter-spacing: .12em; text-transform: uppercase; }
+/* ═══════════════════════════════════════
+   INFORME INTERACTIU — apartat destacat
+═══════════════════════════════════════ */
+#informe-interactiu{
+  background:var(--ink);
+  color:#fff;
+  padding:8rem var(--pad);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.informe-inner{max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:2rem;position:relative;z-index:1}
+.informe-pre{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;opacity:.4;margin-bottom:-.5rem}
+.informe-text{font-size:.88rem;line-height:1.95;opacity:.65;text-align:center;max-width:none}
+.informe-text p{color:#fff;opacity:1;text-align:center;margin:0}
+.informe-btn{
+  display:inline-block;margin-top:.5rem;padding:1.1rem 2.8rem;
+  border:1px solid rgba(255,255,255,.5);background:transparent;
+  font-family:var(--font-b);font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  cursor:pointer;position:relative;overflow:hidden;transition:color .3s;color:#fff;
+}
+.informe-btn::after{content:'';position:absolute;inset:0;background:#fff;transform:translateY(101%);transition:transform .32s cubic-bezier(.25,.46,.45,.94);z-index:0}
+.informe-btn:hover::after{transform:translateY(0)}
+.informe-btn:hover{color:var(--ink)}
+.informe-btn span{position:relative;z-index:1}
 
-  /* OBRA FINAL */
-  .obra-section { background: var(--fonsFosc); color: var(--fons); }
-  .obra-section .section-label { color: var(--accent); }
-  .obra-section .section-label::after { background: #333; }
-  .obra-intro { max-width: 640px; font-size: 16px; line-height: 1.8; color: var(--textFosc); margin-bottom: 80px; }
-  .informes-header { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-bottom: 1px; }
-  .informes-header div { font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .15em; text-transform: uppercase; padding: 8px 16px; background: var(--targetes); }
-  .informes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
-  .informe-card { background: var(--targetes); padding: 28px 24px; cursor: pointer; transition: background .25s; position: relative; overflow: hidden; }
-  .informe-card:hover { background: var(--targeteHover); }
-  .informe-card-ref { font-family: var(--fontCos); font-size: 9px; color: var(--accent); letter-spacing: .15em; margin-bottom: 12px; }
-  .informe-card-id { font-family: var(--fontTitols); font-size: 28px; font-weight: var(--pesNegreta); letter-spacing: -.03em; margin-bottom: 8px; line-height: 1; }
-  .informe-card-sub { font-family: var(--fontCos); font-size: 9px; color: var(--gris); margin-bottom: 16px; letter-spacing: .05em; }
-  .informe-card-excerpt { font-size: var(--midaInforme); color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .informe-card-arrow { position: absolute; bottom: 20px; right: 20px; font-size: 18px; color: #333; transition: color .2s, transform .2s; }
-  .informe-card:hover .informe-card-arrow { color: var(--accent); transform: translate(3px,-3px); }
+/* ═══════════════════════════════════════
+   INFORME MODAL — s'obre en pàgina completa
+═══════════════════════════════════════ */
+#informe-modal{
+  display:none;position:fixed;inset:0;z-index:500;
+  background:#fff;overflow-y:auto;
+  padding:5rem var(--pad) 4rem;
+}
+#informe-modal.on{display:block}
+.modal-header{
+  max-width:640px;margin:0 auto 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-back{
+  font-family:var(--font-b);font-size:.65rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  background:none;border:none;cursor:pointer;
+  display:flex;align-items:center;gap:.5rem;opacity:.5;transition:opacity .2s;
+  padding:.5rem 0;
+}
+.modal-back:hover{opacity:1}
+.modal-back::before{content:'←';font-size:.9rem}
+.modal-print{
+  font-family:var(--font-b);font-size:.62rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  background:none;border:1px solid var(--soft);cursor:pointer;
+  padding:.4rem .9rem;opacity:.5;transition:opacity .2s;
+}
+.modal-print:hover{opacity:1}
+.modal-doc{max-width:640px;margin:0 auto;font-family:var(--font-b)}
+.modal-doc-title{
+  font-family:var(--font-b);font-size:.78rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;
+  border-bottom:2px solid var(--ink);padding-bottom:.8rem;margin-bottom:2.5rem;
+}
+/* Camps de l'informe — estil de fila simple com la imatge de referència */
+.modal-field{
+  display:grid;grid-template-columns:180px 1fr;
+  gap:.4rem 1.5rem;
+  border-bottom:1px solid #ccc;
+  padding:.65rem 0;
+  font-size:.82rem;line-height:1.6;align-items:start;
+  margin-bottom:0;
+}
+.modal-lbl{
+  font-weight:700;font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;opacity:.55;padding-top:.1rem;
+}
+.modal-section-title{
+  font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  margin:2rem 0 .6rem;opacity:.5;
+}
+.modal-text-block{
+  font-size:.84rem;line-height:1.85;margin-bottom:1.2rem;text-align:justify;
+}
+.modal-stamp{
+  margin-top:3rem;font-size:.6rem;letter-spacing:.15em;
+  text-transform:uppercase;opacity:.2;text-align:center;
+  border-top:1px solid var(--soft);padding-top:1.5rem;
+}
 
-  /* MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 1000; align-items: center; justify-content: center; padding: 40px; }
-  .modal-overlay.open { display: flex; }
-  .modal-box { background: #0f0f0f; border: 1px solid #222; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; padding: 48px; animation: fadeIn .25s ease; }
-  .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--gris); font-size: 22px; cursor: pointer; font-family: var(--fontCos); margin-bottom: 20px; transition: color .2s; }
-  .modal-close:hover { color: white; }
-  .modal-ref { font-family: var(--fontCos); font-size: 9px; color: var(--accent); letter-spacing: .2em; margin-bottom: 6px; }
-  .modal-meta { font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .12em; margin-bottom: 4px; }
-  .modal-title { font-family: var(--fontTitols); font-size: 32px; font-weight: var(--pesNegreta); letter-spacing: -.02em; color: white; margin-bottom: 6px; margin-top: 20px; line-height: 1; }
-  .modal-subtitle { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: #555; margin-bottom: 24px; letter-spacing: .08em; }
-  .modal-imatge { width: 100%; max-height: 280px; object-fit: cover; display: block; margin-bottom: 28px; filter: grayscale(20%); }
-  .modal-body { font-size: 13px; line-height: 1.9; color: var(--textFosc); border-top: 1px solid #1f1f1f; padding-top: 28px; }
-  .modal-body strong { display: block; font-family: var(--fontCos); font-size: 9px; color: var(--gris); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 12px; margin-top: 24px; font-weight: normal; }
-  .modal-box::-webkit-scrollbar { width: 4px; }
-  .modal-box::-webkit-scrollbar-track { background: #111; }
-  .modal-box::-webkit-scrollbar-thumb { background: #333; }
+/* ═══════════════════════════════════════
+   REFS
+═══════════════════════════════════════ */
+.ref-groups{display:flex;flex-direction:column;gap:2.5rem;max-width:var(--col);margin:0 auto}
+.ref-cat{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.32;margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--soft)}
+.ref-list{list-style:none}
+.ref-list li{font-size:.84rem;padding:.35rem 0 .35rem .8rem;border-left:2px solid transparent;transition:border-color .2s,padding-left .2s;line-height:1.75;border-bottom:1px solid var(--soft)}
+.ref-list li:hover{border-left-color:var(--ink);padding-left:1.2rem}
 
-  /* REFERENTS */
-  .referents-list { margin-top: 20px; }
-  .referent-item { border-top: 1px solid var(--grisClar); padding: 28px 0; display: grid; grid-template-columns: 80px 1fr 1fr; gap: 40px; align-items: start; cursor: default; transition: padding-left .2s; }
-  .referent-item:hover { padding-left: 16px; }
-  .referent-item:last-child { border-bottom: 1px solid var(--grisClar); }
-  .referent-num { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .12em; }
-  .referent-name { font-family: var(--fontTitols); font-size: 16px; font-weight: var(--pesNegreta); margin-bottom: 4px; }
-  .referent-work { font-family: var(--fontCos); font-size: 11px; color: var(--gris); letter-spacing: .06em; }
-  .referent-desc { font-size: 13px; line-height: 1.7; }
+/* ═══════════════════════════════════════
+   AGRAÏMENT I FOOTER
+═══════════════════════════════════════ */
+.thanks-bar{border-top:1px solid var(--soft);padding:5rem var(--pad);text-align:center}
+.thanks-bar p{font-family:var(--font-b);font-size:.78rem;font-weight:700;letter-spacing:.08em;opacity:.38;max-width:none;text-align:center}
+footer{border-top:1px solid var(--soft);padding:1.5rem var(--pad);display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem;font-size:.55rem;letter-spacing:.12em;opacity:.28}
 
-  /* CONCLUSIONS */
-  .conclusions-section { border-top: 1px solid var(--grisClar); }
-  .conclusions-section.amb-fons { background-size: cover; background-position: center; }
-  .conclusions-body { max-width: 680px; margin: 0 auto; text-align: center; }
-  .conclusions-body p { font-family: var(--fontTitols); font-size: var(--midaConclusions); font-weight: var(--pesNegreta); line-height: 1.6; letter-spacing: -.01em; margin-bottom: 24px; }
-  .conclusions-body em { font-family: var(--fontCos); font-style: normal; font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; display: block; margin-top: 40px; }
+/* ═══════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════ */
+#lb{display:none;position:fixed;inset:0;z-index:999;background:rgba(5,5,5,.95);align-items:center;justify-content:center;flex-direction:column;padding:2rem}
+#lb.on{display:flex}
+#lb img{max-width:90vw;max-height:82vh;object-fit:contain;animation:lbIn .22s ease}
+@keyframes lbIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+#lb-cap{margin-top:1.2rem;font-family:var(--font-b);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:#777;text-align:center}
+/* Botó tancar ben visible */
+#lb-x{
+  position:fixed;top:1.2rem;right:1.5rem;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;font-size:1.2rem;cursor:pointer;
+  font-family:var(--font-b);transition:background .2s;
+  padding:.3rem .7rem;line-height:1;
+}
+#lb-x:hover{background:rgba(255,255,255,.3)}
+.lb-a{position:fixed;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;opacity:.35;padding:1.2rem;font-family:var(--font-b);transition:opacity .2s}
+.lb-a:hover{opacity:1}
+#lb-p{left:0}#lb-n{right:0}
 
-  /* FOOTER */
-  footer { border-top: 1px solid var(--grisClar); padding: var(--nav); display: flex; justify-content: space-between; align-items: center; }
-  footer p { font-family: var(--fontCos); font-size: var(--midaEtiqueta); color: var(--gris); letter-spacing: .1em; }
+/* ═══════════════════════════════════════
+   REVEAL
+═══════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s ease}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv2{opacity:0;transform:translateY(16px);transition:opacity .75s .12s ease,transform .75s .12s ease}
+.rv2.on{opacity:1;transform:translateY(0)}
 
-  /* ANIMACIONS */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @keyframes fadeIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:768px){
+  .hero-title{white-space:normal;font-size:clamp(2.2rem,10vw,4rem);max-width:100%}
+  #eye-canvas{width:100%;right:0;bottom:0;opacity:.3}
+  .hero-bottom{grid-template-columns:1fr}
+  .row-text-img,.two-col,.img-text-row,.img-duo,.intro-infancia,.float-img-wrap,.offset{grid-template-columns:1fr}
+  .gi-desc{grid-template-columns:1fr}
+  .ph-grid{grid-template-columns:1fr}
+  nav .nav-links{gap:1rem}
+  .nav-brand{width:auto}
+  p{text-align:left}
+  .flux-nodes{flex-wrap:wrap;gap:2rem}
+  .flux-nodes::before,.flux-progress-line{display:none}
+  .flux-arrow{display:none}
+  .flux-tooltip{position:static;opacity:1;transform:none;pointer-events:auto;background:#f5f5f5;color:var(--ink);margin-top:.5rem;width:100%}
+  .flux-tooltip::after{display:none}
+}
 </style>
 </head>
 <body>
 
-<nav id="nav"></nav>
-<section class="hero" id="hero">
-  <div class="hero-content"></div>
-  <div class="hero-bottom"></div>
+<!-- ══ NAV ══ -->
+<nav>
+  <span class="nav-brand">Sota la Mirada</span>
+  <ul class="nav-links">
+    <li><a href="#introduccio" data-n="01">Introducció</a></li>
+    <li><a href="#marc-teoric" data-n="02">Marc teòric</a></li>
+    <li><a href="#desenvolupament" data-n="03">Desenvolupament</a></li>
+    <li><a href="#obra-final" data-n="04">Obra final</a></li>
+    <li><a href="#conclusions" data-n="05">Conclusions</a></li>
+    <li><a href="#referencies" data-n="06">Referències</a></li>
+  </ul>
+</nav>
+
+<!-- ══ PORTADA ══ -->
+<section id="portada">
+  <canvas id="eye-canvas"></canvas>
+
+  <div class="hero-meta-top">
+    TCIII — Memòria artística &nbsp;·&nbsp;
+    Universitat de Barcelona, Belles Arts &nbsp;·&nbsp;
+    Alba Pérez Valls
+  </div>
+
+  <div class="hero-title-wrap">
+    <h1 class="hero-title">SOTA<br>LA<br>MIRADA</h1>
+  </div>
+
+  <div class="hero-bottom">
+    <div>
+      <p class="hero-sub">L'Alteritat del Jo</p>
+      <p class="hero-abstract">
+        El projecte vol explorar la tensió entre la vivència personal i el seu registre institucional,
+        qüestionant com la vigilancia invisible i el processament de dades construeixen una identitat
+        que sovint substitueix o condiciona la pròpia visió.
+      </p>
+      <p class="hero-kw">Institució &nbsp;·&nbsp; Vigilancia &nbsp;·&nbsp; Control &nbsp;·&nbsp; Vivència &nbsp;·&nbsp; Arxiu</p>
+    </div>
+    <div class="hero-index">
+      <a href="#introduccio" data-n="01">Introducció</a>
+      <a href="#marc-teoric" data-n="02">Marc teòric i conceptual</a>
+      <a href="#desenvolupament" data-n="03">Desenvolupament del projecte</a>
+      <a href="#obra-final" data-n="04">Obra final</a>
+      <a href="#conclusions" data-n="05">Conclusions</a>
+      <a href="#referencies" data-n="06">Referències</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Desplaça ↓</div>
 </section>
-<div class="ticker"><div class="ticker-inner" id="ticker-inner"></div></div>
-<section id="intro"></section>
-<section id="marc" class="theory-section"></section>
-<section id="proces"></section>
-<section id="obra" class="obra-section"></section>
-<section id="referents" class="referents-section"></section>
-<section id="conclusions" class="conclusions-section"></section>
-<footer id="footer"></footer>
-<div id="modals"></div>
+
+<!-- ══ 01 INTRODUCCIÓ ══ -->
+<section id="introduccio" class="section">
+  <div class="s-head rv">
+    <span class="s-num">01</span>
+    <h2 class="s-title">Introducció</h2>
+  </div>
+
+  <div class="float-img-wrap rv">
+    <div>
+      <p>
+        Aquest projecte neix de la sensació que vaig tenir en trobar uns informes avaluatius de quan feia
+        p3 i p4. Papers que parlaven de mi amb una seguretat absoluta, descrivint com era, com em
+        comportava, què sabia fer o amb qui em relacionava. Em va incomodar adonar-me que existeix
+        una versió de mi mateixa construïda des de fora, escrita per algú desconegut, i que aquesta
+        versió és molt més concreta que els meus propis records. Jo no recordo qui era amb tres o quatre
+        anys, però aquells informes sí. I això em fa preguntar fins a quin punt el meu passat realment
+        em pertany, o si acaba sent propietat de l'arxiu, de la mirada de l'altre.
+      </p>
+      <p>
+        Davant d'això apareix també una certa desconfiança cap a aquesta mirada adulta que observa,
+        analitza i classifica. Una mirada que aparentment és objectiva, però que inevitablement també
+        està plena d'idees, prejudicis i expectatives sobre com un nen ha de ser. Em sorprèn pensar que
+        el meu comportament quotidià es va convertir en un document administratiu, en observacions
+        escrites fredament, sense que jo en fos conscient. D'altra banda, ho considero una invasió de
+        la intimitat brutal; era quasi com un objecte d'un estudi científic.
+      </p>
+      <p>
+        Aquest projecte parteix, doncs, d'aquesta incomoditat. De la sensació d'haver estat observada i
+        definida abans fins i tot de tenir consciència de mi mateixa. I de la necessitat d'entendre què
+        passa quan la memòria pròpia desapareix, però en canvi en queden rastres escrits que continuen
+        parlant per tu.
+      </p>
+    </div>
+    <figure class="img-wrap">
+      <img
+        src="https://github.com/albaperezvalls911-spec/imatges/raw/refs/heads/main/imatge-1"
+        alt="Informe P3"
+        onclick="openLb(this.src,'Informe avaluatiu de l\'Alba Pérez al curs escolar de P3')"
+      />
+      <figcaption>Informe avaluatiu — Curs escolar P3</figcaption>
+    </figure>
+  </div>
+
+  <!-- Imatge infància: text explicatiu i foto -->
+  <div class="intro-infancia rv">
+    <div>
+      <span class="intro-infancia-label">Conflicte entre vivència i arxiu</span>
+      <p>
+        De la necessitat d'entendre què passa quan la memòria pròpia desapareix, però en canvi en
+        queden rastres escrits que continuen parlant per tu. La institució escolar construeix una
+        narrativa de l'individu molt abans que aquest pugui construir-la per si mateix.
+      </p>
+    </div>
+    <figure class="img-wrap">
+      <img
+        src="https://github.com/albaperezvalls911-spec/imatges/blob/main/1000070360.jpeg?raw=true"
+        alt="Fotografia de la classe de P3"
+        onclick="openLb(this.src,'Fotografia de la classe de P3')"
+      />
+      <figcaption>Fotografia de la classe de P3</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ══ 02 MARC TEÒRIC ══ -->
+<section id="marc-teoric" class="section">
+  <div class="s-head rv">
+    <span class="s-num">02</span>
+    <h2 class="s-title">Marc teòric i conceptual</h2>
+  </div>
+
+  <!-- Introducció en dues columnes — ref: text ple, equilibrat -->
+  <div class="marc-intro rv">
+    <p>
+      Per entendre aquesta incomoditat amb els informes escolars potser primer cal entendre de quina
+      manera aprenem, des de petits, a viure sota la mirada dels altres. Michel Foucault explica que,
+      històricament, el poder castigava de manera pública i violenta, però que amb el temps això va
+      canviar; ja no es tractava tant de fer mal al cos, sinó de controlar la conducta, ordenar els
+      comportaments i disciplinar la ment. Potser per això institucions com les escoles, les presons,
+      els hospitals o les fàbriques es converteixen en espais on tot és observat, regulat i corregit
+      constantment.
+    </p>
+    <p>
+      Foucault utilitza la figura del "Panòptic", inspirada en el model de presó de <em>Jeremy
+      Bentham</em>, per explicar aquesta idea. En aquest sistema, un vigilant pot observar tots els
+      presos sense ser vist, mentre que els presos no saben mai quan estan sent observats, i
+      aquests, al final, acaben comportant-se com si sempre els miressin.
+    </p>
+  </div>
+
+  <!-- Cita -->
+  <div class="pull-quote rv">
+    <p>"Les institucions modernes produeixen coneixement a través de la vigilància i l'observació constant."</p>
+    <cite>— Michel Foucault</cite>
+  </div>
+
+  <!-- Dues columnes: societat + escola — sense subtítols -->
+  <div class="two-col rv">
+    <div>
+      <p>
+        Quan penso en això, és inevitable no relacionar-ho amb la manera com funciona la nostra
+        societat actual. Les càmeres de seguretat als carrers, les xarxes socials, els algoritmes
+        que analitzen el nostre comportament… tot sembla funcionar a partir d'aquesta observació
+        constant. El primer lloc on experimentem aquesta mirada és, potser, l'escola.
+      </p>
+      <p>
+        L'escola és un espai on el temps, els moviments i les activitats estan estructurades des del
+        principi. Aquesta vigilància constant produeix subjectes observables i corregibles. L'avaluació
+        permet comparar els individus segons un ideal de comportament, construint categories com la
+        de "bon alumne" que, més endavant, s'acaben convertint en la idea de "bon ciutadà".
+      </p>
+    </div>
+    <div>
+      <p>
+        L'infant, "el que no té veu", es converteix en objecte d'observació i anàlisi per part de
+        l'adult. Ivan Illich, a <em>Deschooling Society</em>, planteja que l'escola ha monopolitzat
+        la idea mateixa d'educació: l'aprenentatge queda lligat a la institució i, fora d'aquesta,
+        perd valor. L'expedient escolar es converteix en un arxiu de conducta.
+      </p>
+      <p>
+        Per altra banda, hi ha la paradoxa de creure al desconegut. Malgrat no reconèixer ni recordar
+        el que hi ha escrit als informes, els documents adquireixen autoritat i credibilitat. Darrere
+        d'aquesta aparent objectivitat també hi ha la mirada subjectiva d'un adult, les seves idees
+        sobre com ha de ser un nen.
+      </p>
+    </div>
+  </div>
+
+  <!-- Dora García: imatge gran + text -->
+  <div class="marc-dora rv">
+    <figure class="marc-dora-img img-wrap">
+      <img
+        src="https://recursos.museoreinasofia.es/styles/large_landscape/public/Obra/AD04948_2.jpg.webp"
+        alt="Instant Narrative, Dora García"
+        onclick="openLb(this.src,'\"Instant Narrative\" (2006–2008), Dora García')"
+      />
+      <p class="img-side-cap">"Instant Narrative" (2006–2008), Dora García</p>
+    </figure>
+    <div class="marc-dora-text">
+      <p>
+        La Dora García és una artista que juga amb la tensió entre la vivència i l'arxiu. En la seva
+        obra <em>Instant Narrative</em> (2006–2008) una persona asseguda dins la sala escriu en
+        directe tot el que observa dels visitants: com es mouen, què fan o com es comporten.
+        Aquest text es projecta en una pantalla, i els espectadors, en llegir-lo, descobreixen que
+        estan sent observats i convertits en part de la narració.
+      </p>
+      <p>
+        El treball vol investigar la paradoxa de l'autoritat institucional: com un document extern,
+        escrit en un llenguatge que percebem com a objectiu, és capaç de suplantar la nostra pròpia
+        vivència. El llenguatge de la dada, asèptic, tècnic, administratiu, acaba construint una
+        mena d'"altre jo".
+      </p>
+    </div>
+  </div>
+
+  <!-- Brannon Dorsey: text esquerra + imatges en offset animat -->
+  <div class="dorsey-layout rv">
+    <div class="dorsey-text">
+      <p>
+        Aquesta relació entre vigilància, registre i dada també apareix dins el projecte <em>Holy
+        Pager</em> de Brandon Dorsey. L'obra intercepta tots els missatges enviats a través del
+        sistema POCSAG de la ciutat — sense cap xifrat ni protecció. Dorsey evidencia que convivim
+        constantment amb tecnologies que recullen, transmeten i distribueixen dades íntimes mentre
+        nosaltres ni tan sols som conscients de com funcionen.
+      </p>
+    </div>
+    <div class="dorsey-images" id="dorseyImages">
+      <div class="img-wrap dorsey-img-a">
+        <img src="https://brannondorsey.com/assets/holypager/holypager-01.jpg"
+          alt="Holypager 01"
+          onclick="openLb(this.src,'\"Holypager\" (2016), Brannon Dorsey')"/>
+      </div>
+      <div class="img-wrap dorsey-img-b">
+        <img src="https://brannondorsey.com/assets/holypager/holypager-03.jpg"
+          alt="Holypager 03"
+          onclick="openLb(this.src,'\"Holypager\" (2016), Brannon Dorsey')"/>
+      </div>
+      <p class="dorsey-cap">"Holypager" (2016), Brannon Dorsey</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ 03 DESENVOLUPAMENT ══ -->
+<section id="desenvolupament" class="section">
+  <div class="s-head rv">
+    <span class="s-num">03</span>
+    <h2 class="s-title">Desenvolupament del projecte artístic</h2>
+  </div>
+
+  <div class="row-text-img rv">
+    <div>
+      <p>
+        Des d'un principi vaig tenir clar que l'objectiu del projecte era provocar aquesta sensació de
+        traïció. Fer visible la incomoditat d'adonar-se que has estat observat sense ser-ne conscient.
+        Potser perquè hi ha moltes formes de vigilància que ja tenim tan normalitzades que han deixat
+        de sorprendre'ns. Vivim dins una societat on ser observats és constant i, d'alguna manera,
+        necessari per al seu propi funcionament.
+      </p>
+      <p>
+        No volia només parlar sobre la vigilància, sinó reproduir-la, fer que l'espectador la sentís
+        sobre el propi cos. Llavors vaig decidir crear un sistema de vigilància a partir de la programació
+        d'un sistema de tracking en Python.
+      </p>
+      <p>
+        Personalment, mai havia estat dins aquest àmbit, així que gran part del procés va acabar sent
+        una experiència d'investigació constant. A mesura que descobria les possibilitats del sistema,
+        també prenia consciència de fins a quin punt és fàcil convertir una persona en dades.
+      </p>
+    </div>
+    <figure class="img-wrap">
+      <img
+        src="https://github.com/albaperezvalls911-spec/imatges/raw/refs/heads/main/prompts_taula"
+        alt="Taula de variants textuals"
+        onclick="openLb(this.src,'Creació d\'una taula de variants textuals per descriure cada gest o moviment del subjecte')"
+      />
+      <figcaption>Taula de variants textuals</figcaption>
+    </figure>
+  </div>
+
+  <div class="col-text rv">
+    <p>
+      En un principi vaig crear un motor de text que em permetia traduir les dades captades i convertir
+      les coordenades de Python en un llenguatge administratiu. Vaig analitzar el temps que el subjecte
+      passava dins del camp de visió de la càmera, el nombre de pauses, la psicomotricitat reactiva o
+      la postura gestual.
+    </p>
+    <p>
+      Però els informes que obtenia encara em semblaven massa limitats: les frases sortien d'una
+      estructura massa tancada. Per això vaig decidir eliminar qualsevol mena d'opinió o referència
+      psicològica explícita. No m'interessava simular un diagnòstic, sinó reproduir aquesta fredor
+      aparentment objectiva pròpia del llenguatge institucional. Vaig desenvolupar un sistema que,
+      utilitzant IA (Gemini 3.1 flash-lite), descrivia automàticament els comportaments físics de cada
+      usuari sense necessitat d'una taula de frases preestablertes.
+    </p>
+    <p>
+      Veure com una màquina podia observar comportaments mínims i convertir-los immediatament en
+      descripcions administratives. Com si qualsevol gest, pausa o moviment pogués acabar formant
+      part d'un arxiu.
+    </p>
+  </div>
+
+  <!-- ESQUEMA DE FLUX INTERACTIU -->
+  <div class="rv" style="max-width:var(--col);margin:4rem auto 0">
+    <p style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;opacity:.35;margin-bottom:2rem;font-weight:700;text-align:center">
+      Flux del sistema de tracking
+    </p>
+    <div id="flux-diagram">
+      <div class="flux-nodes" id="fluxNodes">
+
+        <!-- Progrés animat -->
+        <div class="flux-progress-line" id="fluxLine"></div>
+
+        <!-- NODE 1: Càmera -->
+        <div class="flux-node" onclick="toggleTooltip(this)">
+          <div class="flux-box">
+            <svg viewBox="0 0 36 36" fill="none" stroke="#0f0f0f" stroke-width="1.2">
+              <rect x="2" y="8" width="22" height="16" rx="2"/>
+              <circle cx="13" cy="16" r="4.5"/>
+              <polygon points="24,11 34,7 34,25 24,21"/>
+            </svg>
+          </div>
+          <span class="flux-label">Càmera IP</span>
+          <div class="flux-tooltip">
+            La càmera externa, connectada via IP personalitzada, capta en temps real els moviments i la postura de cada subjecte present a l'espai.
+          </div>
+        </div>
+
+        <div class="flux-arrow">→</div>
+
+        <!-- NODE 2: Ordinador -->
+        <div class="flux-node" onclick="toggleTooltip(this)">
+          <div class="flux-box">
+            <svg viewBox="0 0 36 36" fill="none" stroke="#0f0f0f" stroke-width="1.2">
+              <rect x="3" y="5" width="30" height="20" rx="2"/>
+              <rect x="8" y="8" width="20" height="13" rx="1" fill="#f0f0f0" stroke="none"/>
+              <line x1="10" y1="28" x2="26" y2="28"/>
+              <line x1="13" y1="25" x2="23" y2="25"/>
+            </svg>
+          </div>
+          <span class="flux-label">Ordinador</span>
+          <div class="flux-tooltip">
+            L'ordinador processa les dades captades amb Python + IA (Gemini 3.1 flash-lite). Analitza gestos, pauses i postura, i genera automàticament el text de l'informe.
+          </div>
+        </div>
+
+        <div class="flux-arrow">→</div>
+
+        <!-- NODE 3: Informe generat -->
+        <div class="flux-node" onclick="toggleTooltip(this)">
+          <div class="flux-box">
+            <svg viewBox="0 0 36 36" fill="none" stroke="#0f0f0f" stroke-width="1.2">
+              <rect x="6" y="2" width="24" height="32" rx="1"/>
+              <line x1="10" y1="10" x2="26" y2="10"/>
+              <line x1="10" y1="15" x2="26" y2="15"/>
+              <line x1="10" y1="20" x2="22" y2="20"/>
+              <line x1="10" y1="25" x2="20" y2="25"/>
+            </svg>
+          </div>
+          <span class="flux-label">Codi / Informe</span>
+          <div class="flux-tooltip">
+            El codi en Python genera un informe textual en format administratiu, descriuen el comportament del subjecte amb un llenguatge fred i aparentment objectiu.
+          </div>
+        </div>
+
+        <div class="flux-arrow">→</div>
+
+        <!-- NODE 4: Impressora -->
+        <div class="flux-node" onclick="toggleTooltip(this)">
+          <div class="flux-box">
+            <svg viewBox="0 0 36 36" fill="none" stroke="#0f0f0f" stroke-width="1.2">
+              <rect x="4" y="11" width="28" height="16" rx="2"/>
+              <rect x="9" y="4" width="18" height="7"/>
+              <rect x="9" y="22" width="18" height="10" rx="1"/>
+              <line x1="12" y1="27" x2="24" y2="27"/>
+              <line x1="12" y1="29" x2="20" y2="29"/>
+              <circle cx="27" cy="18" r="1.5" fill="#0f0f0f"/>
+            </svg>
+          </div>
+          <span class="flux-label">Impressora</span>
+          <div class="flux-tooltip">
+            L'impressora rep l'ordre automàticament i imprimeix l'informe en paper físic en el mínim temps possible. El resultat s'exposa a la paret de la sala.
+          </div>
+        </div>
+
+      </div>
+      <p class="flux-hint">Fes clic a cada element per saber-ne més</p>
+    </div>
+  </div>
+
+  <div class="col-text rv" style="margin-top:3rem">
+    <p>
+      Per últim, vaig configurar el sistema per poder utilitzar una càmera externa, amb una IP
+      personalitzada per poder connectar-la a l'ordinador, i vaig configurar la impressora per poder
+      tenir els informes en físic amb el mínim temps possible.
+    </p>
+  </div>
+</section>
+
+<!-- ══ GALERIA INFORMES ══ -->
+<div id="galeria-informes">
+  <div class="gi-head rv">
+    <div class="gi-head-left">
+      <span class="s-num">—</span>
+      <h2 class="s-title">Arxiu d'informes</h2>
+    </div>
+    <span class="gi-count" id="gi-count-el">— documents</span>
+  </div>
+  <div class="gi-desc rv">
+    <p>
+      Aquest volum recull una selecció d'informes generats durant la fase experimental del projecte.
+      Corresponen a individus monitoritzats en un entorn quotidià de transició mitjançant un sistema
+      de tracking algorítmic.
+    </p>
+    <div></div>
+  </div>
+  <div class="gi-strip" id="giStrip"></div>
+  <div class="gi-scroll-bar rv">Desplaça o roda el ratolí per veure tots els informes</div>
+</div>
+
+<!-- ══ 04 OBRA FINAL ══ -->
+<section id="obra-final" class="section">
+  <div class="s-head rv">
+    <span class="s-num">04</span>
+    <h2 class="s-title">Obra final</h2>
+  </div>
+  <div class="col-text rv">
+    <p>
+      Mentre els visitants esperen per entrar, el sistema els processa individualment sense que passi
+      aparentment res. La càmera observa, registra i analitza els seus moviments mentre simplement
+      esperen. Gran part de la vigilància actual funciona així: de manera silenciosa, integrada dins
+      situacions completament normals.
+    </p>
+    <p>
+      Un cop a l'interior de la sala, els visitants es troben amb una paret plena d'informes. Cada un
+      d'aquests documents correspon a una de les persones presents. De sobte, allò que semblava
+      invisible pren forma física. El comportament que fins feia uns minuts era íntim, inconscient i
+      aparentment irrellevant, ara apareix escrit, classificat i exposat públicament.
+    </p>
+    <p>
+      No hi ha cap objecte escultòric central perquè, en realitat, l'obra no és un objecte concret.
+      L'obra és aquesta confrontació incòmoda entre la persona i el seu propi rastre digital.
+    </p>
+  </div>
+  <div class="ph-grid rv">
+    <div class="ph">Imatge pendent · 01</div>
+    <div class="ph">Imatge pendent · 02</div>
+    <div class="ph">Imatge pendent · 03</div>
+    <div class="ph">Imatge pendent · 04</div>
+  </div>
+</section>
+
+<!-- ══ 05 CONCLUSIONS ══ -->
+<section id="conclusions" class="section">
+  <div class="s-head rv">
+    <span class="s-num">05</span>
+    <h2 class="s-title">Conclusions</h2>
+  </div>
+  <div class="col-text rv">
+    <p>
+      El projecte conclou que la sala blanca és un espai de poder on la informació substitueix
+      l'experiència estètica tradicional. La sorpresa i la incomoditat del visitant en reconèixer-se en
+      l'informe validen la tesi inicial: som subjectes monitoritzats permanentment. La tecnologia no
+      s'ha utilitzat com a eina decorativa, sinó com a eina de denúncia, forçant la màquina a "parlar"
+      i a fer pública la seva mirada constant.
+    </p>
+  </div>
+  <div class="txt-ph rv">[ Text final de conclusions — pendent d'afegir ]</div>
+</section>
+
+<!-- ══ INFORME INTERACTIU — apartat destacat en negre ══ -->
+<div id="informe-interactiu">
+  <div class="informe-inner rv">
+    <p class="informe-pre">— registre de seguiment —</p>
+    <div class="informe-text">
+      <p>
+        De la mateixa manera que els espectadors de l'obra van ser trackejats sense saber-ho,
+        ha passat el mateix amb tu. Mentre navegaves per aquesta pàgina, el sistema ha registrat
+        els teus moviments, el temps d'atenció a cada secció i les teves interaccions.
+        Fes clic per veure l'informe generat sobre la teva visita.
+      </p>
+    </div>
+    <button class="informe-btn" onclick="generarInforme()">
+      <span>Veure el teu informe</span>
+    </button>
+  </div>
+</div>
+
+<!-- Modal informe -->
+<div id="informe-modal">
+  <div class="modal-header">
+    <button class="modal-back" onclick="document.getElementById('informe-modal').classList.remove('on')">
+      Tornar a la web
+    </button>
+    <button class="modal-print" onclick="window.print()">Imprimir</button>
+  </div>
+  <div class="modal-doc" id="modal-doc-content"></div>
+</div>
+
+<!-- ══ 06 REFERÈNCIES ══ -->
+<section id="referencies" class="section">
+  <div class="s-head rv">
+    <span class="s-num">06</span>
+    <h2 class="s-title">Referències</h2>
+  </div>
+  <div class="ref-groups rv">
+    <div>
+      <p class="ref-cat">Teoria de la vigilància i biopolítica</p>
+      <ul class="ref-list">
+        <li>Foucault, Michel (1975). <em>Vigilar y castigar</em>. Madrid: Siglo XXI.</li>
+        <li>Deleuze, Gilles (1990). <em>Post-scriptum sobre las sociedades de control</em>.</li>
+        <li>Han, Byung-Chul (2014). <em>Psicopolítica</em>. Barcelona: Herder.</li>
+        <li>Guasch, Anna Maria (2011). <em>Arte y archivo, 1920-2010: Genealogías de un espíritu contemporáneo</em>. Madrid: Akal.</li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-cat">Referents artístics</p>
+      <ul class="ref-list">
+        <li>Dora García — <em>Instant Narrative</em> (2006–2008).</li>
+        <li>Brannon Dorsey — <em>Holy Pager</em> (2016).</li>
+      </ul>
+    </div>
+    <div>
+      <p class="ref-cat">Eines i programari</p>
+      <ul class="ref-list">
+        <li>OpenAI / Google Gemini (2024). Assistència en el desenvolupament de lògica algorítmica i prompts per a visió per computador aplicats a la instal·lació artística <em>Subjecte 094</em>.</li>
+        <li>Python Software Foundation (2024). <em>Python Language Reference, version 3.x</em>. <a href="https://www.python.org" target="_blank" rel="noopener">python.org</a></li>
+        <li>Bradski, G. (2000). The OpenCV Library. <em>Dr. Dobb's Journal of Software Tools</em>.</li>
+        <li>Rosebrock, Adrian (2024). <em>PyImageSearch: Computer Vision and Deep Learning resource</em>.</li>
+        <li>NumPy Developers (2024). <em>NumPy: The fundamental package for scientific computing with Python</em>.</li>
+        <li>Pillow (PIL Fork) (2024). <em>Python Imaging Library</em>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="thanks-bar rv">
+  <p>Especial agraïment a totes les persones que m'han ajudat a dur a terme aquest projecte,<br>sense vosaltres no hauria sigut possible.</p>
+</div>
+
+<footer>
+  <span>Sota la Mirada — L'Alteritat del Jo &nbsp;·&nbsp; Alba Pérez Valls</span>
+  <span>TCIII — Memòria Artística &nbsp;·&nbsp; Universitat de Barcelona, Belles Arts</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lb">
+  <button id="lb-x" onclick="closeLb()">&times; Tancar</button>
+  <button class="lb-a" id="lb-p" onclick="navLb(-1)">&#8592;</button>
+  <img id="lb-img" src="" alt=""/>
+  <p id="lb-cap"></p>
+  <button class="lb-a" id="lb-n" onclick="navLb(1)">&#8594;</button>
+</div>
 
 <script>
-/* ── Aplicar variables CSS a partir de CONFIG ── */
-const C = CONFIG;
-const root = document.documentElement;
+/* ═══════════════════════════════════════════════════
+   TRACKING — recull dades exactes per l'informe
+═══════════════════════════════════════════════════ */
+const T = {
+  start: Date.now(),
+  sections: {},       // ms per secció
+  lightbox: 0,
+  scrollDepth: 0,
+  clicks: 0,
+  mouseTrail: [],
+  _sectionStart: {}
+};
 
-// Colors
-Object.entries(C.colors).forEach(([k, v]) => root.style.setProperty(`--${k}`, v));
-
-// Tipografia
-root.style.setProperty('--fontTitols',    C.tipografia.fontTitols);
-root.style.setProperty('--fontCos',       C.tipografia.fontCos);
-root.style.setProperty('--midaBase',      C.tipografia.midaBase);
-root.style.setProperty('--midaNav',       C.tipografia.midaNav);
-root.style.setProperty('--midaHero',      C.tipografia.midaHero);
-root.style.setProperty('--midaSubtitol',  C.tipografia.midaSubtitol);
-root.style.setProperty('--midaH2',        C.tipografia.midaH2);
-root.style.setProperty('--midaH3',        C.tipografia.midaH3);
-root.style.setProperty('--midaTargeta',   C.tipografia.midaTargeta);
-root.style.setProperty('--midaConclusions', C.tipografia.midaConclusions);
-root.style.setProperty('--midaEtiqueta',  C.tipografia.midaEtiqueta);
-root.style.setProperty('--midaCita',      C.tipografia.midaCita);
-root.style.setProperty('--midaInforme',   C.tipografia.midaInforme);
-root.style.setProperty('--pesNormal',     C.tipografia.pesNormal);
-root.style.setProperty('--pesNegreta',    C.tipografia.pesNegreta);
-
-// Espaiat
-root.style.setProperty('--seccio',        C.espaiat.seccio);
-root.style.setProperty('--nav',           C.espaiat.nav);
-root.style.setProperty('--targeta',       C.espaiat.targeta);
-root.style.setProperty('--heroPadding',   C.espaiat.heroPadding);
-
-/* ── NAV ── */
-document.getElementById('nav').innerHTML = `
-  <span class="nav-id">${C.nav.id}</span>
-  <ul class="nav-links">
-    ${C.nav.links.map(l => `<li><a href="${l.href}">${l.text}</a></li>`).join('')}
-  </ul>`;
-
-/* ── HERO ── */
-const hero = document.getElementById('hero');
-if (C.imatges.heroFons) {
-  hero.classList.add('amb-fons');
-  hero.style.backgroundImage = `url('${C.imatges.heroFons}')`;
-}
-document.querySelector('.hero-content').innerHTML = `
-  <div class="hero-ref">${C.hero.ref}</div>
-  <h1 class="hero-title">
-    ${C.hero.titol.replace(/\n/g,'<br>')}
-    <em>${C.hero.subtitol}</em>
-  </h1>
-  <p class="hero-abstract">${C.hero.abstract}</p>`;
-document.querySelector('.hero-bottom').innerHTML = `
-  <div class="hero-keywords">
-    ${C.hero.keywords.map(k => `<span>${k}</span>`).join('')}
-  </div>
-  <div class="scroll-hint">${C.hero.scrollHint}</div>`;
-
-/* ── TICKER ── */
-const tItems = C.ticker.map(t => `<span class="${t.accent?'ac':''}">${t.text}</span>`).join('');
-const tickerEl = document.getElementById('ticker-inner');
-tickerEl.innerHTML = tItems + tItems;
-
-/* ── INTRO ── */
-const introImg = C.imatges.introImatge
-  ? `<img src="${C.imatges.introImatge}" class="intro-img" alt="Imatge introducció" style="width: 100%; max-width: 450px; height: auto; object-fit: contain; margin: 30px 0; border: 1px solid #eee; display: block;">`
-  : '';
-document.getElementById('intro').innerHTML = `
-  <div class="section-label">${C.intro.label}</div>
-  <div class="intro-grid">
-    <div>
-      <h2 class="intro-heading">${C.intro.titol}</h2>
-      ${introImg}
-    </div>
-    <div class="intro-text">
-      <p>${C.intro.p1}</p>
-      <blockquote>${C.intro.cita}</blockquote>
-      <p>${C.intro.p2}</p>
-    </div>
-  </div>`;
-document.getElementById('intro').innerHTML = `
-  <div class="section-label">${C.intro.label}</div>
-  <div class="intro-grid">
-    <div><h2 class="intro-heading">${C.intro.titol}</h2>
-    ${introImg}</div>
-    <div class="intro-text">
-      <p>${C.intro.p1}</p>
-      <blockquote>${C.intro.cita}</blockquote>
-      <p>${C.intro.p2}</p>
-    </div>
-  </div>`;
-
-/* ── MARC TEÒRIC ── */
-document.getElementById('marc').innerHTML = `
-  <div class="section-label">${C.marc.label}</div>
-  <div class="theory-grid">
-    ${C.marc.conceptes.map(con => `
-      <div class="theory-card">
-        <div class="theory-card-num">${con.num}</div>
-        <div class="theory-card-title">${con.titol}</div>
-        <div class="theory-card-author">${con.autor}</div>
-        <div class="theory-card-text">${con.text}</div>
-      </div>`).join('')}
-  </div>
-  <div class="panoptic-quote">
-    <p>${C.marc.cita}</p>
-    <cite>${C.marc.citaAutor}</cite>
-  </div>`;
-
-/* ── PROCÉS ── */
-const navLinks = C.proces.passos.map((p, i) =>
-  `<a href="#${p.id}" class="process-step-link${i===0?' active':''}">${p.num} · ${p.titol}</a>`
-).join('');
-
-const capturesHTML = C.imatges.captures.length ? `
-  <div class="screenshots-grid">
-    ${C.imatges.captures.map(c => `
-      <div class="screenshot-item">
-        <img src="${c.src}" alt="${c.label}"
-          onerror="this.parentElement.style.background='#1a1a1a';this.style.display='none'">
-        <div class="screenshot-label">${c.label}</div>
-      </div>`).join('')}
-  </div>` : '';
-
-const entries = C.proces.passos.map(p => {
-  const html = `
-    <div class="process-entry" id="${p.id}">
-      <div class="process-entry-header">
-        <span class="process-entry-num">${p.num}</span>
-        <h3 class="process-entry-title">${p.titol}</h3>
-      </div>
-      <div class="process-entry-body">
-        <p>${p.p1}</p>
-        ${p.p2 ? `<p>${p.p2}</p>` : ''}
-      </div>
-    </div>`;
-  return p.id === 'step2' ? html + capturesHTML : html;
-}).join('');
-
-document.getElementById('proces').innerHTML = `
-  <div class="section-label">${C.proces.label}</div>
-  <div class="process-steps">
-    <nav class="process-nav">${navLinks}</nav>
-    <div class="process-entries">${entries}</div>
-  </div>`;
-
-/* ── OBRA FINAL ── */
-const informesHTML = C.obra.informes.map((inf, i) => `
-  <div class="informe-card" onclick="openModal(${i})">
-    <div class="informe-card-ref">${inf.ref}</div>
-    <div class="informe-card-id">${inf.id}</div>
-    <div class="informe-card-sub">${inf.genere} · ${inf.data}</div>
-    <div class="informe-card-excerpt">${inf.informe}</div>
-    <span class="informe-card-arrow">↗</span>
-  </div>`).join('') + `
-  <div class="informe-card" style="background:#0d0d0d;cursor:default;">
-    <div class="informe-card-ref" style="color:#333">PENDENT</div>
-    <div class="informe-card-id" style="color:#222">—</div>
-    <div class="informe-card-sub">Sistema en espera</div>
-    <div class="informe-card-excerpt" style="color:#333">El sistema continua processant. Cada visitant genera el seu propi informe.</div>
-  </div>`;
-
-document.getElementById('obra').innerHTML = `
-  <div class="section-label">${C.obra.label}</div>
-  <p class="obra-intro">${C.obra.intro}</p>
-  <div class="informes-header">
-    <div>Referència</div><div>Subjecte</div><div>Durada obs.</div><div>Estat</div>
-  </div>
-  <div class="informes-grid">${informesHTML}</div>`;
-
-/* ── MODALS ── */
-document.getElementById('modals').innerHTML = C.obra.informes.map((inf, i) => `
-  <div class="modal-overlay" id="modal-${i}" onclick="closeModal(event,${i})">
-    <div class="modal-box">
-      <button class="modal-close" onclick="document.getElementById('modal-${i}').classList.remove('open')">✕</button>
-      <div class="modal-ref">${inf.ref} · REGISTRE DE SEGUIMENT I ANÀLISI CONDUCTUAL</div>
-      <div class="modal-meta">UBICACIÓ: ${inf.ubicacio}</div>
-      <div class="modal-meta">CRONOLOGIA: ${inf.data} · TEMPS OBS. ${inf.temps}</div>
-      <div class="modal-title">${inf.id}</div>
-      <div class="modal-subtitle">${inf.genere} · ${inf.descripcio}</div>
-      ${inf.imatge ? `<img src="${inf.imatge}" class="modal-imatge" alt="Imatge ${inf.id}" onerror="this.style.display='none'">` : ''}
-      <div class="modal-body">
-        <strong>Informe conductual</strong>
-        ${inf.informe}
-      </div>
-    </div>
-  </div>`).join('');
-
-/* ── REFERENTS ── */
-document.getElementById('referents').innerHTML = `
-  <div class="section-label">${C.referents.label}</div>
-  <div class="referents-list">
-    ${C.referents.llista.map(r => `
-      <div class="referent-item">
-        <div class="referent-num">${r.num}</div>
-        <div>
-          <div class="referent-name">${r.nom}</div>
-          <div class="referent-work">${r.obra}</div>
-        </div>
-        <div class="referent-desc">${r.desc}</div>
-      </div>`).join('')}
-  </div>`;
-
-/* ── CONCLUSIONS ── */
-const concl = document.getElementById('conclusions');
-if (C.imatges.conclusionsFons) {
-  concl.classList.add('amb-fons');
-  concl.style.backgroundImage = `url('${C.imatges.conclusionsFons}')`;
-}
-concl.innerHTML = `
-  <div class="section-label">${C.conclusions.label}</div>
-  <div class="conclusions-body">
-    <p>${C.conclusions.p1}</p>
-    <p>${C.conclusions.p2}</p>
-    <p>${C.conclusions.p3}</p>
-    <em>${C.conclusions.ref}</em>
-  </div>`;
-
-/* ── FOOTER ── */
-document.getElementById('footer').innerHTML = `
-  <p>${C.footer.esquerra}</p>
-  <p>${C.footer.dreta}</p>`;
-
-/* ── INTERACCIONS ── */
-window.addEventListener('scroll', () => {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
-});
-
-const revealObs = new IntersectionObserver(
-  es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-  { threshold: 0.1 }
-);
-const activeObs = new IntersectionObserver(es => {
-  es.forEach(e => {
+/* Observa quan entra/surt cada secció */
+const allSections = document.querySelectorAll('section[id], div[id]');
+const secObs = new IntersectionObserver(entries => {
+  const now = Date.now();
+  entries.forEach(e => {
+    const id = e.target.id;
     if (e.isIntersecting) {
-      document.querySelectorAll('.process-step-link').forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`.process-step-link[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
+      T._sectionStart[id] = now;
+    } else if (T._sectionStart[id]) {
+      T.sections[id] = (T.sections[id] || 0) + (now - T._sectionStart[id]);
+      delete T._sectionStart[id];
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.35 });
+allSections.forEach(el => secObs.observe(el));
 
-document.querySelectorAll('.process-entry').forEach(el => {
-  revealObs.observe(el);
-  if (el.id) activeObs.observe(el);
+window.addEventListener('scroll', () => {
+  const d = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+  if (d > T.scrollDepth) T.scrollDepth = d;
+});
+document.addEventListener('click', () => T.clicks++);
+let _ml = 0;
+document.addEventListener('mousemove', e => {
+  const now = Date.now();
+  if (now - _ml > 1000) {
+    T.mouseTrail.push({ x: Math.round(e.clientX), y: Math.round(e.clientY) });
+    if (T.mouseTrail.length > 10) T.mouseTrail.shift();
+    _ml = now;
+  }
 });
 
-function openModal(i) {
-  document.getElementById(`modal-${i}`).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(e, i) {
-  if (e.target === e.currentTarget) {
-    document.getElementById(`modal-${i}`).classList.remove('open');
-    document.body.style.overflow = '';
+/* ═══════════════════════════════════════════════════
+   GENERADOR D'INFORME — sense dades inventades
+═══════════════════════════════════════════════════ */
+function generarInforme() {
+  /* Tanca les seccions que seguien obertes en aquest moment */
+  const now = Date.now();
+  Object.keys(T._sectionStart).forEach(id => {
+    T.sections[id] = (T.sections[id] || 0) + (now - T._sectionStart[id]);
+    T._sectionStart[id] = now; /* reinicia per si continua obert */
+  });
+
+  const totalMs    = now - T.start;
+  const totalSecs  = Math.round(totalMs / 1000);
+  const mins       = Math.floor(totalSecs / 60);
+  const secs       = totalSecs % 60;
+  const durStr     = mins > 0 ? `${mins} min ${secs} s` : `${secs} s`;
+  const dateStr    = new Date().toLocaleString('ca-ES', { dateStyle:'long', timeStyle:'short' });
+  const subjecte   = 'REF-' + Math.floor(1000 + Math.random() * 8999) + '-V'+ String(Math.floor(Math.random()*9)+1);
+
+  const secNames = {
+    portada:'Portada', introduccio:'Introducció', 'marc-teoric':'Marc teòric i conceptual',
+    desenvolupament:'Desenvolupament', 'galeria-informes':'Arxiu d\'informes',
+    'obra-final':'Obra final', conclusions:'Conclusions', referencies:'Referències',
+    'informe-interactiu':'Apartat interactiu'
+  };
+
+  /* Secció amb més temps — compara en ms, no arrodoneix fins al final */
+  let maxSec = '—', maxMs = 0;
+  Object.entries(T.sections).forEach(([id, ms]) => {
+    if (ms > maxMs) { maxMs = ms; maxSec = secNames[id] || id; }
+  });
+  const maxSecs = Math.round(maxMs / 1000);
+
+  /* Secció amb menys temps (si hi ha dades) */
+  let minSec = '—';
+  const secEntries = Object.entries(T.sections).filter(([,ms]) => ms > 500);
+  if (secEntries.length > 1) {
+    const [minId] = secEntries.reduce((a,b) => b[1] < a[1] ? b : a);
+    minSec = secNames[minId] || minId;
   }
+
+  /* Comportament textual coherent */
+  let desc = '';
+  if (T.scrollDepth > 80) desc = 'El subjecte ha recorregut la major part del document, mostrant una atenció sostinguda al llarg de tota la visita.';
+  else if (T.scrollDepth > 45) desc = 'El subjecte ha explorat les seccions inicials i centrals del document, mantenint una atenció parcial.';
+  else desc = 'La visita del subjecte ha estat breu, amb exploració limitada del contingut exposat.';
+
+  let visualDesc = T.lightbox > 3
+    ? `Alta interacció amb el registre visual: ${T.lightbox} imatges ampliades.`
+    : T.lightbox > 0
+    ? `Interacció moderada amb el material visual: ${T.lightbox} ampliació${T.lightbox > 1 ? 's' : ''}.`
+    : 'Absència d\'interacció directa amb el material fotogràfic.';
+
+  const doc = document.getElementById('modal-doc-content');
+  doc.innerHTML = `
+    <p class="modal-doc-title">Registre de seguiment i anàlisi conductual</p>
+
+    <div class="modal-field"><span class="modal-lbl">Referència</span><span>${subjecte}</span></div>
+    <div class="modal-field"><span class="modal-lbl">Data i hora</span><span>${dateStr}</span></div>
+    <div class="modal-field"><span class="modal-lbl">Durada de la sessió</span><span>${durStr} (${totalSecs} s totals)</span></div>
+    <div class="modal-field"><span class="modal-lbl">Desplaçament del document</span><span>${T.scrollDepth}% del document recorregut</span></div>
+    <div class="modal-field"><span class="modal-lbl">Accions directes</span><span>${T.clicks} interaccions registrades</span></div>
+    <div class="modal-field"><span class="modal-lbl">Material visual</span><span>${T.lightbox} imatge${T.lightbox !== 1 ? 's' : ''} obertes en detall</span></div>
+    <div class="modal-field"><span class="modal-lbl">Zona de màxima atenció</span><span>${maxSec}${maxSecs > 0 ? ' — ' + maxSecs + ' s' : ''}</span></div>
+    ${minSec !== '—' ? `<div class="modal-field"><span class="modal-lbl">Zona de mínima atenció</span><span>${minSec}</span></div>` : ''}
+
+    <p class="modal-section-title">Síntesi conductual</p>
+    <p class="modal-text-block">${desc}</p>
+    <p class="modal-text-block">${visualDesc}</p>
+
+    ${T.mouseTrail.length > 0 ? `
+    <p class="modal-section-title">Coordenades de moviment</p>
+    <p class="modal-text-block" style="font-size:.75rem;opacity:.6;letter-spacing:.05em">${T.mouseTrail.map(p=>`(${p.x},${p.y})`).join(' · ')}</p>
+    ` : ''}
+
+    <p class="modal-stamp">
+      Document generat automàticament — Sota la Mirada / L'Alteritat del Jo<br>
+      Alba Pérez Valls · TCIII Memòria Artística · Universitat de Barcelona, Belles Arts
+    </p>
+  `;
+
+  document.getElementById('informe-modal').classList.add('on');
+  window.scrollTo(0,0);
 }
+
+/* ═══════════════════════════════════════════════════
+   GALERIA INFORMES
+   Per què alguns es veuen blancs: GitHub retorna una
+   pàgina HTML en lloc de la imatge si uses /blob/.
+   Cal usar ?raw=true al final per forçar el contingut
+   binari. Fins i tot amb ?raw=true, alguns fitxers de
+   GitHub poden trigar o fallar per CORS o límit de
+   trànsit. Les imatges "blanques" que veus són les que
+   no han carregat: l'onerror les amaga automàticament.
+═══════════════════════════════════════════════════ */
+const rawBase = "https://github.com/albaperezvalls911-spec/imatges/blob/main/TOT%20JUNT_removed_merged%20(1)_page-00";
+/* Pàgines disponibles (15 i 20 excloses perquè surten buides) */
+const pages = [3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52];
+const imgs  = pages.map(n => rawBase + String(n).padStart(2,'0') + '.jpg?raw=true');
+
+const strip  = document.getElementById('giStrip');
+const cntEl  = document.getElementById('gi-count-el');
+let loaded   = 0;
+
+imgs.forEach((src, i) => {
+  const card = document.createElement('div');
+  card.className = 'gi-card';
+
+  const badge = document.createElement('span');
+  badge.className = 'gi-card-n';
+  /* Numeració des d'1 */
+  badge.textContent = String(i + 1).padStart(3, '0');
+
+  const img = document.createElement('img');
+  img.loading = 'lazy';
+  img.alt     = 'Informe ' + (i + 1);
+  img.src     = src;
+  img.onclick = () => openLbStrip(i);
+  img.onload  = () => { loaded++; cntEl.textContent = loaded + ' documents'; };
+  img.onerror = () => { card.style.display = 'none'; };
+
+  card.appendChild(badge);
+  card.appendChild(img);
+  strip.appendChild(card);
+});
+
+/* Drag + Wheel scroll — funciona amb ratolí extern (rodeta) i trackpad */
+(function(){
+  let down = false, sx, sl;
+  strip.addEventListener('mousedown', e => { down=true; sx=e.pageX-strip.offsetLeft; sl=strip.scrollLeft; strip.style.cursor='grabbing'; });
+  strip.addEventListener('mouseleave', () => { down = false; strip.style.cursor='grab'; });
+  strip.addEventListener('mouseup',    () => { down = false; strip.style.cursor='grab'; });
+  strip.addEventListener('mousemove', e => {
+    if (!down) return; e.preventDefault();
+    strip.scrollLeft = sl - (e.pageX - strip.offsetLeft - sx) * 1.5;
+  });
+  /* Rodeta de ratolí extern: scroll horitzontal */
+  strip.addEventListener('wheel', e => {
+    /* Si és un trackpad (deltaMode=0 i deltaX ja té valor), deixem el comportament natiu */
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; /* ja és horitzontal natiu */
+    e.preventDefault();
+    strip.scrollLeft += e.deltaY * 3;
+  }, { passive: false });
+})();
+
+strip.addEventListener('scroll', () => {
+  const pct = strip.scrollLeft / (strip.scrollWidth - strip.clientWidth);
+  const n   = Math.round(pct * (imgs.length - 1)) + 1;
+  cntEl.textContent = n + ' / ' + imgs.length + ' documents';
+});
+
+/* ═══════════════════════════════════════════════════
+   LIGHTBOX
+═══════════════════════════════════════════════════ */
+let pool = [], idx = 0;
+function openLb(src, cap) { pool = [{src, cap: cap||''}]; idx = 0; _showLb(); T.lightbox++; }
+function openLbStrip(i)   { pool = imgs.map((s,j)=>({src:s, cap:'Informe — document '+(j+1)})); idx=i; _showLb(); T.lightbox++; }
+function _showLb() {
+  document.getElementById('lb-img').src = pool[idx].src;
+  document.getElementById('lb-cap').textContent = pool[idx].cap;
+  document.getElementById('lb').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  const m = pool.length > 1;
+  document.getElementById('lb-p').style.display = m ? '' : 'none';
+  document.getElementById('lb-n').style.display = m ? '' : 'none';
+}
+function navLb(d) { idx = (idx + d + pool.length) % pool.length; _showLb(); }
+function closeLb() {
+  document.getElementById('lb').classList.remove('on');
+  document.getElementById('lb-img').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('lb').addEventListener('click', e => { if (e.target === e.currentTarget) closeLb(); });
+document.addEventListener('keydown', e => {
+  if (document.getElementById('informe-modal').classList.contains('on')) {
+    if (e.key === 'Escape') document.getElementById('informe-modal').classList.remove('on');
+    return;
+  }
+  if (!document.getElementById('lb').classList.contains('on')) return;
+  if (e.key === 'Escape')      closeLb();
+  if (e.key === 'ArrowRight')  navLb(1);
+  if (e.key === 'ArrowLeft')   navLb(-1);
+});
+
+/* ═══════════════════════════════════════════════════
+   ESQUEMA DE FLUX
+═══════════════════════════════════════════════════ */
+function toggleFlux(node) {
+  document.querySelectorAll('.flux-tooltip').forEach(t => {
+    if (t !== node.querySelector('.flux-tooltip')) t.classList.remove('open');
+  });
+  node.querySelector('.flux-tooltip').classList.toggle('open');
+}
+
+/* Tanca tooltip si es clica fora */
+document.addEventListener('click', e => {
+  if (!e.target.closest('.flux-node')) {
+    document.querySelectorAll('.flux-tooltip').forEach(t => t.classList.remove('open'));
+  }
+});
+
+const fluxObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const line = document.getElementById('fluxLine');
+    if (!line) return;
+    let w = 0;
+    const total = line.closest('.flux-nodes')?.offsetWidth || 800;
+    const lineEl = line;
+    const iv = setInterval(() => {
+      w = Math.min(w + 1.5, 100);
+      lineEl.style.width = w + '%';
+      if (w >= 100) clearInterval(iv);
+    }, 18);
+    fluxObs.unobserve(e.target);
+  });
+}, { threshold: 0.35 });
+const fd = document.getElementById('flux-diagram');
+if (fd) fluxObs.observe(fd);
+
+/* ═══════════════════════════════════════════════════
+   ELL ANIMAT — centre a 72% horitzontal, 48% vertical
+   L'ull és gran (R=190) i s'alinea amb la línia de sota del títol.
+   La pupil·la segueix el ratolí suaument.
+   Dos RAFs separats: entrada (2.4s) + loop continu.
+═══════════════════════════════════════════════════ */
+(function(){
+  const cv  = document.getElementById('eye-canvas');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const R   = 190;
+  const CX  = 0.76;      /* % horitzontal — més a la dreta */
+  const CY  = 0.38;      /* % vertical — més a dalt, no se superposa */
+  let W, H;
+  let mX, mY;            /* posició del ratolí */
+  let lX, lY;            /* posició suavitzada de la pupil·la */
+
+  function setSize() {
+    const el = document.getElementById('portada');
+    W = cv.width  = el ? el.clientWidth  : window.innerWidth;
+    H = cv.height = el ? el.clientHeight : window.innerHeight;
+    lX = W * CX; lY = H * CY;
+  }
+  window.addEventListener('resize', setSize);
+  setSize();
+
+  /* Seguiment del cursor */
+  document.addEventListener('mousemove', e => { mX = e.clientX; mY = e.clientY; });
+
+  function frame(prog) {
+    ctx.clearRect(0, 0, W, H);
+    const ecx = W * CX, ecy = H * CY;
+
+    /* Suavitza la posició de la pupil·la */
+    if (mX !== undefined) {
+      const rect = cv.getBoundingClientRect();
+      const tx = mX - rect.left, ty = mY - rect.top;
+      const dx = tx - ecx, dy = ty - ecy;
+      const dist = Math.hypot(dx, dy);
+      const lim  = R * 0.36;
+      const d    = Math.min(dist, lim);
+      const ang  = Math.atan2(dy, dx);
+      const tpx  = ecx + Math.cos(ang) * d;
+      const tpy  = ecy + Math.sin(ang) * d;
+      lX += (tpx - lX) * 0.08;
+      lY += (tpy - lY) * 0.08;
+    }
+
+    ctx.save();
+    ctx.strokeStyle = '#111111';
+    ctx.fillStyle   = '#111111';
+    ctx.lineWidth   = 1;
+
+    /* Forma ull */
+    const N = 100;
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, a = -Math.PI + t * Math.PI, k = Math.sin(t * Math.PI);
+      const x = ecx + Math.cos(a) * R, y = ecy - Math.sin(a) * R * 0.42 * k;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    for (let i = N; i >= 0; i--) {
+      const t = i / N, a = -Math.PI + t * Math.PI, k = Math.sin(t * Math.PI);
+      const x = ecx + Math.cos(a) * R, y = ecy + Math.sin(a) * R * 0.42 * k;
+      ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.globalAlpha = 0.03 * prog; ctx.fill();
+    ctx.globalAlpha = 0.36 * prog; ctx.stroke();
+
+    /* Iris */
+    if (prog > 0.4) {
+      const ia = Math.min((prog - 0.4) / 0.6, 1);
+      ctx.globalAlpha = ia * 0.32;
+      ctx.beginPath(); ctx.arc(lX, lY, R * 0.30, 0, Math.PI * 2); ctx.stroke();
+      for (let i = 0; i < 22; i++) {
+        const a = (i / 22) * Math.PI * 2;
+        ctx.globalAlpha = ia * 0.08;
+        ctx.beginPath();
+        ctx.moveTo(lX + Math.cos(a) * R * 0.13, lY + Math.sin(a) * R * 0.13);
+        ctx.lineTo(lX + Math.cos(a) * R * 0.28, lY + Math.sin(a) * R * 0.28);
+        ctx.stroke();
+      }
+    }
+
+    /* Pupil·la */
+    if (prog > 0.65) {
+      const pa = Math.min((prog - 0.65) / 0.35, 1);
+      ctx.globalAlpha = pa * 0.58;
+      ctx.beginPath(); ctx.arc(lX, lY, R * 0.095, 0, Math.PI * 2);
+      ctx.fillStyle = '#111'; ctx.fill();
+      ctx.globalAlpha = pa * 0.35;
+      ctx.beginPath(); ctx.arc(lX - R * 0.025, lY - R * 0.03, R * 0.028, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff'; ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* Entrada (2.4 s) */
+  let t0 = null;
+  const DUR = 2400;
+  function entry(ts) {
+    if (!t0) t0 = ts;
+    const prog = Math.min((ts - t0) / DUR, 1);
+    frame(1 - Math.pow(1 - prog, 3));
+    if (prog < 1) requestAnimationFrame(entry);
+    else loop();
+  }
+  /* Loop continu */
+  function loop() { frame(1); requestAnimationFrame(loop); }
+
+  requestAnimationFrame(entry);
+})();
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.rv,.rv2').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
